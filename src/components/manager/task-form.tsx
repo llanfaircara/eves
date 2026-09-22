@@ -152,26 +152,36 @@ export default function TaskForm({
 
             <div className="space-y-2">
               <Label>Assignee (Employee) *</Label>
-              <Select onValueChange={(v) => setValue("assignedToId" as never, v as never, { shouldValidate: true })} value={(watch("assignedToId") as unknown as string) || undefined}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select employee" />
-                </SelectTrigger>
-                <SelectContent className="w-[340px] max-h-64">
-                  {employees.length === 0 ? (
-                    <div className="px-3 py-2 text-xs text-muted-foreground">No employees found — create via Admin → User Management</div>
-                  ) : (
-                    employees.map((e) => (
-                      <SelectItem key={e.id} value={e.id} className="py-2">
-                        <div className="flex flex-col items-start">
-                          <span className="font-medium">{e.name}</span>
-                          <span className="text-xs text-muted-foreground break-all">{e.email}</span>
-                          <span className="text-xs text-muted-foreground font-mono">{e.id.slice(0, 8)}…</span>
-                        </div>
-                      </SelectItem>
-                    ))
-                  )}
-                </SelectContent>
-              </Select>
+              {(() => {
+                const selected = employees.find((e) => e.id === watch("assignedToId"));
+                return (
+                  <Select onValueChange={(v) => setValue("assignedToId" as never, v as never, { shouldValidate: true })} value={(watch("assignedToId") as unknown as string) || undefined}>
+                    <SelectTrigger className="w-full">
+                      {selected ? (
+                        <span className="truncate text-left">
+                          <span className="font-medium">{selected.name}</span> <span className="text-muted-foreground">— {selected.email}</span>
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground">Select employee</span>
+                      )}
+                    </SelectTrigger>
+                    <SelectContent className="w-[340px] max-h-64">
+                      {employees.length === 0 ? (
+                        <div className="px-3 py-2 text-xs text-muted-foreground">No employees found — create via Admin → User Management</div>
+                      ) : (
+                        employees.map((e) => (
+                          <SelectItem key={e.id} value={e.id} className="py-2">
+                            <div className="flex flex-col items-start">
+                              <span className="font-medium">{e.name}</span>
+                              <span className="text-xs text-muted-foreground break-all">{e.email}</span>
+                            </div>
+                          </SelectItem>
+                        ))
+                      )}
+                    </SelectContent>
+                  </Select>
+                );
+              })()}
               {errors.assignedToId && <p className="text-xs text-destructive">{errors.assignedToId.message}</p>}
             </div>
 
@@ -183,58 +193,80 @@ export default function TaskForm({
 
             <div className="space-y-2">
               <Label>Related Property</Label>
-              <Select
-                onValueChange={(v) => {
-                  setValue("propertyId", v === "none" ? "" : v, { shouldValidate: true });
-                  setValue("unitId", "", { shouldValidate: true });
-                }}
-                value={watch("propertyId") || "none"}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Optional — choose property" />
-                </SelectTrigger>
-                <SelectContent className="w-[320px] max-h-64">
-                  <SelectItem value="none">— No property —</SelectItem>
-                  {properties.map((p) => {
-                    const vacant = p.units.filter((u) => u.status === "VACANT").length;
-                    return (
-                      <SelectItem key={p.id} value={p.id} className="py-2">
-                        <div className="flex flex-col">
-                          <span className="font-medium">{p.name}</span>
-                          <span className="text-xs text-muted-foreground">
-                            {p.units.length} units • {vacant} vacant • {p.units.length - vacant} occupied
-                          </span>
-                        </div>
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-              </Select>
+              {(() => {
+                const selectedProp = properties.find((p) => p.id === watch("propertyId"));
+                return (
+                  <Select
+                    onValueChange={(v) => {
+                      setValue("propertyId", v === "none" ? "" : v, { shouldValidate: true });
+                      setValue("unitId", "", { shouldValidate: true });
+                    }}
+                    value={watch("propertyId") || "none"}
+                  >
+                    <SelectTrigger className="w-full">
+                      {selectedProp ? (
+                        <span className="truncate">
+                          {selectedProp.name} ({selectedProp.units.length} units)
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground">Optional — choose property</span>
+                      )}
+                    </SelectTrigger>
+                    <SelectContent className="w-[320px] max-h-64">
+                      <SelectItem value="none">— No property —</SelectItem>
+                      {properties.map((p) => {
+                        const vacant = p.units.filter((u) => u.status === "VACANT").length;
+                        return (
+                          <SelectItem key={p.id} value={p.id} className="py-2">
+                            <div className="flex flex-col">
+                              <span className="font-medium">{p.name}</span>
+                              <span className="text-xs text-muted-foreground">
+                                {p.units.length} units • {vacant} vacant • {p.units.length - vacant} occupied
+                              </span>
+                            </div>
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                );
+              })()}
             </div>
 
             <div className="space-y-2">
               <Label>Related Unit</Label>
-              <Select
-                onValueChange={(v) => setValue("unitId", v === "none" ? "" : v)}
-                value={(watch("unitId") as string) || "none"}
-                disabled={!selectedPropertyId || unitsForProperty.length === 0}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder={selectedPropertyId ? "Select unit" : "Choose property first"} />
-                </SelectTrigger>
-                <SelectContent className="w-[360px] max-h-72">
-                  <SelectItem value="none">— No unit —</SelectItem>
-                  {unitsForProperty.map((u) => (
-                    <SelectItem key={u.id} value={u.id} className="py-2">
-                      <div className="flex w-full items-center justify-between gap-2">
-                        <span className="font-mono font-medium">{u.unitNumber}</span>
-                        <span className={`rounded px-1.5 py-0.5 text-xs font-medium border ${u.status === "VACANT" ? "bg-green-50 text-green-700 border-green-200" : "bg-blue-50 text-blue-700 border-blue-200"}`}>{u.status}</span>
-                      </div>
-                      <div className="text-xs text-muted-foreground whitespace-nowrap">₱{u.monthlyRate === "—" || u.monthlyRate === null ? "—" : Number(u.monthlyRate).toLocaleString()} / mo • {u.id.slice(0, 6)}</div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              {(() => {
+                const selectedUnit = unitsForProperty.find((u) => u.id === watch("unitId"));
+                return (
+                  <Select
+                    onValueChange={(v) => setValue("unitId", v === "none" ? "" : v)}
+                    value={(watch("unitId") as string) || "none"}
+                    disabled={!selectedPropertyId || unitsForProperty.length === 0}
+                  >
+                    <SelectTrigger className="w-full">
+                      {selectedUnit ? (
+                        <span className="truncate">
+                          {selectedUnit.unitNumber} — {selectedUnit.status} — ₱{String(selectedUnit.monthlyRate)}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground">{selectedPropertyId ? "Select unit" : "Choose property first"}</span>
+                      )}
+                    </SelectTrigger>
+                    <SelectContent className="w-[360px] max-h-72">
+                      <SelectItem value="none">— No unit —</SelectItem>
+                      {unitsForProperty.map((u) => (
+                        <SelectItem key={u.id} value={u.id} className="py-2">
+                          <div className="flex w-full items-center justify-between gap-2">
+                            <span className="font-mono font-medium">{u.unitNumber}</span>
+                            <span className={`rounded px-1.5 py-0.5 text-xs font-medium border ${u.status === "VACANT" ? "bg-green-50 text-green-700 border-green-200" : "bg-blue-50 text-blue-700 border-blue-200"}`}>{u.status}</span>
+                          </div>
+                          <div className="text-xs text-muted-foreground whitespace-nowrap">₱{u.monthlyRate === "—" || u.monthlyRate === null ? "—" : Number(u.monthlyRate).toLocaleString()} / mo</div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                );
+              })()}
             </div>
 
             <div className="space-y-2 md:col-span-2">
