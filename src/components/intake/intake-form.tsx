@@ -223,13 +223,22 @@ export default function IntakeForm({ onSuccess }: { onSuccess?: () => void }) {
                     setValue("unitId", "" as never);
                   }}
                 >
-                  <SelectTrigger><SelectValue placeholder="Select ADI, BNB, DREAM..." /></SelectTrigger>
-                  <SelectContent>
-                    {properties.map((p) => (
-                      <SelectItem key={p.id} value={p.id}>
-                        {p.name} — {p.units.length} units
-                      </SelectItem>
-                    ))}
+                  <SelectTrigger className="w-full"><SelectValue placeholder="Select ADI, BNB, DREAM..." /></SelectTrigger>
+                  <SelectContent className="max-h-64 w-[320px]">
+                    {properties.map((p) => {
+                      const vacant = p.units.filter((u) => u.status === "VACANT").length;
+                      const total = p.units.length;
+                      return (
+                        <SelectItem key={p.id} value={p.id} className="py-2">
+                          <div className="flex flex-col items-start">
+                            <span className="font-medium">{p.name}</span>
+                            <span className="text-xs text-muted-foreground">
+                              {total} units • {vacant} vacant • {total - vacant} occupied
+                            </span>
+                          </div>
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
                 {errors.propertyId && <p className="text-xs text-destructive">{errors.propertyId.message}</p>}
@@ -241,17 +250,30 @@ export default function IntakeForm({ onSuccess }: { onSuccess?: () => void }) {
                   onValueChange={(v) => setValue("unitId", v as never)}
                   disabled={!propertyId}
                 >
-                  <SelectTrigger><SelectValue placeholder={propertyId ? "Select vacant unit" : "Choose property first"} /></SelectTrigger>
-                  <SelectContent>
+                  <SelectTrigger className="w-full"><SelectValue placeholder={propertyId ? "Select vacant unit" : "Choose property first"} /></SelectTrigger>
+                  <SelectContent className="max-h-72 w-[360px]">
                     {vacantUnits.length === 0 && propertyId ? <div className="px-3 py-2 text-xs text-muted-foreground">No vacant units — all occupied</div> : null}
                     {vacantUnits.map((u) => (
-                      <SelectItem key={u.id} value={u.id}>
-                        {u.unitNumber} — VACANT — ₱{String(u.monthlyRate)}
+                      <SelectItem key={u.id} value={u.id} className="py-2">
+                        <div className="flex w-full items-center justify-between gap-2">
+                          <span className="font-mono font-medium">{u.unitNumber}</span>
+                          <span className="rounded bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 border border-green-200">VACANT</span>
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          ₱{u.monthlyRate === "—" || u.monthlyRate === null ? "—" : Number(u.monthlyRate).toLocaleString()} / mo
+                        </div>
                       </SelectItem>
                     ))}
+                    {units.filter((u) => u.status !== "VACANT").length > 0 && (
+                      <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase">Occupied — cannot select</div>
+                    )}
                     {units.filter((u) => u.status !== "VACANT").map((u) => (
-                      <SelectItem key={u.id} value={u.id} disabled>
-                        {u.unitNumber} — {u.status} (occupied)
+                      <SelectItem key={u.id} value={u.id} disabled className="py-2 opacity-60">
+                        <div className="flex w-full items-center justify-between gap-2">
+                          <span className="font-mono">{u.unitNumber}</span>
+                          <span className="rounded bg-blue-50 px-1.5 py-0.5 text-xs text-blue-700 border border-blue-200">OCCUPIED</span>
+                        </div>
+                        <div className="text-xs text-muted-foreground">₱{u.monthlyRate === "—" ? "—" : Number(u.monthlyRate).toLocaleString()} / mo • occupied</div>
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -263,23 +285,23 @@ export default function IntakeForm({ onSuccess }: { onSuccess?: () => void }) {
               <div className="space-y-2">
                 <Label>Contract Type *</Label>
                 <Select value={watch("contractType")} onValueChange={(v) => setValue("contractType", v as never)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="TRIAL">Trial</SelectItem>
-                    <SelectItem value="M2M">Month-to-Month (M2M)</SelectItem>
-                    <SelectItem value="LONG_TERM">Long Term</SelectItem>
+                  <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+                  <SelectContent className="w-[280px]">
+                    <SelectItem value="TRIAL">Trial — short stay</SelectItem>
+                    <SelectItem value="M2M">Month-to-Month (M2M) — flexible monthly</SelectItem>
+                    <SelectItem value="LONG_TERM">Long Term — 6 mo / 1 yr</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
                 <Label>Lease Status</Label>
                 <Select value={watch("leaseStatus") || "ACTIVE"} onValueChange={(v) => setValue("leaseStatus", v as never)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="ACTIVE">Active</SelectItem>
-                    <SelectItem value="PENDING">Pending</SelectItem>
-                    <SelectItem value="EXPIRED">Expired</SelectItem>
-                    <SelectItem value="TERMINATED">Terminated</SelectItem>
+                  <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+                  <SelectContent className="w-[240px]">
+                    <SelectItem value="ACTIVE">Active — currently occupied</SelectItem>
+                    <SelectItem value="PENDING">Pending — awaiting move-in</SelectItem>
+                    <SelectItem value="EXPIRED">Expired — past end date</SelectItem>
+                    <SelectItem value="TERMINATED">Terminated — early end</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
