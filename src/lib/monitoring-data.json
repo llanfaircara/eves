@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T16:30:33.274295",
+  "generatedAt": "2026-09-22T16:32:49.996533",
   "sheets": {
     "ECO888": [
       {
@@ -7,6 +7,14 @@
         "name": "CLEOPATRA HADJULA MOHAMMARUN",
         "rate": 6888.0,
         "contract": "M-M",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -57,6 +65,14 @@
         "name": "MA. PRINCESS CAPANAS",
         "rate": 5899.0,
         "contract": "6MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -107,6 +123,14 @@
         "name": "JASPER JOHN LOPEZ",
         "rate": 5899.0,
         "contract": "6MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -157,6 +181,14 @@
         "name": "KRISTINE CORRINE GONZALES",
         "rate": 6888.0,
         "contract": "M-M",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -207,6 +239,14 @@
         "name": "JAMES CARL BANAL",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -257,6 +297,14 @@
         "name": "GILBERT JOSEPH NOCON ABUEG",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -307,6 +355,14 @@
         "name": "PETER GALONO YRUMA",
         "rate": "2000-10/10",
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 4,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": true,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -357,6 +413,14 @@
         "name": "CINDY ABION",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -407,6 +471,14 @@
         "name": "RHIALYN DE LEON HINTAY",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -457,6 +529,14 @@
         "name": "ALSIMHAR R. HADJULA",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -507,6 +587,14 @@
         "name": "DONITA PRADO DE VERA",
         "rate": 6197.0,
         "contract": "6MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -557,6 +645,14 @@
         "name": "SARAH CAPITO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -607,6 +703,14 @@
         "name": "HERSHEY ELAIN GERALDO",
         "rate": 6888.0,
         "contract": "M-M",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -657,6 +761,14 @@
         "name": "RIZALDY ABARACOSO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -707,6 +819,14 @@
         "name": "ROSALYN TINGA",
         "rate": 4447.0,
         "contract": "12MOTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -757,6 +877,14 @@
         "name": "MAYNARD LUBIANO",
         "rate": 6888.0,
         "contract": "M-M",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -807,6 +935,14 @@
         "name": "FRANCISCO  GONZALES RINION",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -857,6 +993,14 @@
         "name": "JESICCA PAGADDU",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -907,6 +1051,14 @@
         "name": "RICHAN CANOY",
         "rate": 6888.0,
         "contract": "M-M",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -957,6 +1109,14 @@
         "name": "MARC CEDRICK FAJARDO",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1007,6 +1167,14 @@
         "name": "MOHAMMAD ABDU RASHEED AKIM",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1057,6 +1225,14 @@
         "name": "NOLI HERMIDA",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1107,6 +1283,14 @@
         "name": "KHERBEI L. REDONDO",
         "rate": 6197.0,
         "contract": "6MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1157,6 +1341,14 @@
         "name": "GWYN MAE CRUZ OAMIL",
         "rate": 6888.0,
         "contract": "M-M",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1207,6 +1399,14 @@
         "name": "HONEY GALANG",
         "rate": 4149.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1257,6 +1457,14 @@
         "name": "RICKY ROSALES LUPANGO JR",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1307,6 +1515,14 @@
         "name": "RHAFAEL O. PACAO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1357,6 +1573,14 @@
         "name": "MICAH GRACE AQUINO ASERIT",
         "rate": "2000-10/5",
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 2,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": true,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1407,6 +1631,14 @@
         "name": "MARIANE KZARMEL VIDAL SARMIENTO",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1457,6 +1689,14 @@
         "name": "SITTI NURHARISA UNGKAY",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1507,6 +1747,14 @@
         "name": "CARLO DAVE OLA",
         "rate": 5899.0,
         "contract": "6MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1557,6 +1805,14 @@
         "name": "JOEVAN ROSAL",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1607,6 +1863,14 @@
         "name": "HOSANNA MECHILINA CHUA",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1657,6 +1921,14 @@
         "name": "MARIO NUQUI JR.",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1707,6 +1979,14 @@
         "name": "SHANNEN ANDREA CEPE CLEOFE",
         "rate": 4149.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1757,6 +2037,14 @@
         "name": "VANDOLF MALLARI",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1807,6 +2095,14 @@
         "name": "GLEN BERT SIRIBAN",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1857,6 +2153,14 @@
         "name": "RIELEN BALUT",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1907,6 +2211,14 @@
         "name": "JUAN MIGUEL DELA PENA DE GUZMAN",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -1957,6 +2269,14 @@
         "name": "HAROLD PAGLINAWAN",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2007,6 +2327,14 @@
         "name": "JOLETTE PETERSON",
         "rate": 6888.0,
         "contract": "M-M",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2057,6 +2385,14 @@
         "name": "RALPH AUDREY KWAN ANDRADA",
         "rate": 6298.0,
         "contract": "3MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2107,6 +2443,14 @@
         "name": "AMIEL HARVEY OAMIL",
         "rate": 6888.0,
         "contract": "M-M",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2157,6 +2501,14 @@
         "name": "RONALD BERNALES COLIS",
         "rate": 4447.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2207,6 +2559,14 @@
         "name": "SATURNINO III TORRES PANGILINAN",
         "rate": 6888.0,
         "contract": "M-M",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2257,6 +2617,14 @@
         "name": "LESTER DEOCAREZA LAGUERTA",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2307,6 +2675,14 @@
         "name": "FATIMA VIBAL/JAMES CARL BANAL",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2357,6 +2733,14 @@
         "name": "CHRISNIE ALAMAG",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2407,6 +2791,14 @@
         "name": "VACANT",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2457,6 +2849,14 @@
         "name": "PATRICK JOSEPH R. VELUZ",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2507,6 +2907,14 @@
         "name": "EMMANUEL ABELLANIDA MAISO",
         "rate": 6597.0,
         "contract": "3MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2557,6 +2965,14 @@
         "name": "VACANT",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2607,6 +3023,14 @@
         "name": "HARLENE PLOTADO",
         "rate": 5697.0,
         "contract": "12 MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2657,6 +3081,14 @@
         "name": "JOHN STEPHEN MARTUS",
         "rate": 6798.0,
         "contract": "4 MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2707,6 +3139,14 @@
         "name": "JOHN GABRIEL SALAZAR",
         "rate": 6197.0,
         "contract": "6MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2757,6 +3197,14 @@
         "name": "MARLON ANYAYAHAN",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2807,6 +3255,14 @@
         "name": "HERMANIE MOLINA",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2857,6 +3313,14 @@
         "name": "JINKY DE OCAMPO KALLEGO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2907,6 +3371,14 @@
         "name": "DHON JERIKO ENRICO",
         "rate": "=5899+298",
         "contract": "6MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -2957,6 +3429,14 @@
         "name": "MA. CARLA T. ABRAHAM",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3007,6 +3487,14 @@
         "name": "JOHN CAESAR LOPEZ",
         "rate": 4447.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3057,6 +3545,14 @@
         "name": "CHESSA JANE ESPINOSA",
         "rate": 6888.0,
         "contract": "M-M",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3107,6 +3603,14 @@
         "name": "CHRISTIAN SEVILLA TORRES",
         "rate": "2000-9/28",
         "contract": "6MONTHS",
+        "flags": {
+          "reservation": 3,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": true,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3157,6 +3661,14 @@
         "name": "SHIELA TORREJOS",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3207,6 +3719,14 @@
         "name": "JOSEPH ADRIAN PEJI",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3257,6 +3777,14 @@
         "name": "SHAIRA BARCOMA",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3307,6 +3835,14 @@
         "name": "JEMARK V. AGUIRRE",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 2,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": true,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3357,6 +3893,14 @@
         "name": "MARVILYN BASE OXINA",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3407,6 +3951,14 @@
         "name": "EARL JOHN BARTOLOME MANALOTO",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3457,6 +4009,14 @@
         "name": "REMIE DE CLARO DELA TORRE",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3507,6 +4067,14 @@
         "name": "ALLIANA BUIZA",
         "rate": 5537.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3557,6 +4125,14 @@
         "name": "ROMMEL  DAQUIOAG",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3607,6 +4183,14 @@
         "name": "AMELIE MALVAROSA",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3657,6 +4241,14 @@
         "name": "MA PHILINA  GIANAN DRIO",
         "rate": 6888.0,
         "contract": "M-M",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3707,6 +4299,14 @@
         "name": "EMMANUEL SIBAYAN",
         "rate": 6197.0,
         "contract": "6MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3757,6 +4357,14 @@
         "name": "RONAN ALAIN JOSE PINEDA HINLO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3807,6 +4415,14 @@
         "name": "JOHN EMIL RAGUINDIN",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3857,6 +4473,14 @@
         "name": "MIKEE SINQUE",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3907,6 +4531,14 @@
         "name": "DARLENE DE LEON MANDAP",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -3957,6 +4589,14 @@
         "name": "JORDAN FLORES",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4007,6 +4647,14 @@
         "name": "LEONIEL O. IBASCO",
         "rate": 5393.0,
         "contract": "M-M",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4057,6 +4705,14 @@
         "name": "JOHN NINO M. BITUIN",
         "rate": 5899.0,
         "contract": "6MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4107,6 +4763,14 @@
         "name": "APRIL ANN B. ESTEVES",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4157,6 +4821,14 @@
         "name": "ALJON LUNA SUBIA",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4207,6 +4879,14 @@
         "name": "ALDRIN CAONES",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4257,6 +4937,14 @@
         "name": "CLARK ANTONI V. ARELLANO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4307,6 +4995,14 @@
         "name": "JOHN PAUL DELA CRUZ",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4357,6 +5053,14 @@
         "name": "ERIKA PAROLA",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4407,6 +5111,14 @@
         "name": "CHRISTIAN FAITH WILDING",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4457,6 +5169,14 @@
         "name": "MOVE OUT - OCT. 5",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4507,6 +5227,14 @@
         "name": "PAMELA JOY GARROTE",
         "rate": 5993.0,
         "contract": "M-M",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4557,6 +5285,14 @@
         "name": "KENNY JANE CUBILLAS JAPAY",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4607,6 +5343,14 @@
         "name": "MOVE OUT - OCT. 10",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4657,6 +5401,14 @@
         "name": "ANDREI CABER CANDELARIA",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4707,6 +5459,14 @@
         "name": "AZEL KUH GATMAITAN BASTO",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4757,6 +5517,14 @@
         "name": "LEX CHRISTIAN MANUEL ESPIRITU IMPERIAL",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4807,6 +5575,14 @@
         "name": "PETE MATTHEW BLANCO LAGUERTA",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4857,6 +5633,14 @@
         "name": "ERNIE JAN . PINEDA",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4907,6 +5691,14 @@
         "name": "KEVIN CRISTOBAL",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -4959,6 +5751,14 @@
         "name": "JAY JAY CARO BAUTISTA",
         "rate": 5779.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5003,6 +5803,14 @@
         "name": "GEORGETTE JIMINEZ",
         "rate": 6077.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5047,6 +5855,14 @@
         "name": "EDUARDO PREPOTENTE PAREDES",
         "rate": 6077.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5091,6 +5907,14 @@
         "name": "RAMIL AVENIDO",
         "rate": 6077.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5135,6 +5959,14 @@
         "name": "KENNETH GARIANDO",
         "rate": 5899.0,
         "contract": "6MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5179,6 +6011,14 @@
         "name": "RUBEN MORALDE ARNOZA",
         "rate": 6888.0,
         "contract": "M-M",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5223,6 +6063,14 @@
         "name": "SHERYL BALLESTEROS NOBLEZA",
         "rate": 5679.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5267,6 +6115,14 @@
         "name": "MARIAN FE BENOLERAO  ORANO",
         "rate": 6077.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5311,6 +6167,14 @@
         "name": "NEIL CHOLO RAYMUNDO",
         "rate": "=5779+298",
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5355,6 +6219,14 @@
         "name": "JULIO REYES",
         "rate": 5779.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5399,6 +6271,14 @@
         "name": "DERDENDAISYDEX DECIAR BITOON",
         "rate": 5779.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 1,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": true,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5443,6 +6323,14 @@
         "name": "MARINELLA BARAQUEL TORREMORO",
         "rate": 5779.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5487,6 +6375,14 @@
         "name": "LESLIE RAMIREZ ESCALONA",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5531,6 +6427,14 @@
         "name": "JEFTE SORIANO",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5575,6 +6479,14 @@
         "name": "MARY ALFARITA PATI-ON",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5619,6 +6531,14 @@
         "name": "STELLA MARIS REYES",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5663,6 +6583,14 @@
         "name": "JESETTE LASALA",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5707,6 +6635,14 @@
         "name": "NHEZEL JOY IMANA",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5751,6 +6687,14 @@
         "name": "ELYSON CLYD BRIZ BORITO",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5795,6 +6739,14 @@
         "name": "KIRSTEN ANN RAE MATEL MARIANO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5839,6 +6791,14 @@
         "name": "ERICA NOREEN U. TINIO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5883,6 +6843,14 @@
         "name": "CHARMIE SALES LIGSA",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5927,6 +6895,14 @@
         "name": "JEZA MIA MAGATILA",
         "rate": 5779.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -5971,6 +6947,14 @@
         "name": "DONNA CAGUIA",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6015,6 +6999,14 @@
         "name": "JUSTINE MAE TENEFRANCIA",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 1,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": true,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6059,6 +7051,14 @@
         "name": "MIKKIEL ASHLEY  ROY",
         "rate": 5899.0,
         "contract": "6MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6103,6 +7103,14 @@
         "name": "VLADIMIR MALAPIT",
         "rate": 5879.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6147,6 +7155,14 @@
         "name": "MARCO ANGELO TOLENTINO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6191,6 +7207,14 @@
         "name": "JESSEL KAE RAFIL",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6235,6 +7259,14 @@
         "name": "KARL VIC CADIGAL OPINA",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6279,6 +7311,14 @@
         "name": "ALEXANDRA SILAO LACBAY",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6323,6 +7363,14 @@
         "name": "MICHAEL STEPHEN GUTIEREZ UY",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6367,6 +7415,14 @@
         "name": "TRISTAN JAY A. VINARAO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6411,6 +7467,14 @@
         "name": "ROCHELLE JADER DE TORRES",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6455,6 +7519,14 @@
         "name": "REYNOLD PALACIO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6499,6 +7571,14 @@
         "name": "JAYSON ROA MARIANO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6543,6 +7623,14 @@
         "name": "JAMIE DEANNALOE CAWAGAS",
         "rate": 5697.0,
         "contract": "12 MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6587,6 +7675,14 @@
         "name": "KYLE ALLAN TOLENTINO LICO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6631,6 +7727,14 @@
         "name": "JINNO T. SANTOS",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6675,6 +7779,14 @@
         "name": "DARIUS VILLAMOR MONTICALBO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6719,6 +7831,14 @@
         "name": "JAY SALON",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6763,6 +7883,14 @@
         "name": "MEA ROSE FRANCIA AZAGRA",
         "rate": 6197.0,
         "contract": "6MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6807,6 +7935,14 @@
         "name": "BRYAN PAUL E. COTONER",
         "rate": 5697.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6851,6 +7987,14 @@
         "name": "HAZEL BONGARES ROXAS",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6895,6 +8039,14 @@
         "name": "ROMNICK TEODOSIO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6939,6 +8091,14 @@
         "name": "REYMAND GIE ARBIS",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -6983,6 +8143,14 @@
         "name": "LOUELLA YSABELLE FELIPE",
         "rate": 5649.0,
         "contract": "6MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7027,6 +8195,14 @@
         "name": "AMARI QUIJANO",
         "rate": 5399.0,
         "contract": "12MONTHS",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7073,6 +8249,14 @@
         "name": "PAULINE M. IGAYA",
         "rate": "Trial Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7123,6 +8307,14 @@
         "name": "SOPHIA PAOLA ISAAC",
         "rate": "12MONTHS",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7173,6 +8365,14 @@
         "name": "AILEEN GRACE M. RAMOS",
         "rate": "Trial Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7223,6 +8423,14 @@
         "name": "NIKKA HAMOR",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7273,6 +8481,14 @@
         "name": "HANZEL MACARAYA",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7323,6 +8539,14 @@
         "name": "SAMANTHA DE LEON",
         "rate": "12MONTHS",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7373,6 +8597,14 @@
         "name": "JOVEN JOHN UNTALAN",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7423,6 +8655,14 @@
         "name": "ROGELIO VALENZUELA JR.",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7473,6 +8713,14 @@
         "name": "MERWIN MENDOZA",
         "rate": "Trial Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 1,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": true,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7523,6 +8771,14 @@
         "name": "MARVIC LASIM",
         "rate": "12MONTHS",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7573,6 +8829,14 @@
         "name": "RICHARD ABASTILLAS DE VILLA",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7623,6 +8887,14 @@
         "name": "JOHN RYAN MAGDUGO",
         "rate": "12MONTHS",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7673,6 +8945,14 @@
         "name": "None",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7723,6 +9003,14 @@
         "name": "QAZVINE AQUINO",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7773,6 +9061,14 @@
         "name": "ROLLY DIONEDA DON JR.",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7823,6 +9119,14 @@
         "name": "TYRONE LIM",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7873,6 +9177,14 @@
         "name": "TRISTAN DAVID MIRASOL ALBERTO",
         "rate": "EXT. TRIAL +",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7923,6 +9235,14 @@
         "name": "ADRIAN ADULA",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -7973,6 +9293,14 @@
         "name": "LOUIE ANDRIE CUPIT",
         "rate": "EXT. TRIAL +",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8023,6 +9351,14 @@
         "name": "LEEOR JON ESTRADA",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8073,6 +9409,14 @@
         "name": "LOUIE JAY SAYSON VINARAO",
         "rate": "TRIAL MONTH",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8123,6 +9467,14 @@
         "name": "RONNIE PASTORAL JR.",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 1,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": true,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8173,6 +9525,14 @@
         "name": "JAIMMIE DIAZ SARCENO",
         "rate": "TRIAL MONTH",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8223,6 +9583,14 @@
         "name": "None",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8273,6 +9641,14 @@
         "name": "JERICA ABAD",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8323,6 +9699,14 @@
         "name": "MARY LORRAINE CABES",
         "rate": "12MONTHS",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8373,6 +9757,14 @@
         "name": "FRANCIESCA KIARA CUESTA",
         "rate": "EXT. TRIAL",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8423,6 +9815,14 @@
         "name": "JEAN ASHLEY TAPNIO",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 1,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": true,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8473,6 +9873,14 @@
         "name": "CANE ABEGAIL",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8523,6 +9931,14 @@
         "name": "JOAN SONIDO",
         "rate": "12 MONTHS",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8573,6 +9989,14 @@
         "name": "None",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8623,6 +10047,14 @@
         "name": "MERIAM MAGALLANES",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8673,6 +10105,14 @@
         "name": "FIONA LEI DE VERA",
         "rate": "TRIAL MONTH",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8723,6 +10163,14 @@
         "name": "JULIE ANN SORIANO",
         "rate": "EXT. TRIAL +",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8773,6 +10221,14 @@
         "name": "COLEEN KATE FRANCIA",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8823,6 +10279,14 @@
         "name": "Renzel Mikka B. Espedido",
         "rate": "TRIAL MONTH",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8873,6 +10337,14 @@
         "name": "ERCHIEN MARIE BAYBAY",
         "rate": "TRIAL MONTH",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 1,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": true,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8923,6 +10395,14 @@
         "name": "TRIXZHEL DADO",
         "rate": "12MONTHS",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -8973,6 +10453,14 @@
         "name": "SHEENA BANATLAO",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9023,6 +10511,14 @@
         "name": "ARABELLA SUMILINAO",
         "rate": "12MONTHS",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9073,6 +10569,14 @@
         "name": "None",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9123,6 +10627,14 @@
         "name": "CARLA ROSE AGUSTIN",
         "rate": "12MONTHS",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9173,6 +10685,14 @@
         "name": "None",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9223,6 +10743,14 @@
         "name": "None",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9273,6 +10801,14 @@
         "name": "JOSEPHINE RINON",
         "rate": "12MONTHS",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9323,6 +10859,14 @@
         "name": "IRISH RONCAL",
         "rate": "Month-Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9373,6 +10917,14 @@
         "name": "None",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9423,6 +10975,14 @@
         "name": "RUFFA SACDALAN",
         "rate": "12MONTHS",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9473,6 +11033,14 @@
         "name": "None",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9523,6 +11091,14 @@
         "name": "None",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9573,6 +11149,14 @@
         "name": "None",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9623,6 +11207,14 @@
         "name": "BEA NADINE DELA TORRE",
         "rate": "12MONTHS",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9673,6 +11265,14 @@
         "name": "MARY GRACE CUNANAN",
         "rate": "TRIAL MONTH",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9725,6 +11325,14 @@
         "name": "ANNIE REJANO",
         "rate": "6months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 1
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": true,
         "payments": [
           {
             "month": "2026-04",
@@ -9769,6 +11377,14 @@
         "name": "MARC BRIAN SALES",
         "rate": "6months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9813,6 +11429,14 @@
         "name": "ARGIE PANILAG COLLENA",
         "rate": "6months",
         "contract": "WITH TRIDECK BEDFRAME",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9857,6 +11481,14 @@
         "name": "ROMNICK VICIO PORTA",
         "rate": "Trial Month",
         "contract": "NO BEDFRAME / 1 FOAM,1 FAN, 1 MONOBLACK 450",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9901,6 +11533,14 @@
         "name": "JOHN CEDRICK MANILAG",
         "rate": "4MONTHS",
         "contract": "WITH TRIDECK BEDFRAME",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9945,6 +11585,14 @@
         "name": "JOHN LLOYD DELA PENA",
         "rate": "6months",
         "contract": "w/ TRIDECK - 2 FOAM - 300, FREE 1 FOAM",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -9989,6 +11637,14 @@
         "name": "MARIO SABIO JR.",
         "rate": "6months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10033,6 +11689,14 @@
         "name": "CARLO LISAMA",
         "rate": "6months",
         "contract": "NO BEDFRAME",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10077,6 +11741,14 @@
         "name": "JO-ANNE VALENCIA",
         "rate": "6months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10121,6 +11793,14 @@
         "name": "KARENDEL MASONGSONG",
         "rate": "M to M",
         "contract": "WITH TRIDECK BEDFRAME",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10165,6 +11845,14 @@
         "name": "SAM AZRIEL",
         "rate": "6months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10209,6 +11897,14 @@
         "name": "MARJORIE VILLAFLOR",
         "rate": "6months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10253,6 +11949,14 @@
         "name": "JOHN MICHAEL ABSALON",
         "rate": "6months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10297,6 +12001,14 @@
         "name": "DONNA VILLARUZ",
         "rate": "6months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10343,6 +12055,14 @@
         "name": "FRENZ LURKHAN MERCADO",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10387,6 +12107,14 @@
         "name": "ILUMINADA FILOTEO",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10431,6 +12159,14 @@
         "name": "ABEGAIL RAMOS BAUTISTA",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10475,6 +12211,14 @@
         "name": "SAHRA PEREZ SORIANO",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10519,6 +12263,14 @@
         "name": "JOMARI MERCADO",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 1,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": true,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10563,6 +12315,14 @@
         "name": "MARK ANTHONY ROQUERO",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10607,6 +12367,14 @@
         "name": "JEFFERSON ABSALON",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10651,6 +12419,14 @@
         "name": "KIERTEN BALMEO",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10695,6 +12471,14 @@
         "name": "RYNE CHRISTOPHER RIGO",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10739,6 +12523,14 @@
         "name": "JOHN REBURIANO BENISANO",
         "rate": "Trial Month",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10783,6 +12575,14 @@
         "name": "ERIC PARONE VENTANILLA",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 1,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": true,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10827,6 +12627,14 @@
         "name": "MARK KENETH DE GUZMAN",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10871,6 +12679,14 @@
         "name": "None",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10915,6 +12731,14 @@
         "name": "NOVELOU GULIBAN",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -10959,6 +12783,14 @@
         "name": "MARLON RAMOS",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 2,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": true,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11003,6 +12835,14 @@
         "name": "JOANNA LYN VILLENO",
         "rate": "Trial Months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11047,6 +12887,14 @@
         "name": "AXCEL FERNANDO",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 1,
+          "renewal": 0,
+          "not_renew": 1
+        },
+        "hasReservation": true,
+        "closeToRenewal": false,
+        "willNotRenew": true,
         "payments": [
           {
             "month": "2026-04",
@@ -11091,6 +12939,14 @@
         "name": "KEVIN BANTANG ACHUVAS",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11137,6 +12993,14 @@
         "name": "ROGELIA MARMAT",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 1
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": true,
         "payments": [
           {
             "month": "2026-04",
@@ -11181,6 +13045,14 @@
         "name": "MA. SHERYL SEGUIN",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11225,6 +13097,14 @@
         "name": "KIMBERLY MONDERO",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11269,6 +13149,14 @@
         "name": "JANNA MORTEZ",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11313,6 +13201,14 @@
         "name": "MICHAEL REYES",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11357,6 +13253,14 @@
         "name": "PAUL JEIVI ADRIATICO",
         "rate": "12months",
         "contract": "WITH FOAM-150",
+        "flags": {
+          "reservation": 1,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": true,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11401,6 +13305,14 @@
         "name": "CARL JOHN O. FARALA",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 1,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": true,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11445,6 +13357,14 @@
         "name": "DIANE ESGUERRA",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11489,6 +13409,14 @@
         "name": "ELIJAH DE GULA",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11533,6 +13461,14 @@
         "name": "AIMEE ODONES",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11577,6 +13513,14 @@
         "name": "JOHN RAY SASTRE",
         "rate": "12months",
         "contract": "WITH AC-750",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11621,6 +13565,14 @@
         "name": "REYMOND PERA LINGATONG",
         "rate": "12months",
         "contract": "WITH AC-751",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11665,6 +13617,14 @@
         "name": "ELTON VENZ GILBERO GODEN",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11709,6 +13669,14 @@
         "name": "JANE LOU CADAYONA",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 1
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": true,
         "payments": [
           {
             "month": "2026-04",
@@ -11753,6 +13721,14 @@
         "name": "ROCEL LUALHATI",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 1
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": true,
         "payments": [
           {
             "month": "2026-04",
@@ -11797,6 +13773,14 @@
         "name": "GERSHOM AVERILLA",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11841,6 +13825,14 @@
         "name": "CHRISTINE MARANTAN",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11885,6 +13877,14 @@
         "name": "RIYADH TUQUIB",
         "rate": "6months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11929,6 +13929,14 @@
         "name": "KYLA ESAGA BAJAO",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -11973,6 +13981,14 @@
         "name": "MANUEL JR. SANTOS",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12017,6 +14033,14 @@
         "name": "NIKKI SAGUN / KATHERINE FAITH",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12061,6 +14085,14 @@
         "name": "MAERA JEAN CURACHO TENECLAN",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12105,6 +14137,14 @@
         "name": "ERIC ESTRELLES",
         "rate": "M to M",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12149,6 +14189,14 @@
         "name": "DANIEL GARCIA",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12195,6 +14243,14 @@
         "name": "BRENDEN KYLE BESACRUZ",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 1
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": true,
         "payments": [
           {
             "month": "2026-04",
@@ -12239,6 +14295,14 @@
         "name": "VANESSA DULDULAO",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12283,6 +14347,14 @@
         "name": "None",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12327,6 +14399,14 @@
         "name": "CHRISTINE MAE ESTRELLA MAMARIL",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12371,6 +14451,14 @@
         "name": "None",
         "rate": null,
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12415,6 +14503,14 @@
         "name": "RALPH JOSEPH MALLEN",
         "rate": "12months",
         "contract": "own meter",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12459,6 +14555,14 @@
         "name": "JESAME DENOY TAGALOG",
         "rate": "6MONTHS",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12503,6 +14607,14 @@
         "name": "CEDRICK GANAPIN",
         "rate": "12months",
         "contract": "own meter",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12549,6 +14661,14 @@
         "name": "CAMILLE BIANCXA ALEGRE",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12593,6 +14713,14 @@
         "name": "REYNOLD TRINIDAD RODILLAS",
         "rate": "12months",
         "contract": "WITH FOAM/AC -150+750(every 25 )",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12637,6 +14765,14 @@
         "name": "KIM JEROME DE LEON",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12681,6 +14817,14 @@
         "name": "ARLENE LUCIA DAVID",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 1,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": true,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12725,6 +14869,14 @@
         "name": "WYNDILL DUMBRIGUE",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12769,6 +14921,14 @@
         "name": "KEIFER ESCOTOTO",
         "rate": "12months",
         "contract": "WITH AC-750",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12813,6 +14973,14 @@
         "name": "RAQUEBER LEBIOS",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12857,6 +15025,14 @@
         "name": "JANET DELA PAZ",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12903,6 +15079,14 @@
         "name": "RUSSEL EVARDONE SANTILLAN",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12947,6 +15131,14 @@
         "name": "GINO ALEXANDER MATELA",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -12991,6 +15183,14 @@
         "name": "HANZEL MACARAYA/JAMES PAUL LEQUIN",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -13035,6 +15235,14 @@
         "name": "JALLY MAE TULAGAN",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 1
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": true,
         "payments": [
           {
             "month": "2026-04",
@@ -13079,6 +15287,14 @@
         "name": "ADRIAN POLICARPIO",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -13123,6 +15339,14 @@
         "name": "MARIA JANINE ARIZA",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 1
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": true,
         "payments": [
           {
             "month": "2026-04",
@@ -13167,6 +15391,14 @@
         "name": "MHEYVILLYN CARAG",
         "rate": "1month",
         "contract": "WITH AC - 750",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 1
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": true,
         "payments": [
           {
             "month": "2026-04",
@@ -13211,6 +15443,14 @@
         "name": "JOHN CHRISTOPHER EMUSLAN",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -13255,6 +15495,14 @@
         "name": "RENCE JAINELLE NAVARRO",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -13299,6 +15547,14 @@
         "name": "ELSIDA CONDINO",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -13343,6 +15599,14 @@
         "name": "CATHERINE LAVADIA",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -13387,6 +15651,14 @@
         "name": "JEREMIAH PINCA",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 1,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": true,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -13431,6 +15703,14 @@
         "name": "Danica Nichole Tabora",
         "rate": "12 MONTHS",
         "contract": "",
+        "flags": {
+          "reservation": 1,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": true,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -13475,6 +15755,14 @@
         "name": "KIAN JEAR GERALDEZ NAQUINES",
         "rate": "6MONTHS",
         "contract": "WITH BEDFRAME-500",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -13519,6 +15807,14 @@
         "name": "JANICE PONSICA VILLAMER",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -13563,6 +15859,14 @@
         "name": "CAREL KAYE LAVARADOR GULMATICO",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -13607,6 +15911,14 @@
         "name": "LYRA DREAU",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",
@@ -13651,6 +15963,14 @@
         "name": "PHIL JALENREY GUPIT SACDALAN",
         "rate": "12months",
         "contract": "",
+        "flags": {
+          "reservation": 0,
+          "renewal": 0,
+          "not_renew": 0
+        },
+        "hasReservation": false,
+        "closeToRenewal": false,
+        "willNotRenew": false,
         "payments": [
           {
             "month": "2026-04",

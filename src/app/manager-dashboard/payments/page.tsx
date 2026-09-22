@@ -10,6 +10,10 @@ type SheetData = {
   rate: unknown;
   contract: string;
   payments: { month: string; rent: number | null; raw: string | null; unpaid: boolean }[];
+  flags: { reservation: number; renewal: number; not_renew: number };
+  hasReservation: boolean;
+  closeToRenewal: boolean;
+  willNotRenew: boolean;
 };
 
 export default function PaymentsPage() {
@@ -22,10 +26,16 @@ export default function PaymentsPage() {
   let unpaidCount = 0;
   let unpaidAmount = 0;
   let totalDue = 0;
+  let reservationCount = 0;
+  let renewalCount = 0;
+  let notRenewCount = 0;
 
   for (const tenants of Object.values(sheets)) {
     totalTenants += tenants.length;
     for (const t of tenants) {
+      if (t.hasReservation) reservationCount++;
+      if (t.closeToRenewal) renewalCount++;
+      if (t.willNotRenew) notRenewCount++;
       for (const p of t.payments) {
         totalPayments++;
         if (p.rent) totalDue += p.rent;
@@ -50,8 +60,14 @@ export default function PaymentsPage() {
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Payment Monitoring</h1>
         <p className="text-sm text-muted-foreground">
-          Live from <code>IT MONITORING 2026.xlsx</code> + <code>ALL PROPERTIES.xlsx</code> — red boxes = unpaid (fill #FBD4B4). Database + live Sheets combined.
+          Live from <code>IT MONITORING 2026.xlsx</code> + <code>ALL PROPERTIES.xlsx</code> — colors from Excel fills.
         </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Badge className="bg-red-100 text-red-700 border-red-300">Red = unpaid</Badge>
+          <Badge className="bg-green-100 text-green-700 border-green-300">Green = reservation fee before moveout</Badge>
+          <Badge className="bg-yellow-100 text-yellow-700 border-yellow-300">Yellow = close to renewal</Badge>
+          <Badge className="bg-blue-100 text-blue-700 border-blue-300">Blue = will not renew</Badge>
+        </div>
       </div>
 
       {/* Global stats */}
@@ -93,6 +109,35 @@ export default function PaymentsPage() {
           </CardContent>
         </Card>
       </div>
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card className="border-green-200 bg-green-50">
+          <CardHeader className="pb-2">
+            <CardDescription className="text-green-700">Reservation (green)</CardDescription>
+            <CardTitle className="text-2xl text-green-700">{reservationCount}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-xs text-green-700">Sent reservation fee before moveout</p>
+          </CardContent>
+        </Card>
+        <Card className="border-yellow-200 bg-yellow-50">
+          <CardHeader className="pb-2">
+            <CardDescription className="text-yellow-700">Close to renewal (yellow)</CardDescription>
+            <CardTitle className="text-2xl text-yellow-700">{renewalCount}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-xs text-yellow-700">Yellow boxes in Excel</p>
+          </CardContent>
+        </Card>
+        <Card className="border-blue-200 bg-blue-50">
+          <CardHeader className="pb-2">
+            <CardDescription className="text-blue-700">Will not renew (blue)</CardDescription>
+            <CardTitle className="text-2xl text-blue-700">{notRenewCount}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-xs text-blue-700">Blue boxes in Excel</p>
+          </CardContent>
+        </Card>
+      </div>
       <div className="h-2 overflow-hidden rounded-full bg-muted">
         <div className="h-full bg-green-600 transition-all" style={{ width: `${collectionRate}%` }} />
       </div>
@@ -120,27 +165,31 @@ export default function PaymentsPage() {
         if (tenants.length === 0) return null;
         const months = tenants[0]?.payments.map((p) => p.month) || [];
         const propUnpaid = tenants.flatMap((t) => t.payments).filter((p) => p.unpaid).length;
+        const propRes = tenants.filter((t) => t.hasReservation).length;
+        const propRenew = tenants.filter((t) => t.closeToRenewal).length;
+        const propNotRenew = tenants.filter((t) => t.willNotRenew).length;
         return (
           <Card key={prop}>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span>{prop}</span>
                 <span className="text-sm font-normal text-muted-foreground">
-                  {tenants.length} tenants • {propUnpaid} red
+                  {tenants.length} tenants • {propUnpaid} red • {propRes} green • {propRenew} yellow • {propNotRenew} blue
                 </span>
               </CardTitle>
               <CardDescription>
-                Red = unpaid (fill #FBD4B4). Months: {months.join(" • ")}
+                Red unpaid • Green reservation • Yellow close to renewal • Blue will not renew • Months: {months.join(" • ")}
               </CardDescription>
             </CardHeader>
             <CardContent className="overflow-auto">
-              <div className="min-w-[800px]">
+              <div className="min-w-[900px]">
                 <div className="grid gap-1">
                   {/* Header */}
-                  <div className="grid grid-cols-[120px_1fr_80px_repeat(6,90px)] gap-1 border-b pb-2 text-xs font-semibold text-muted-foreground">
+                  <div className="grid grid-cols-[100px_1fr_70px_70px_repeat(6,90px)] gap-1 border-b pb-2 text-xs font-semibold text-muted-foreground">
                     <div>Unit</div>
                     <div>Name</div>
                     <div>Rate</div>
+                    <div>Status</div>
                     {months.map((m) => (
                       <div key={m} className="text-center">
                         {m}
@@ -148,12 +197,17 @@ export default function PaymentsPage() {
                     ))}
                   </div>
                   {tenants.map((t, i) => (
-                    <div key={t.unit + t.name + i} className="grid grid-cols-[120px_1fr_80px_repeat(6,90px)] gap-1 border-b py-1.5 text-sm last:border-0">
+                    <div key={t.unit + t.name + i} className="grid grid-cols-[100px_1fr_70px_70px_repeat(6,90px)] gap-1 border-b py-1.5 text-sm last:border-0">
                       <div className="font-mono text-xs">{t.unit || "—"}</div>
                       <div className="truncate text-xs" title={t.name}>
                         {t.name}
                       </div>
                       <div className="text-xs">₱{t.rate ? Number(t.rate).toLocaleString() : "—"}</div>
+                      <div className="flex gap-1">
+                        {t.hasReservation && <Badge className="bg-green-100 text-green-700 border-green-300 h-5 px-1 text-xs">G</Badge>}
+                        {t.closeToRenewal && <Badge className="bg-yellow-100 text-yellow-700 border-yellow-300 h-5 px-1 text-xs">Y</Badge>}
+                        {t.willNotRenew && <Badge className="bg-blue-100 text-blue-700 border-blue-300 h-5 px-1 text-xs">B</Badge>}
+                      </div>
                       {t.payments.map((p, idx) => (
                         <div
                           key={idx}
@@ -173,7 +227,7 @@ export default function PaymentsPage() {
                   ))}
                 </div>
               </div>
-              <p className="mt-3 text-xs text-muted-foreground">Red boxes from IT MONITORING 2026.xlsx — unpaid rent. Cross-check with ALL PROPERTIES.xlsx for due dates.</p>
+              <p className="mt-3 text-xs text-muted-foreground">Colors from IT MONITORING 2026.xlsx fills — Red #FBD4B4/#FF0000 unpaid, Green #92D050 reservation, Yellow #FFFF00 renewal, Blue #00B0F0 not renewing.</p>
             </CardContent>
           </Card>
         );
