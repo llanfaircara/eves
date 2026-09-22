@@ -41,6 +41,15 @@ const groups: NavGroup[] = [
       { href: "/manager-dashboard/tenants", label: "Tenants & Leases", icon: Users, roles: ["MANAGER", "ADMIN"] },
       { href: "/manager-dashboard/payments", label: "Payment Monitoring", icon: CreditCard, roles: ["MANAGER", "ADMIN"] },
       { href: "/manager-dashboard/synced", label: "Synced Monitoring", icon: Users, roles: ["MANAGER", "ADMIN"] },
+      { href: "/receipts", label: "Payment Receipts", icon: CreditCard, roles: ["MANAGER", "ADMIN", "EMPLOYEE"] },
+    ],
+  },
+  {
+    title: "My Work",
+    items: [
+      { href: "/employee-dashboard", label: "My Tasks", icon: ClipboardList, roles: ["EMPLOYEE", "ADMIN"] },
+      { href: "/intake", label: "Tenant Intake", icon: FileText, roles: ["EMPLOYEE"] },
+      { href: "/receipts", label: "Payment Receipts", icon: CreditCard, roles: ["EMPLOYEE"] },
     ],
   },
   {

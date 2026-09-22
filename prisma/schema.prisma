@@ -52,6 +52,12 @@ enum InspectionType {
   MOVE_OUT
 }
 
+enum PaymentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 // ─────────────────────────────────────────────
 // USER & TASK (Job/To-Do)
 // ─────────────────────────────────────────────
@@ -66,8 +72,10 @@ model User {
   updatedAt DateTime @updatedAt
 
   // Relations
-  assignedTasks Task[] @relation("AssignedTo")
-  createdTasks  Task[] @relation("CreatedBy")
+  assignedTasks     Task[]           @relation("AssignedTo")
+  createdTasks      Task[]           @relation("CreatedBy")
+  submittedPayments PaymentReceipt[] @relation("SubmittedPayments")
+  reviewedPayments  PaymentReceipt[] @relation("ReviewedPayments")
 
   @@map("users")
 }
@@ -203,4 +211,28 @@ model Inspection {
 
   @@index([leaseId])
   @@map("inspections")
+}
+
+model PaymentReceipt {
+  id           String        @id @default(cuid())
+  tenantName   String
+  property     String
+  unit         String
+  month        String // e.g., 2026-04
+  amount       Decimal       @db.Decimal(10, 2)
+  receiptUrl   String?       @db.Text // file path or data URL
+  receiptName  String?
+  status       PaymentStatus @default(PENDING)
+  submittedById String?
+  submittedBy  User?         @relation("SubmittedPayments", fields: [submittedById], references: [id], onDelete: SetNull)
+  reviewedById String?
+  reviewedBy   User?         @relation("ReviewedPayments", fields: [reviewedById], references: [id], onDelete: SetNull)
+  reviewNote   String?       @db.Text
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([status])
+  @@index([property])
+  @@index([month])
+  @@map("payment_receipts")
 }
