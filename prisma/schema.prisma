@@ -24,6 +24,7 @@ enum UserRole {
 enum TaskStatus {
   PENDING
   IN_PROGRESS
+  AWAITING_APPROVAL
   COMPLETED
 }
 

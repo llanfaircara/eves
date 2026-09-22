@@ -13,7 +13,7 @@ export type Task = {
   id: string;
   title: string;
   description: string;
-  status: "PENDING" | "IN_PROGRESS" | "COMPLETED";
+  status: "PENDING" | "IN_PROGRESS" | "AWAITING_APPROVAL" | "COMPLETED";
   dueDate: string | null;
   notes: string | null;
   createdAt: string;
@@ -28,9 +28,15 @@ function StatusBadge({ status }: { status: Task["status"] }) {
   const map = {
     PENDING: "bg-yellow-100 text-yellow-800 border-yellow-200",
     IN_PROGRESS: "bg-blue-100 text-blue-800 border-blue-200",
+    AWAITING_APPROVAL: "bg-orange-100 text-orange-800 border-orange-200",
     COMPLETED: "bg-green-100 text-green-800 border-green-200",
   } as const;
-  const label = { PENDING: "Pending", IN_PROGRESS: "In Progress", COMPLETED: "Completed" } as const;
+  const label = {
+    PENDING: "Pending",
+    IN_PROGRESS: "In Progress",
+    AWAITING_APPROVAL: "Awaiting Approval",
+    COMPLETED: "Completed",
+  } as const;
   return (
     <Badge variant="outline" className={map[status]}>
       {label[status]}
@@ -119,7 +125,7 @@ export default function TaskCard({
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Quick status dropdown — mirrors manager but localized */}
+        {/* Quick status dropdown — employee completing requires manager approval */}
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor={`status-${task.id}`}>Status</Label>
@@ -130,9 +136,15 @@ export default function TaskCard({
               <SelectContent>
                 <SelectItem value="PENDING">Pending</SelectItem>
                 <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
-                <SelectItem value="COMPLETED">Completed</SelectItem>
+                <SelectItem value="COMPLETED">Completed — pending manager approval</SelectItem>
+                {task.status === "AWAITING_APPROVAL" && <SelectItem value="AWAITING_APPROVAL">Awaiting Approval</SelectItem>}
+                {task.status === "COMPLETED" && <SelectItem value="COMPLETED">Completed</SelectItem>}
               </SelectContent>
             </Select>
+            {status === "COMPLETED" && task.status !== "COMPLETED" && (
+              <p className="text-xs text-orange-600">Will be sent as AWAITING_APPROVAL for manager to approve.</p>
+            )}
+            {task.status === "AWAITING_APPROVAL" && <p className="text-xs text-orange-600">Already awaiting manager approval — cannot mark completed again.</p>}
           </div>
           <div className="space-y-2">
             <Label>Due</Label>

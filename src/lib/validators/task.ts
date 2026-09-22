@@ -3,7 +3,7 @@ import { z } from "zod";
 export const createTaskSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters").max(150).trim(),
   description: z.string().min(10, "Description must be at least 10 characters").max(2000).trim(),
-  status: z.enum(["PENDING", "IN_PROGRESS", "COMPLETED"]).default("PENDING").optional(),
+  status: z.enum(["PENDING", "IN_PROGRESS", "AWAITING_APPROVAL", "COMPLETED"]).default("PENDING").optional(),
   dueDate: z
     .string()
     .optional()
@@ -18,7 +18,7 @@ export const createTaskSchema = z.object({
 export type CreateTaskInput = z.infer<typeof createTaskSchema>;
 
 export const updateTaskStatusSchema = z.object({
-  status: z.enum(["PENDING", "IN_PROGRESS", "COMPLETED"]),
+  status: z.enum(["PENDING", "IN_PROGRESS", "AWAITING_APPROVAL", "COMPLETED"]),
   notes: z.string().max(2000).optional().nullable(),
 });
 

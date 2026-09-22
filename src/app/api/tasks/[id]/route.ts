@@ -28,7 +28,19 @@ export async function PATCH(req: Request, { params }: Params) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const { status, notes } = parsed.data;
+    let { status, notes } = parsed.data;
+
+    // Workflow: employee completing requires manager approval
+    if (!isManager && status === "COMPLETED") {
+      status = "AWAITING_APPROVAL" as never;
+    }
+    // Only manager/admin can set final COMPLETED or approve from AWAITING_APPROVAL
+    if (status === "COMPLETED" && !isManager) {
+      return NextResponse.json({ error: "Only manager can mark as completed — sent for approval" }, { status: 403 });
+    }
+    if (existing.status === "AWAITING_APPROVAL" && status === "AWAITING_APPROVAL" && !isManager) {
+      return NextResponse.json({ error: "Already awaiting approval" }, { status: 400 });
+    }
 
     const updated = await prisma.task.update({
       where: { id },
@@ -43,7 +55,7 @@ export async function PATCH(req: Request, { params }: Params) {
       },
     });
 
-    return NextResponse.json({ task: updated });
+    return NextResponse.json({ task: updated, ...(status === "AWAITING_APPROVAL" ? { message: "Sent for manager approval" } : {}) });
   } catch (err) {
     const msg = (err as Error).message || "";
     if (msg.includes("Can't reach database") || msg.includes("P1001") || msg.includes("Task not found")) {
@@ -55,10 +67,14 @@ export async function PATCH(req: Request, { params }: Params) {
       const isOwnTask = existing.assignedToId === session.user.id;
       if (!isManager && !isOwnTask) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
-      const { status, notes } = parsed.data;
+      let { status, notes } = parsed.data;
+      if (!isManager && status === "COMPLETED") status = "AWAITING_APPROVAL" as never;
+      if (status === "COMPLETED" && !isManager) {
+        return NextResponse.json({ error: "Only manager can mark as completed — sent for approval" }, { status: 403 });
+      }
       const updated = updateDemoTask(id, { status: status as never, notes: notes ?? existing.notes } as never);
       if (!updated) return NextResponse.json({ error: "Task not found" }, { status: 404 });
-      return NextResponse.json({ task: updated });
+      return NextResponse.json({ task: updated, ...(status === "AWAITING_APPROVAL" ? { message: "Sent for manager approval" } : {}) });
     }
     console.error("[PATCH /api/tasks/:id]", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

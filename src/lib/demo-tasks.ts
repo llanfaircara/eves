@@ -7,7 +7,7 @@ export type DemoTask = {
   id: string;
   title: string;
   description: string;
-  status: "PENDING" | "IN_PROGRESS" | "COMPLETED";
+  status: "PENDING" | "IN_PROGRESS" | "AWAITING_APPROVAL" | "COMPLETED";
   dueDate: string | null;
   notes: string | null;
   assignedToId: string;

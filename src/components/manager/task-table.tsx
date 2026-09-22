@@ -12,7 +12,7 @@ type Task = {
   id: string;
   title: string;
   description: string;
-  status: "PENDING" | "IN_PROGRESS" | "COMPLETED";
+  status: "PENDING" | "IN_PROGRESS" | "AWAITING_APPROVAL" | "COMPLETED";
   dueDate: string | null;
   notes: string | null;
   createdAt: string;
@@ -26,9 +26,16 @@ function StatusBadge({ status }: { status: Task["status"] }) {
   const map = {
     PENDING: "bg-yellow-100 text-yellow-800 border-yellow-200",
     IN_PROGRESS: "bg-blue-100 text-blue-800 border-blue-200",
+    AWAITING_APPROVAL: "bg-orange-100 text-orange-800 border-orange-200",
     COMPLETED: "bg-green-100 text-green-800 border-green-200",
   } as const;
-  return <Badge variant="outline" className={map[status]}>{status.replace("_", " ")}</Badge>;
+  const label: Record<Task["status"], string> = {
+    PENDING: "Pending",
+    IN_PROGRESS: "In Progress",
+    AWAITING_APPROVAL: "Awaiting Approval",
+    COMPLETED: "Completed",
+  };
+  return <Badge variant="outline" className={map[status]}>{label[status]}</Badge>;
 }
 
 export default function TaskTable({
@@ -48,14 +55,22 @@ export default function TaskTable({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
       });
-      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to update status");
       onUpdate?.();
     } catch (e) {
       console.error(e);
-      alert("Failed to update status");
+      alert(e instanceof Error ? e.message : "Failed to update status");
     } finally {
       setUpdating(null);
     }
+  }
+
+  async function approve(id: string) {
+    await changeStatus(id, "COMPLETED");
+  }
+  async function reject(id: string) {
+    await changeStatus(id, "IN_PROGRESS");
   }
 
   async function remove(id: string) {
@@ -125,25 +140,40 @@ export default function TaskTable({
                 </TableCell>
                 <TableCell><StatusBadge status={t.status} /></TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-2">
-                    <Select
-                      value={t.status}
-                      onValueChange={(v) => changeStatus(t.id, v as Task["status"])}
-                      disabled={updating === t.id}
-                    >
-                      <SelectTrigger className="h-8 w-[140px]">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="PENDING">Pending</SelectItem>
-                        <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
-                        <SelectItem value="COMPLETED">Completed</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => remove(t.id)}>
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
-                  </div>
+                  {t.status === "AWAITING_APPROVAL" ? (
+                    <div className="flex items-center gap-1">
+                      <Button size="sm" className="h-7 bg-green-600 hover:bg-green-700 text-white" onClick={() => approve(t.id)} disabled={updating === t.id}>
+                        Approve
+                      </Button>
+                      <Button size="sm" variant="outline" className="h-7 border-orange-200 text-orange-700" onClick={() => reject(t.id)} disabled={updating === t.id}>
+                        Reject
+                      </Button>
+                      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => remove(t.id)}>
+                        <Trash2 className="h-3 w-3 text-destructive" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <Select
+                        value={t.status}
+                        onValueChange={(v) => changeStatus(t.id, v as Task["status"])}
+                        disabled={updating === t.id}
+                      >
+                        <SelectTrigger className="h-8 w-[140px]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="PENDING">Pending</SelectItem>
+                          <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+                          <SelectItem value="AWAITING_APPROVAL">Awaiting Approval</SelectItem>
+                          <SelectItem value="COMPLETED">Completed</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => remove(t.id)}>
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </div>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
