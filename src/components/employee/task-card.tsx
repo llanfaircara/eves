@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar, MapPin, User, Clock, Loader2, Save } from "lucide-react";
+import CompleteButton from "./complete-button";
 
 export type Task = {
   id: string;
@@ -125,32 +126,30 @@ export default function TaskCard({
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Quick status dropdown — employee completing requires manager approval */}
+        {/* Status + satisfying finish — no dropdown to Completed */}
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor={`status-${task.id}`}>Status</Label>
-            <Select value={status} onValueChange={(v) => setStatus(v as Task["status"])}>
+            <Select value={status === "AWAITING_APPROVAL" ? "AWAITING_APPROVAL" : status === "COMPLETED" ? "COMPLETED" : status} onValueChange={(v) => setStatus(v as Task["status"])}>
               <SelectTrigger id={`status-${task.id}`}>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="PENDING">Pending</SelectItem>
                 <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
-                <SelectItem value="COMPLETED">Completed — pending manager approval</SelectItem>
                 {task.status === "AWAITING_APPROVAL" && <SelectItem value="AWAITING_APPROVAL">Awaiting Approval</SelectItem>}
                 {task.status === "COMPLETED" && <SelectItem value="COMPLETED">Completed</SelectItem>}
               </SelectContent>
             </Select>
-            {status === "COMPLETED" && task.status !== "COMPLETED" && (
-              <p className="text-xs text-orange-600">Will be sent as AWAITING_APPROVAL for manager to approve.</p>
-            )}
-            {task.status === "AWAITING_APPROVAL" && <p className="text-xs text-orange-600">Already awaiting manager approval — cannot mark completed again.</p>}
+            <p className="text-xs text-muted-foreground">Use the green button below to mark finished — satisfying animation, then awaiting approval.</p>
           </div>
           <div className="space-y-2">
             <Label>Due</Label>
             <p className="pt-2 text-sm">{task.dueDate ? new Date(task.dueDate).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" }) : "—"}</p>
           </div>
         </div>
+        {task.status === "AWAITING_APPROVAL" && <p className="rounded-md bg-orange-50 border border-orange-200 px-3 py-2 text-sm text-orange-700">Already awaiting manager approval — hang tight.</p>}
+        {task.status === "COMPLETED" && <p className="rounded-md bg-green-50 border border-green-200 px-3 py-2 text-sm text-green-700">This task is completed and approved by manager.</p>}
 
         <div className="space-y-2">
           <Label htmlFor={`notes-${task.id}`}>Notes</Label>
@@ -168,9 +167,9 @@ export default function TaskCard({
         {success && <p className="rounded-md bg-green-50 border border-green-200 px-3 py-2 text-sm text-green-700">{success}</p>}
 
         <div className="flex gap-2">
-          <Button onClick={handleSave} disabled={!isDirty || saving} className="gap-2">
+          <Button onClick={handleSave} disabled={!isDirty || saving} variant="outline" className="gap-2">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-            {saving ? "Saving..." : "Save changes"}
+            {saving ? "Saving..." : "Save progress"}
           </Button>
           <Button
             variant="outline"
@@ -185,8 +184,26 @@ export default function TaskCard({
           </Button>
         </div>
 
+        {/* Satisfying finish — replaces dropdown Completed */}
+        {task.status !== "AWAITING_APPROVAL" && task.status !== "COMPLETED" && (
+          <CompleteButton
+            disabled={saving}
+            onComplete={async () => {
+              const res = await fetch(`/api/tasks/${task.id}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status: "COMPLETED", notes: notes.trim() || null }),
+              });
+              const data = await res.json();
+              if (!res.ok) throw new Error(data.error || "Failed");
+              setSuccess(data.message || "Sent for manager approval");
+              onUpdated?.();
+            }}
+          />
+        )}
+
         <p className="text-xs text-muted-foreground">
-          Tip: Mark as <strong>In Progress</strong> when you start, <strong>Completed</strong> when done. Notes are visible to your manager.
+          Tip: Use <strong>In Progress</strong> while working, then hit the green <strong>Mark as Finished</strong> button for a satisfying send-off to your manager.
         </p>
       </CardContent>
     </Card>
