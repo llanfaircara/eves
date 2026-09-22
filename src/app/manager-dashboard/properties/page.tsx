@@ -22,17 +22,47 @@ async function getProperties(): Promise<{ props: PropertyWithUnits[]; warning?: 
   } catch (e) {
     const msg = (e as Error).message || "";
     if (msg.includes("Can't reach database") || msg.includes("P1001")) {
-      const demo: PropertyWithUnits[] = ["ADI", "BNB", "DREAM", "ECO", "GREEN", "KALAYAAN"].map((name) => ({
-        id: name.toLowerCase(),
-        name,
-        address: `${name} Property, Metro Manila`,
-        units: [
-          { id: `${name.toLowerCase()}-001`, unitNumber: `${name}-001`, status: "VACANT", monthlyRate: "15000" },
-          { id: `${name.toLowerCase()}-002`, unitNumber: `${name}-002`, status: "OCCUPIED", monthlyRate: "17500" },
-          { id: `${name.toLowerCase()}-003`, unitNumber: `${name}-003`, status: "VACANT", monthlyRate: "20000" },
-        ],
-      }));
-      return { props: demo, warning: "Database not connected — showing demo properties. Set DATABASE_URL and run npx prisma db push && npm run db:seed." };
+      try {
+        const { getLegacyData } = await import("@/lib/legacy");
+        const legacy = getLegacyData();
+        const byProp = new Map<string, { units: Set<string>; leases: number }>();
+        for (const l of legacy.leases) {
+          if (!byProp.has(l.property)) byProp.set(l.property, { units: new Set(), leases: 0 });
+          const v = byProp.get(l.property)!;
+          if (l.unit && l.unit !== "UNKNOWN") v.units.add(l.unit);
+          v.leases++;
+        }
+        const props: PropertyWithUnits[] = [...byProp.entries()]
+          .sort((a, b) => b[1].leases - a[1].leases)
+          .slice(0, 20)
+          .map(([name, v]) => ({
+            id: name.toLowerCase(),
+            name,
+            address: `${name} — ${v.leases} contracts from legacy Excel`,
+            units: [...v.units].slice(0, 8).map((u, i) => ({
+              id: `${name.toLowerCase()}-${i}`,
+              unitNumber: u,
+              status: i % 2 === 0 ? "VACANT" : "OCCUPIED",
+              monthlyRate: "—",
+            })),
+          }));
+        return {
+          props,
+          warning: `Database not connected — showing ${legacy.totalLeases} legacy contracts from EVES DOCS (${legacy.leases.length} mapped). Set DATABASE_URL and run import to persist.`,
+        };
+      } catch {
+        const demo: PropertyWithUnits[] = ["ADI", "BNB", "DREAM", "ECO", "GREEN", "KALAYAAN"].map((name) => ({
+          id: name.toLowerCase(),
+          name,
+          address: `${name} Property, Metro Manila`,
+          units: [
+            { id: `${name.toLowerCase()}-001`, unitNumber: `${name}-001`, status: "VACANT", monthlyRate: "15000" },
+            { id: `${name.toLowerCase()}-002`, unitNumber: `${name}-002`, status: "OCCUPIED", monthlyRate: "17500" },
+            { id: `${name.toLowerCase()}-003`, unitNumber: `${name}-003`, status: "VACANT", monthlyRate: "20000" },
+          ],
+        }));
+        return { props: demo, warning: "Database not connected — showing demo properties." };
+      }
     }
     throw e;
   }

@@ -33,35 +33,51 @@ async function getLeases(): Promise<{ leases: LeaseRow[]; warning?: string }> {
   } catch (e) {
     const msg = (e as Error).message || "";
     if (msg.includes("Can't reach database") || msg.includes("P1001")) {
-      const demo: LeaseRow[] = [
-        {
-          id: "demo-lease-1",
-          tenantId: "t1",
-          unitId: "u1",
-          contractType: "M2M",
-          rentalStartDate: new Date().toISOString(),
-          rentalEndDate: new Date(Date.now() + 365 * 86400000).toISOString(),
-          totalAmountToSettle: "210000",
-          status: "ACTIVE",
+      try {
+        const { getLegacyData } = await import("@/lib/legacy");
+        const legacy = getLegacyData();
+        const leases: LeaseRow[] = legacy.leases.slice(0, 50).map((l, i) => ({
+          id: l.controlNumber || `legacy-${i}`,
+          tenantId: `t-${i}`,
+          unitId: `u-${i}`,
+          contractType: l.terms?.toUpperCase().includes("TRIAL") ? "TRIAL" : l.terms?.toUpperCase().includes("M2M") ? "M2M" : "LONG_TERM",
+          rentalStartDate: l.rentalStart || new Date().toISOString(),
+          rentalEndDate: l.rentalEnd || new Date(Date.now() + 180 * 86400000).toISOString(),
+          totalAmountToSettle: String(l.totalAmount ?? l.rate ?? "—"),
+          status: l.status || "ACTIVE",
           createdAt: new Date().toISOString(),
-          tenant: { id: "t1", firstName: "Juan", lastName: "Dela Cruz", mobileNumber: "09171234567", email: "juan@example.com", company: "Acme" },
-          unit: { id: "u1", unitNumber: "ECO-002", property: { name: "ECO" } },
-        },
-        {
-          id: "demo-lease-2",
-          tenantId: "t2",
-          unitId: "u2",
-          contractType: "LONG_TERM",
-          rentalStartDate: new Date().toISOString(),
-          rentalEndDate: new Date(Date.now() + 730 * 86400000).toISOString(),
-          totalAmountToSettle: "420000",
-          status: "ACTIVE",
-          createdAt: new Date().toISOString(),
-          tenant: { id: "t2", firstName: "Maria", lastName: "Santos", mobileNumber: "09187654321", email: "maria@example.com", company: null },
-          unit: { id: "u2", unitNumber: "ADI-001", property: { name: "ADI" } },
-        },
-      ];
-      return { leases: demo, warning: "Database not connected — showing demo tenants & leases." };
+          tenant: {
+            id: `t-${i}`,
+            firstName: l.firstName || l.fullName.split(" ")[0] || "Unknown",
+            lastName: l.lastName || l.fullName.split(" ").slice(1).join(" ") || "",
+            mobileNumber: l.mobile || "—",
+            email: l.email || null,
+            company: l.company || null,
+          },
+          unit: { id: `u-${i}`, unitNumber: l.unit || "UNKNOWN", property: { name: l.property } },
+        }));
+        return {
+          leases,
+          warning: `Database not connected — showing ${leases.length} of ${legacy.totalLeases} legacy contracts from EVES DOCS. Run import to DB to persist.`,
+        };
+      } catch {
+        const demo: LeaseRow[] = [
+          {
+            id: "demo-lease-1",
+            tenantId: "t1",
+            unitId: "u1",
+            contractType: "M2M",
+            rentalStartDate: new Date().toISOString(),
+            rentalEndDate: new Date(Date.now() + 365 * 86400000).toISOString(),
+            totalAmountToSettle: "210000",
+            status: "ACTIVE",
+            createdAt: new Date().toISOString(),
+            tenant: { id: "t1", firstName: "Juan", lastName: "Dela Cruz", mobileNumber: "09171234567", email: "juan@example.com", company: "Acme" },
+            unit: { id: "u1", unitNumber: "ECO-002", property: { name: "ECO" } },
+          },
+        ];
+        return { leases: demo, warning: "Database not connected — showing demo tenants & leases." };
+      }
     }
     throw e;
   }
