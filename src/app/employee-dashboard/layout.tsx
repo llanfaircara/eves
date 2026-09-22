@@ -9,9 +9,8 @@ export default async function EmployeeLayout({ children }: { children: React.Rea
   // ADMIN can view employee area too
   if (session.user.role !== "EMPLOYEE" && session.user.role !== "ADMIN") redirect("/manager-dashboard");
 
-  const shellRole = session.user.role === "ADMIN" ? "EMPLOYEE" as const : session.user.role;
   return (
-    <DashboardShell role={shellRole} userName={session.user.name} userEmail={session.user.email}>
+    <DashboardShell role={session.user.role} userName={session.user.name} userEmail={session.user.email}>
       {children}
     </DashboardShell>
   );
