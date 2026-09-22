@@ -21,6 +21,21 @@ export async function GET() {
 
     return NextResponse.json({ properties, employees });
   } catch (err) {
+    const msg = (err as Error).message || "";
+    if (msg.includes("Can't reach database") || msg.includes("P1001")) {
+      return NextResponse.json({
+        properties: ["ADI","BNB","DREAM","ECO","GREEN","KALAYAAN"].map((name,i)=>({ id: name.toLowerCase(), name, units: [
+          { id: `${name.toLowerCase()}-001`, unitNumber: `${name}-001`, status: "VACANT", monthlyRate: "15000" },
+          { id: `${name.toLowerCase()}-002`, unitNumber: `${name}-002`, status: "VACANT", monthlyRate: "17500" },
+          { id: `${name.toLowerCase()}-003`, unitNumber: `${name}-003`, status: "OCCUPIED", monthlyRate: "20000" },
+        ]})),
+        employees: [
+          { id: "fallback-employee", name: "Jane Employee", email: "employee@eves.local" },
+          { id: "fallback-employee2", name: "John Field", email: "employee2@eves.local" },
+        ],
+        warning: "Database not connected — showing demo properties.",
+      });
+    }
     console.error("[GET /api/properties]", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }

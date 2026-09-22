@@ -12,7 +12,7 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const where = session.user.role === "MANAGER" ? {} : { assignedToId: session.user.id };
+    const where = session.user.role === "MANAGER" || session.user.role === "ADMIN" ? {} : { assignedToId: session.user.id };
 
     const tasks = await prisma.task.findMany({
       where,
@@ -27,6 +27,43 @@ export async function GET() {
 
     return NextResponse.json({ tasks });
   } catch (err) {
+    const msg = (err as Error).message || "";
+    if (msg.includes("Can't reach database") || msg.includes("P1001")) {
+      // Fallback demo tasks when DB not connected
+      return NextResponse.json({
+        tasks: [
+          {
+            id: "demo-1",
+            title: "Inspect water leak — ECO-001",
+            description: "Tenant reported leak under kitchen sink. Check piping and replace seal.",
+            status: "PENDING",
+            dueDate: new Date(Date.now() + 2 * 86400000).toISOString(),
+            notes: "Priority: high. Bring tools.",
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            assignedTo: { id: "fallback-employee", name: "Jane Employee", email: "employee@eves.local" },
+            createdBy: { id: "fallback-admin-adrian", name: "Adrian", email: "adrian@eves.local" },
+            property: { id: "eco", name: "ECO" },
+            unit: { id: "eco-001", unitNumber: "ECO-001", monthlyRate: "15000" },
+          },
+          {
+            id: "demo-2",
+            title: "Collect rent — GREEN portfolio",
+            description: "Follow up on overdue GREEN units for May.",
+            status: "IN_PROGRESS",
+            dueDate: new Date(Date.now() + 5 * 86400000).toISOString(),
+            notes: null,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            assignedTo: { id: "fallback-employee2", name: "John Field", email: "employee2@eves.local" },
+            createdBy: { id: "fallback-admin-adrian", name: "Adrian", email: "adrian@eves.local" },
+            property: { id: "green", name: "GREEN" },
+            unit: null,
+          },
+        ],
+        warning: "Database not connected — showing demo tasks.",
+      });
+    }
     console.error("[GET /api/tasks]", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
@@ -39,7 +76,7 @@ export async function POST(req: Request) {
     if (!session?.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    if (session.user.role !== "MANAGER") {
+    if (session.user.role !== "MANAGER" && session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "Forbidden — Managers only" }, { status: 403 });
     }
 
@@ -93,6 +130,10 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ task }, { status: 201 });
   } catch (err) {
+    const msg = (err as Error).message || "";
+    if (msg.includes("Can't reach database") || msg.includes("P1001")) {
+      return NextResponse.json({ error: "Database not connected — set DATABASE_URL and run npx prisma db push && npm run db:seed to persist tasks. Demo mode shows sample tasks." }, { status: 503 });
+    }
     console.error("[POST /api/tasks]", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }

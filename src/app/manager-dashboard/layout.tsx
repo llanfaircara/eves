@@ -6,10 +6,13 @@ import DashboardShell from "@/components/layout/dashboard-shell";
 export default async function ManagerLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
   if (!session?.user) redirect("/login");
-  if (session.user.role !== "MANAGER") redirect("/employee-dashboard");
+  // ADMIN can access manager area (has all manager perms)
+  if (session.user.role !== "MANAGER" && session.user.role !== "ADMIN") redirect("/employee-dashboard");
 
+  // Show as MANAGER shell even for ADMIN to keep manager UI consistent
+  const shellRole = session.user.role === "ADMIN" ? "MANAGER" as const : session.user.role;
   return (
-    <DashboardShell role="MANAGER" userName={session.user.name} userEmail={session.user.email}>
+    <DashboardShell role={shellRole} userName={session.user.name} userEmail={session.user.email}>
       {children}
     </DashboardShell>
   );
