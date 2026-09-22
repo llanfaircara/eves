@@ -48,17 +48,27 @@ export const authOptions: NextAuthOptions = {
             if (isValid) {
               return { id: user.id, name: user.name, email: user.email, role: user.role } as never;
             }
-            // If DB user exists but password wrong, don't fallback
             return null;
           }
           // DB reachable but user not found → try fallback before returning null
           const fb = checkFallback(email, password);
           if (fb) return fb as never;
+          // Try demo-users file (created via admin UI when DB down)
+          try {
+            const { verifyDemoUser } = await import("@/lib/demo-users");
+            const demo = await verifyDemoUser(email, password);
+            if (demo) return { id: demo.id, name: demo.name, email: demo.email, role: demo.role } as never;
+          } catch {}
           return null;
         } catch (err) {
           console.warn("[auth:authorize] DB unreachable, trying fallback", (err as Error).message);
           const fb = checkFallback(email, password);
           if (fb) return fb as never;
+          try {
+            const { verifyDemoUser } = await import("@/lib/demo-users");
+            const demo = await verifyDemoUser(email, password);
+            if (demo) return { id: demo.id, name: demo.name, email: demo.email, role: demo.role } as never;
+          } catch {}
           console.error("[auth:authorize]", err);
           return null;
         }

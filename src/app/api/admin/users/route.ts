@@ -26,14 +26,17 @@ export async function GET() {
   } catch (err) {
     const msg = (err as Error).message || "";
     if (msg.includes("Can't reach database") || msg.includes("P1001")) {
-      // Fallback demo users when DB not configured
+      const { getDemoUsers } = await import("@/lib/demo-users");
+      const demo = getDemoUsers();
+      const fallback = [
+        { id: "fallback-admin-adrian", name: "Adrian", email: "adrian@eves.local", role: "ADMIN", createdAt: new Date().toISOString() },
+        { id: "fallback-manager", name: "Eves Manager", email: "manager@eves.local", role: "MANAGER", createdAt: new Date().toISOString() },
+        { id: "fallback-employee", name: "Jane Employee", email: "employee@eves.local", role: "EMPLOYEE", createdAt: new Date().toISOString() },
+      ];
+      const users = [...fallback, ...demo.map((u) => ({ id: u.id, name: u.name, email: u.email, role: u.role, createdAt: u.createdAt }))];
       return NextResponse.json({
-        users: [
-          { id: "fallback-admin-adrian", name: "Adrian", email: "adrian@eves.local", role: "ADMIN", createdAt: new Date().toISOString() },
-          { id: "fallback-manager", name: "Eves Manager", email: "manager@eves.local", role: "MANAGER", createdAt: new Date().toISOString() },
-          { id: "fallback-employee", name: "Jane Employee", email: "employee@eves.local", role: "EMPLOYEE", createdAt: new Date().toISOString() },
-        ],
-        warning: "Database not connected — showing fallback demo users. Set DATABASE_URL and run npx prisma db push && npm run db:seed to persist.",
+        users,
+        warning: `Database not connected — showing ${users.length} users (fallback + ${demo.length} demo-created). They can log in demo mode; set DATABASE_URL and run npx prisma db push && npm run db:seed to persist permanently.`,
       });
     }
     console.error("[GET /api/admin/users]", err);
@@ -42,19 +45,18 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (session.user.role !== "ADMIN") return NextResponse.json({ error: "Forbidden — Admin only" }, { status: 403 });
+
+  const body = await req.json();
+  const parsed = createUserSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Validation failed", details: parsed.error.flatten() }, { status: 400 });
+  }
+  const { name, email, password, role } = parsed.data;
+
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    if (session.user.role !== "ADMIN") return NextResponse.json({ error: "Forbidden — Admin only" }, { status: 403 });
-
-    const body = await req.json();
-    const parsed = createUserSchema.safeParse(body);
-    if (!parsed.success) {
-      return NextResponse.json({ error: "Validation failed", details: parsed.error.flatten() }, { status: 400 });
-    }
-
-    const { name, email, password, role } = parsed.data;
-
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) return NextResponse.json({ error: "Email already exists" }, { status: 409 });
 
@@ -69,7 +71,28 @@ export async function POST(req: Request) {
   } catch (err) {
     const msg = (err as Error).message || "";
     if (msg.includes("Can't reach database") || msg.includes("P1001")) {
-      return NextResponse.json({ error: "Database not connected — set DATABASE_URL and run npx prisma db push before creating users. Fallback login works for demo, but creation requires DB." }, { status: 503 });
+      // Fallback persistence to demo-users.json
+      try {
+        const { findDemoUser, addDemoUser, getDemoUsers } = await import("@/lib/demo-users");
+        // Also check hardcoded fallback emails
+        if (email === "adrian@eves.local" || email === "manager@eves.local" || email === "employee@eves.local") {
+          return NextResponse.json({ error: "Email already exists (fallback demo user)" }, { status: 409 });
+        }
+        if (findDemoUser(email)) {
+          return NextResponse.json({ error: "Email already exists" }, { status: 409 });
+        }
+        const user = await addDemoUser(name, email, password, role as never);
+        return NextResponse.json(
+          {
+            user: { id: user.id, name: user.name, email: user.email, role: user.role, createdAt: user.createdAt },
+            warning: "Database not connected — user saved to demo file (src/lib/demo-users.json) and can log in in demo mode. Set DATABASE_URL to persist permanently.",
+          },
+          { status: 201 }
+        );
+      } catch (e) {
+        console.error("[POST fallback]", e);
+        return NextResponse.json({ error: (e as Error).message || "Failed to create demo user" }, { status: 400 });
+      }
     }
     console.error("[POST /api/admin/users]", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
