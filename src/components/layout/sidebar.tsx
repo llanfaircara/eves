@@ -13,20 +13,39 @@ import {
   Users,
   FileText,
   Shield,
+  UserCog,
+  Home,
 } from "lucide-react";
 
 type Role = "ADMIN" | "MANAGER" | "EMPLOYEE";
 type NavItem = { href: string; label: string; icon: React.ComponentType<{ className?: string }>; roles?: Role[] };
+type NavGroup = { title: string; items: NavItem[] };
 
-const nav: NavItem[] = [
-  { href: "/admin-dashboard", label: "Admin", icon: Shield, roles: ["ADMIN"] },
-  { href: "/admin-dashboard/users", label: "Users", icon: Users, roles: ["ADMIN"] },
-  { href: "/manager-dashboard", label: "Overview", icon: LayoutDashboard, roles: ["MANAGER", "ADMIN"] },
-  { href: "/manager-dashboard/tasks", label: "Tasks", icon: ClipboardList, roles: ["MANAGER", "ADMIN"] },
-  { href: "/employee-dashboard", label: "My Tasks", icon: ClipboardList, roles: ["EMPLOYEE"] },
-  { href: "/intake", label: "Tenant Intake", icon: FileText },
-  { href: "/manager-dashboard/properties", label: "Properties", icon: Building2, roles: ["MANAGER", "ADMIN"] },
-  { href: "/manager-dashboard/tenants", label: "Tenants", icon: Users, roles: ["MANAGER", "ADMIN"] },
+const groups: NavGroup[] = [
+  {
+    title: "Administration",
+    items: [
+      { href: "/admin-dashboard", label: "Admin Overview", icon: Shield, roles: ["ADMIN"] },
+      { href: "/admin-dashboard/users", label: "User Management", icon: UserCog, roles: ["ADMIN"] },
+    ],
+  },
+  {
+    title: "Management",
+    items: [
+      { href: "/manager-dashboard", label: "Manager Overview", icon: LayoutDashboard, roles: ["MANAGER", "ADMIN"] },
+      { href: "/intake", label: "Tenant Intake", icon: FileText, roles: ["MANAGER", "ADMIN"] },
+      { href: "/manager-dashboard/tasks", label: "Tasks", icon: ClipboardList, roles: ["MANAGER", "ADMIN"] },
+      { href: "/manager-dashboard/properties", label: "Properties", icon: Building2, roles: ["MANAGER", "ADMIN"] },
+      { href: "/manager-dashboard/tenants", label: "Tenants & Leases", icon: Users, roles: ["MANAGER", "ADMIN"] },
+    ],
+  },
+  {
+    title: "My Work",
+    items: [
+      { href: "/employee-dashboard", label: "My Tasks", icon: ClipboardList, roles: ["EMPLOYEE", "ADMIN"] },
+      { href: "/intake", label: "Tenant Intake", icon: FileText, roles: ["EMPLOYEE"] },
+    ],
+  },
 ];
 
 export default function Sidebar({
@@ -39,9 +58,29 @@ export default function Sidebar({
   userEmail?: string | null;
 }) {
   const pathname = usePathname();
-  const filtered = nav.filter((item) => !item.roles || item.roles.includes(role));
-
   const portalLabel = role === "ADMIN" ? "Admin Portal" : role === "MANAGER" ? "Manager Portal" : "Employee Portal";
+
+  // Avoid duplicate Intake for ADMIN (appears in both Management and My Work) — dedupe by href
+  const visibleGroups = groups
+    .map((g) => ({
+      ...g,
+      items: g.items.filter((item) => !item.roles || item.roles.includes(role)),
+    }))
+    .filter((g) => g.items.length > 0);
+
+  // Deduplicate hrefs for ADMIN (Intake appears once)
+  const seen = new Set<string>();
+  const dedupedGroups = visibleGroups.map((g) => ({
+    ...g,
+    items: g.items.filter((item) => {
+      if (seen.has(item.href)) return false;
+      seen.add(item.href);
+      return true;
+    }),
+  }));
+
+  // Also always show Home for ADMIN to get back to overview
+  const homeItem: NavItem = { href: "/", label: "Home", icon: Home };
 
   return (
     <aside className="flex h-screen w-64 shrink-0 flex-col border-r bg-card">
@@ -55,29 +94,47 @@ export default function Sidebar({
         </div>
       </div>
 
-      <nav className="flex-1 space-y-1 overflow-y-auto p-3">
-        <p className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-          {role === "ADMIN" ? "Administration" : role === "MANAGER" ? "Management" : "Work"}
-        </p>
-        {filtered.map((item) => {
-          const active = pathname === item.href || pathname.startsWith(item.href + "/");
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
-              )}
-            >
-              <item.icon className="h-4 w-4" />
-              {item.label}
-            </Link>
-          );
-        })}
-        <div className="pt-4">
-          <p className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Properties</p>
-          <p className="px-3 text-xs text-muted-foreground">ADI • BNB • DREAM • ECO • GREEN • KALAYAAN</p>
+      <nav className="flex-1 space-y-4 overflow-y-auto p-3">
+        {/* Home — always visible */}
+        <Link
+          href="/"
+          className={cn(
+            "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+            pathname === "/" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+          )}
+        >
+          <Home className="h-4 w-4" />
+          Home
+        </Link>
+
+        {dedupedGroups.map((group) => (
+          <div key={group.title}>
+            <p className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">{group.title}</p>
+            <div className="space-y-1">
+              {group.items.map((item) => {
+                const active = pathname === item.href || pathname.startsWith(item.href + "/");
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                      active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    )}
+                  >
+                    <item.icon className="h-4 w-4" />
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+
+        <div className="rounded-lg border bg-muted/20 p-3">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Properties</p>
+          <p className="mt-1 text-xs text-muted-foreground leading-relaxed">ADI • BNB • DREAM • ECO • GREEN • KALAYAAN</p>
+          <p className="mt-2 text-xs text-muted-foreground">All tasks & leases across portfolio</p>
         </div>
       </nav>
 
