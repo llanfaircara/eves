@@ -40,6 +40,7 @@ const groups: NavGroup[] = [
       { href: "/manager-dashboard/properties", label: "Properties", icon: Building2, roles: ["MANAGER", "ADMIN"] },
       { href: "/manager-dashboard/tenants", label: "Tenants & Leases", icon: Users, roles: ["MANAGER", "ADMIN"] },
       { href: "/manager-dashboard/payments", label: "Payment Monitoring", icon: CreditCard, roles: ["MANAGER", "ADMIN"] },
+      { href: "/manager-dashboard/synced", label: "Synced Monitoring", icon: Users, roles: ["MANAGER", "ADMIN"] },
     ],
   },
   {
