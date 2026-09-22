@@ -36,9 +36,31 @@ export default function ReceiptsClient({ role }: { role: "ADMIN" | "MANAGER" | "
   const [success, setSuccess] = useState<string | null>(null);
   const [filter, setFilter] = useState<"ALL" | Receipt["status"]>("ALL");
 
-  // Form state
-  const [form, setForm] = useState({ tenantName: "", property: "ECO", unit: "", month: new Date().toISOString().slice(0, 7), amount: "", receipt: null as File | null });
+  // Form state — unit synced to property, amount auto-matches rent
+  const [form, setForm] = useState({ tenantName: "", property: "eco", unit: "", month: new Date().toISOString().slice(0, 7), amount: "", receipt: null as File | null });
+  const [properties, setProperties] = useState<{ id: string; name: string; units: { id: string; unitNumber: string; status: string; monthlyRate: string | number }[] }[]>([]);
   const [reviewNote, setReviewNote] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    fetch("/api/properties")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.properties) setProperties(d.properties);
+      })
+      .catch(() => {});
+  }, []);
+
+  const unitsForProperty = form.property ? properties.find((p) => p.id === form.property.toLowerCase() || p.name === form.property)?.units || [] : [];
+
+  function onPropertyChange(v: string) {
+    setForm({ ...form, property: v, unit: "", amount: "" });
+  }
+  function onUnitChange(v: string) {
+    const unit = unitsForProperty.find((u) => u.unitNumber === v || u.id === v);
+    const rate = unit?.monthlyRate;
+    const amountStr = rate && rate !== "—" && rate !== null ? String(rate).replace(/[^0-9.]/g, "") : "";
+    setForm({ ...form, unit: v, amount: amountStr || form.amount });
+  }
 
   async function fetchReceipts() {
     try {
@@ -117,27 +139,67 @@ export default function ReceiptsClient({ role }: { role: "ADMIN" | "MANAGER" | "
             </div>
             <div className="space-y-2">
               <Label>Amount *</Label>
-              <Input type="number" step="0.01" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} placeholder="5297" required />
+              <Input type="number" step="0.01" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} placeholder="Auto from unit rent" required />
+              <p className="text-xs text-muted-foreground">Auto-matches selected unit&apos;s rent — editable if needed (e.g., partial, penalties).</p>
             </div>
             <div className="space-y-2">
               <Label>Property *</Label>
-              {/* @ts-ignore - Select value typing */}
-              <Select value={form.property} onValueChange={(v) => setForm({ ...form, property: v })}>
-                <SelectTrigger>
+              {/* @ts-ignore */}
+              <Select value={form.property} onValueChange={onPropertyChange}>
+                <SelectTrigger className="w-full">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
-                  {["ADI", "BNB", "DREAM", "ECO", "GREEN", "KALAYAAN", "PLEASANT", "PENTHAUZ", "HOMEY"].map((p) => (
-                    <SelectItem key={p} value={p}>
-                      {p}
-                    </SelectItem>
-                  ))}
+                <SelectContent className="w-[320px]">
+                  {properties.length
+                    ? properties.map((p) => {
+                        const vacant = p.units.filter((u) => u.status === "VACANT").length;
+                        return (
+                          <SelectItem key={p.id} value={p.id} className="py-2">
+                            <div className="flex flex-col">
+                              <span className="font-medium">{p.name}</span>
+                              <span className="text-xs text-muted-foreground">
+                                {p.units.length} units • {vacant} vacant
+                              </span>
+                            </div>
+                          </SelectItem>
+                        );
+                      })
+                    : ["ADI", "BNB", "DREAM", "ECO", "GREEN", "KALAYAAN", "PLEASANT", "PENTHAUZ", "HOMEY"].map((p) => (
+                        <SelectItem key={p} value={p}>
+                          {p}
+                        </SelectItem>
+                      ))}
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
               <Label>Unit *</Label>
-              <Input value={form.unit} onChange={(e) => setForm({ ...form, unit: e.target.value })} placeholder="B1" required />
+              {/* @ts-ignore */}
+              <Select value={form.unit} onValueChange={onUnitChange}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder={form.property ? "Select unit" : "Choose property first"} />
+                </SelectTrigger>
+                <SelectContent className="w-[360px] max-h-64">
+                  {unitsForProperty.length === 0 ? (
+                    <div className="px-3 py-2 text-xs text-muted-foreground">No units — choose property</div>
+                  ) : (
+                    unitsForProperty.map((u) => (
+                      <SelectItem key={u.id} value={u.unitNumber} className="py-2">
+                        <div className="flex w-full items-center justify-between gap-2">
+                          <span className="font-mono font-medium">{u.unitNumber}</span>
+                          <span className={`rounded px-1.5 py-0.5 text-xs border ${u.status === "VACANT" ? "bg-green-50 text-green-700 border-green-200" : "bg-blue-50 text-blue-700 border-blue-200"}`}>{u.status}</span>
+                        </div>
+                        <div className="text-xs text-muted-foreground">₱{u.monthlyRate === "—" || u.monthlyRate === null ? "—" : Number(u.monthlyRate).toLocaleString()} / mo</div>
+                      </SelectItem>
+                    ))
+                  )}
+                </SelectContent>
+              </Select>
+              {form.unit && unitsForProperty.find((u) => u.unitNumber === form.unit) && (
+                <p className="text-xs text-muted-foreground">
+                  Rent for {form.unit}: ₱{Number(unitsForProperty.find((u) => u.unitNumber === form.unit)?.monthlyRate || 0).toLocaleString()} / mo — auto-filled
+                </p>
+              )}
             </div>
             <div className="space-y-2">
               <Label>Month *</Label>
