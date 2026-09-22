@@ -26,15 +26,29 @@ export async function GET() {
       try {
         const { getLegacyData } = await import("@/lib/legacy");
         const legacy = getLegacyData();
-        const byProp = new Map<string, Set<string>>();
+        const byPropUnit = new Map<string, Map<string, typeof legacy.leases[number]>>();
         for (const l of legacy.leases) {
-          if (!byProp.has(l.property)) byProp.set(l.property, new Set());
-          if (l.unit && l.unit !== "UNKNOWN") byProp.get(l.property)!.add(l.unit);
+          if (!l.unit || l.unit === "UNKNOWN") continue;
+          if (!byPropUnit.has(l.property)) byPropUnit.set(l.property, new Map());
+          const m = byPropUnit.get(l.property)!;
+          const curEnd = l.rentalEnd || "";
+          const exEnd = m.get(l.unit)?.rentalEnd || "";
+          if (!m.has(l.unit) || curEnd > exEnd) m.set(l.unit, l);
         }
-        const properties = [...byProp.entries()].slice(0, 12).map(([name, set]) => ({
+        const properties = [...byPropUnit.entries()].slice(0, 20).map(([name, unitMap]) => ({
           id: name.toLowerCase(),
           name,
-          units: [...set].slice(0, 6).map((u, i) => ({ id: `${name.toLowerCase()}-${i}`, unitNumber: u, status: i % 3 === 0 ? "OCCUPIED" : "VACANT", monthlyRate: "—" })),
+          units: [...unitMap.entries()].map(([unitNumber, lease]) => {
+            const end = lease.rentalEnd ? new Date(lease.rentalEnd) : null;
+            const today = new Date(); today.setHours(0,0,0,0);
+            const occupied = end ? end >= today : true;
+            return {
+              id: `${name.toLowerCase()}-${unitNumber}`,
+              unitNumber,
+              status: occupied ? "OCCUPIED" : "VACANT",
+              monthlyRate: lease.rate ?? "—",
+            };
+          }),
         }));
         return NextResponse.json({
           properties,
@@ -42,7 +56,7 @@ export async function GET() {
             { id: "fallback-employee", name: "Jane Employee", email: "employee@eves.local" },
             { id: "fallback-employee2", name: "John Field", email: "employee2@eves.local" },
           ],
-          warning: `Database not connected — showing ${legacy.totalLeases} legacy contracts.`,
+          warning: `Database not connected — showing ${legacy.totalLeases} legacy contracts (latest per unit, occupancy by rentalEnd ≥ today, rate from Excel).`,
         });
       } catch {
         return NextResponse.json({
