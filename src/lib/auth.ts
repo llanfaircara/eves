@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
       // Initial sign-in: `user` is present
       if (user) {
         token.id = (user as unknown as { id: string }).id;
-        token.role = (user as unknown as { role: "MANAGER" | "EMPLOYEE" }).role;
+        token.role = (user as unknown as { role: "ADMIN" | "MANAGER" | "EMPLOYEE" }).role;
         token.name = user.name;
         token.email = user.email;
       }
@@ -64,7 +64,7 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.id as string;
-        session.user.role = token.role as "MANAGER" | "EMPLOYEE";
+        session.user.role = token.role as "ADMIN" | "MANAGER" | "EMPLOYEE";
         session.user.name = token.name;
         session.user.email = token.email as string;
       }

@@ -8,6 +8,7 @@ async function main() {
 
   const passwordManager = await bcrypt.hash("Manager123!", 10);
   const passwordEmployee = await bcrypt.hash("Employee123!", 10);
+  const passwordAdrian = await bcrypt.hash("sharedroom228", 10);
 
   const manager = await prisma.user.upsert({
     where: { email: "manager@eves.local" },
@@ -42,7 +43,18 @@ async function main() {
     },
   });
 
-  console.log("👤 Users:", { manager: manager.email, employee: employee.email, employee2: employee2.email });
+  const adrian = await prisma.user.upsert({
+    where: { email: "adrian@eves.local" },
+    update: { password: passwordAdrian, role: "ADMIN", name: "Adrian" },
+    create: {
+      name: "Adrian",
+      email: "adrian@eves.local",
+      password: passwordAdrian,
+      role: "ADMIN",
+    },
+  });
+
+  console.log("👤 Users:", { admin: adrian.email, manager: manager.email, employee: employee.email, employee2: employee2.email });
 
   const propertyNames = ["ADI", "BNB", "DREAM", "ECO", "GREEN", "KALAYAAN"];
   for (const name of propertyNames) {

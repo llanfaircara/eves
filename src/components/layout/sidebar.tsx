@@ -12,17 +12,21 @@ import {
   LogOut,
   Users,
   FileText,
+  Shield,
 } from "lucide-react";
 
-type NavItem = { href: string; label: string; icon: React.ComponentType<{ className?: string }>; roles?: ("MANAGER" | "EMPLOYEE")[] };
+type Role = "ADMIN" | "MANAGER" | "EMPLOYEE";
+type NavItem = { href: string; label: string; icon: React.ComponentType<{ className?: string }>; roles?: Role[] };
 
 const nav: NavItem[] = [
-  { href: "/manager-dashboard", label: "Overview", icon: LayoutDashboard, roles: ["MANAGER"] },
-  { href: "/manager-dashboard/tasks", label: "Tasks", icon: ClipboardList, roles: ["MANAGER"] },
+  { href: "/admin-dashboard", label: "Admin", icon: Shield, roles: ["ADMIN"] },
+  { href: "/admin-dashboard/users", label: "Users", icon: Users, roles: ["ADMIN"] },
+  { href: "/manager-dashboard", label: "Overview", icon: LayoutDashboard, roles: ["MANAGER", "ADMIN"] },
+  { href: "/manager-dashboard/tasks", label: "Tasks", icon: ClipboardList, roles: ["MANAGER", "ADMIN"] },
   { href: "/employee-dashboard", label: "My Tasks", icon: ClipboardList, roles: ["EMPLOYEE"] },
   { href: "/intake", label: "Tenant Intake", icon: FileText },
-  { href: "/manager-dashboard/properties", label: "Properties", icon: Building2, roles: ["MANAGER"] },
-  { href: "/manager-dashboard/tenants", label: "Tenants", icon: Users, roles: ["MANAGER"] },
+  { href: "/manager-dashboard/properties", label: "Properties", icon: Building2, roles: ["MANAGER", "ADMIN"] },
+  { href: "/manager-dashboard/tenants", label: "Tenants", icon: Users, roles: ["MANAGER", "ADMIN"] },
 ];
 
 export default function Sidebar({
@@ -30,13 +34,14 @@ export default function Sidebar({
   userName,
   userEmail,
 }: {
-  role: "MANAGER" | "EMPLOYEE";
+  role: Role;
   userName?: string | null;
   userEmail?: string | null;
 }) {
   const pathname = usePathname();
-
   const filtered = nav.filter((item) => !item.roles || item.roles.includes(role));
+
+  const portalLabel = role === "ADMIN" ? "Admin Portal" : role === "MANAGER" ? "Manager Portal" : "Employee Portal";
 
   return (
     <aside className="flex h-screen w-64 shrink-0 flex-col border-r bg-card">
@@ -46,13 +51,13 @@ export default function Sidebar({
         </div>
         <div>
           <p className="text-sm font-semibold leading-none">EVES</p>
-          <p className="text-xs text-muted-foreground">{role === "MANAGER" ? "Manager Portal" : "Employee Portal"}</p>
+          <p className="text-xs text-muted-foreground">{portalLabel}</p>
         </div>
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto p-3">
         <p className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-          {role === "MANAGER" ? "Management" : "Work"}
+          {role === "ADMIN" ? "Administration" : role === "MANAGER" ? "Management" : "Work"}
         </p>
         {filtered.map((item) => {
           const active = pathname === item.href || pathname.startsWith(item.href + "/");

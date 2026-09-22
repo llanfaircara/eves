@@ -6,7 +6,7 @@ export default function DashboardShell({
   userEmail,
   children,
 }: {
-  role: "MANAGER" | "EMPLOYEE";
+  role: "ADMIN" | "MANAGER" | "EMPLOYEE";
   userName?: string | null;
   userEmail?: string | null;
   children: React.ReactNode;
