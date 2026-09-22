@@ -9,6 +9,7 @@ const PUBLIC_PATHS = ["/", "/login", "/api/auth"];
 const MANAGER_PREFIXES = ["/manager", "/manager-dashboard", "/api/manager"];
 const EMPLOYEE_PREFIXES = ["/employee", "/employee-dashboard", "/api/employee"];
 const AUTHED_DASHBOARDS = ["/manager-dashboard", "/employee-dashboard"];
+const AUTHED_ANY = ["/intake", "/api/intake", "/api/tasks", "/api/properties"];
 
 function isPublic(pathname: string): boolean {
   if (pathname.startsWith("/api/auth")) return true;
@@ -74,6 +75,16 @@ export async function middleware(req: NextRequest) {
     if (!role) return NextResponse.redirect(new URL("/login", req.url));
   }
 
+  // Authenticated-any routes (intake, tasks, properties) — both roles allowed
+  if (AUTHED_ANY.some((p) => pathname === p || pathname.startsWith(p))) {
+    if (!token) {
+      const loginUrl = new URL("/login", req.url);
+      loginUrl.searchParams.set("callbackUrl", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    return NextResponse.next();
+  }
+
   return NextResponse.next();
 }
 
@@ -83,8 +94,13 @@ export const config = {
     "/employee-dashboard/:path*",
     "/manager/:path*",
     "/employee/:path*",
+    "/intake/:path*",
+    "/intake",
     "/login",
     "/api/manager/:path*",
     "/api/employee/:path*",
+    "/api/intake/:path*",
+    "/api/tasks/:path*",
+    "/api/properties/:path*",
   ],
 };
