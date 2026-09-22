@@ -1,94 +1,106 @@
 import { prisma } from "@/lib/prisma";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import TenantsClient from "@/components/tenants/tenants-client";
 
 export const dynamic = "force-dynamic";
 
-type LeaseRow = {
-  id: string;
-  tenantId: string;
-  unitId: string;
-  contractType: string;
-  rentalStartDate: string | Date;
-  rentalEndDate: string | Date;
-  totalAmountToSettle: unknown;
+type LegacyLease = {
+  controlNumber: string;
+  documentLink?: string;
+  barCode?: string;
+  property: string;
+  unit: string;
+  fullName: string;
+  firstName: string;
+  lastName: string;
+  middleName?: string;
+  age?: string;
+  gender?: string;
+  mobile: string;
+  email: string;
+  company?: string;
+  address?: string;
+  rate: number | null;
+  terms: string;
+  rentalStart: string | null;
+  rentalEnd: string | null;
+  totalAmount: number | null;
   status: string;
-  createdAt: string | Date;
-  tenant: { id: string; firstName: string; lastName: string; mobileNumber: string; email: string | null; company: string | null };
-  unit: { id: string; unitNumber: string; property: { name: string } };
+  waterReading?: string;
+  electricReading?: string;
+  sourceFile: string;
+  raw?: Record<string, string>;
 };
 
-async function getLeases(): Promise<{ leases: LeaseRow[]; warning?: string }> {
+async function getLeases(): Promise<{ leases: LegacyLease[]; warning?: string }> {
   try {
-    const leases = await prisma.lease.findMany({
+    const dbLeases = await prisma.lease.findMany({
       include: {
-        tenant: { select: { id: true, firstName: true, lastName: true, mobileNumber: true, email: true, company: true } },
-        unit: { select: { id: true, unitNumber: true, property: { select: { name: true } } } },
+        tenant: { select: { firstName: true, lastName: true, mobileNumber: true, email: true, company: true } },
+        unit: { select: { unitNumber: true, property: { select: { name: true } } } },
       },
       orderBy: { createdAt: "desc" },
-      take: 50,
+      take: 100,
     });
-    return { leases: leases as unknown as LeaseRow[] };
+    // Map DB shape to LegacyLease shape for unified client
+    const mapped: LegacyLease[] = dbLeases.map((l) => ({
+      controlNumber: l.id.slice(0, 8).toUpperCase(),
+      property: l.unit.property.name,
+      unit: l.unit.unitNumber,
+      fullName: `${l.tenant.firstName} ${l.tenant.lastName}`,
+      firstName: l.tenant.firstName,
+      lastName: l.tenant.lastName,
+      mobile: l.tenant.mobileNumber,
+      email: l.tenant.email || "",
+      company: l.tenant.company || "",
+      rate: l.totalAmountToSettle ? Number(l.totalAmountToSettle) : null,
+      terms: l.contractType,
+      rentalStart: l.rentalStartDate ? new Date(l.rentalStartDate).toISOString().slice(0, 10) : null,
+      rentalEnd: l.rentalEndDate ? new Date(l.rentalEndDate).toISOString().slice(0, 10) : null,
+      totalAmount: l.totalAmountToSettle ? Number(l.totalAmountToSettle) : null,
+      status: l.status,
+      sourceFile: "DB",
+    }));
+    return { leases: mapped };
   } catch (e) {
     const msg = (e as Error).message || "";
     if (msg.includes("Can't reach database") || msg.includes("P1001")) {
-      try {
-        const { getLegacyData } = await import("@/lib/legacy");
-        const legacy = getLegacyData();
-        const leases: LeaseRow[] = legacy.leases.slice(0, 50).map((l, i) => ({
-          id: l.controlNumber || `legacy-${i}`,
-          tenantId: `t-${i}`,
-          unitId: `u-${i}`,
-          contractType: l.terms?.toUpperCase().includes("TRIAL") ? "TRIAL" : l.terms?.toUpperCase().includes("M2M") ? "M2M" : "LONG_TERM",
-          rentalStartDate: l.rentalStart || new Date().toISOString(),
-          rentalEndDate: l.rentalEnd || new Date(Date.now() + 180 * 86400000).toISOString(),
-          totalAmountToSettle: String(l.totalAmount ?? l.rate ?? "—"),
-          status: l.status || "ACTIVE",
-          createdAt: new Date().toISOString(),
-          tenant: {
-            id: `t-${i}`,
-            firstName: l.firstName || l.fullName.split(" ")[0] || "Unknown",
-            lastName: l.lastName || l.fullName.split(" ").slice(1).join(" ") || "",
-            mobileNumber: l.mobile || "—",
-            email: l.email || null,
-            company: l.company || null,
-          },
-          unit: { id: `u-${i}`, unitNumber: l.unit || "UNKNOWN", property: { name: l.property } },
-        }));
-        return {
-          leases,
-          warning: `Database not connected — showing ${leases.length} of ${legacy.totalLeases} legacy contracts from EVES DOCS. Run import to DB to persist.`,
-        };
-      } catch {
-        const demo: LeaseRow[] = [
-          {
-            id: "demo-lease-1",
-            tenantId: "t1",
-            unitId: "u1",
-            contractType: "M2M",
-            rentalStartDate: new Date().toISOString(),
-            rentalEndDate: new Date(Date.now() + 365 * 86400000).toISOString(),
-            totalAmountToSettle: "210000",
-            status: "ACTIVE",
-            createdAt: new Date().toISOString(),
-            tenant: { id: "t1", firstName: "Juan", lastName: "Dela Cruz", mobileNumber: "09171234567", email: "juan@example.com", company: "Acme" },
-            unit: { id: "u1", unitNumber: "ECO-002", property: { name: "ECO" } },
-          },
-        ];
-        return { leases: demo, warning: "Database not connected — showing demo tenants & leases." };
-      }
+      const { getLegacyData } = await import("@/lib/legacy");
+      const legacy = getLegacyData();
+      const leases: LegacyLease[] = legacy.leases.map((l) => ({
+        controlNumber: l.controlNumber,
+        documentLink: l.documentLink,
+        barCode: l.barCode,
+        property: l.property,
+        unit: l.unit,
+        fullName: l.fullName,
+        firstName: l.firstName,
+        lastName: l.lastName,
+        middleName: (l as unknown as { middleName?: string }).middleName,
+        age: (l as unknown as { age?: string }).age,
+        gender: (l as unknown as { gender?: string }).gender,
+        mobile: l.mobile,
+        email: l.email,
+        company: l.company,
+        address: (l as unknown as { address?: string }).address,
+        rate: l.rate,
+        terms: l.terms,
+        rentalStart: l.rentalStart,
+        rentalEnd: l.rentalEnd,
+        totalAmount: l.totalAmount,
+        status: l.status,
+        waterReading: (l as unknown as { waterReading?: string }).waterReading,
+        electricReading: (l as unknown as { electricReading?: string }).electricReading,
+        sourceFile: l.sourceFile,
+        raw: (l as unknown as { raw?: Record<string, string> }).raw,
+      }));
+      return {
+        leases,
+        warning: `Database not connected — showing ${leases.length} legacy contracts from EVES DOCS (${legacy.totalLeases} total). Data from Responses sheets; click a row to see lease agreement, property/unit, and full tenant info. Run npx prisma db push && import to persist.`,
+      };
     }
     throw e;
   }
-}
-
-function ContractBadge({ v }: { v: string }) {
-  return <Badge variant="outline">{v}</Badge>;
-}
-function StatusBadge({ v }: { v: string }) {
-  const cls = v === "ACTIVE" ? "bg-green-50 text-green-700 border-green-200" : v === "EXPIRED" ? "bg-red-50 text-red-700 border-red-200" : "bg-muted";
-  return <Badge variant="outline" className={cls}>{v}</Badge>;
 }
 
 export default async function TenantsPage() {
@@ -98,59 +110,18 @@ export default async function TenantsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Tenants & Leases</h1>
-        <p className="text-sm text-muted-foreground">Centralized view of all tenants, their units, contract type and lease status — replacing legacy spreadsheets.</p>
+        <p className="text-sm text-muted-foreground">
+          Centralized view — click any tenant to see full profile, lease agreement (DOCUMENT LINK), property & unit, contract terms, and utilities. Replaces legacy spreadsheets.
+        </p>
       </div>
 
       {warning && (
         <Card className="border-yellow-200 bg-yellow-50">
-          <CardContent className="pt-6 text-sm text-yellow-800">{warning} Set <code>DATABASE_URL</code> and run <code>npx prisma db push && npm run db:seed</code> + use <code>/intake</code> to create real entries.</CardContent>
+          <CardContent className="pt-6 text-sm text-yellow-800">{warning}</CardContent>
         </Card>
       )}
 
-      <Card>
-        <CardContent className="pt-6 overflow-auto">
-          {leases.length === 0 ? (
-            <p className="py-8 text-center text-sm text-muted-foreground">No tenants yet. Use Tenant Intake to create your first lease.</p>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Tenant</TableHead>
-                  <TableHead>Contact</TableHead>
-                  <TableHead>Unit</TableHead>
-                  <TableHead>Contract</TableHead>
-                  <TableHead>Period</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {leases.map((l) => (
-                  <TableRow key={l.id}>
-                    <TableCell>
-                      <div className="font-medium">{l.tenant.firstName} {l.tenant.lastName}</div>
-                      {l.tenant.company && <div className="text-xs text-muted-foreground">{l.tenant.company}</div>}
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-sm">{l.tenant.mobileNumber}</div>
-                      <div className="text-xs text-muted-foreground">{l.tenant.email || "—"}</div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-sm font-mono">{l.unit.property.name} — {l.unit.unitNumber}</div>
-                    </TableCell>
-                    <TableCell><ContractBadge v={l.contractType} /></TableCell>
-                    <TableCell className="text-xs">
-                      {new Date(l.rentalStartDate).toLocaleDateString()} → {new Date(l.rentalEndDate).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell className="text-sm">₱{String(l.totalAmountToSettle)}</TableCell>
-                    <TableCell><StatusBadge v={l.status} /></TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+      <TenantsClient leases={leases} />
     </div>
   );
 }

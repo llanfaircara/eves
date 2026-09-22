@@ -7,20 +7,30 @@ const DOCS = "/Users/adriansalvador/Downloads/EVES DOCS";
 type LeaseRow = {
   sourceFile: string;
   controlNumber: string;
+  barCode: string;
+  documentLink: string;
+  date: string | null;
   property: string;
   unit: string;
   fullName: string;
   firstName: string;
   lastName: string;
+  middleName: string;
+  age: string;
+  gender: string;
   mobile: string;
   email: string;
   company: string;
+  address: string;
   rate: number | null;
   terms: string;
   rentalStart: string | null;
   rentalEnd: string | null;
   totalAmount: number | null;
   status: string;
+  waterReading: string;
+  electricReading: string;
+  raw: Record<string, string>;
 };
 
 function normalize(v: unknown): string {
@@ -92,10 +102,16 @@ async function main() {
       // console.log(fname, headers.slice(0, 15));
 
       // Find column indexes with flexible matching
+      const idxDoc = findHeaderIdx(headers, ["DOCUMENT LINK", "DOC LINK"]);
       const idxControl = findHeaderIdx(headers, ["CONTROL NUMBER"]);
+      const idxBar = findHeaderIdx(headers, ["BAR CODE"]);
+      const idxDate = findHeaderIdx(headers, ["DATE:"]);
       const idxFullName = findHeaderIdx(headers, ["FULLNAME", "FULLNAME:"]);
       const idxFirst = findHeaderIdx(headers, ["FIRSTNAME", "FIRSTNAME:"]);
       const idxLast = findHeaderIdx(headers, ["LAST NAME", "LAST NAME:"]);
+      const idxMiddle = findHeaderIdx(headers, ["MIDDLE NAME"]);
+      const idxAge = findHeaderIdx(headers, ["AGE:"]);
+      const idxGender = findHeaderIdx(headers, ["GENDER"]);
       const idxUnit = findHeaderIdx(headers, ["Unit No.", "Room Letter", "Unit Number/Type", "Unit No.:"]);
       const idxTerms = findHeaderIdx(headers, ["TERMS", "Terms", "Type of Agreement", "PERIOD (DAYS)"]);
       const idxRate = findHeaderIdx(headers, ["RATE", "Rental Amount", "Monthly Rental Rate", "Rate per days"]);
@@ -105,6 +121,9 @@ async function main() {
       const idxMobile = findHeaderIdx(headers, ["MOBILE NUMBER", "CONTACT NUMBER", "Mobile Number", "Contact Number (Active"]);
       const idxEmail = findHeaderIdx(headers, ["EMAIL:", "EMAIL", "Email Address"]);
       const idxCompany = findHeaderIdx(headers, ["COMPANY:"]);
+      const idxAddress = findHeaderIdx(headers, ["PERMANENT ADDRESS", "RECENT ADDRESS"]);
+      const idxWater = findHeaderIdx(headers, ["WATER READING"]);
+      const idxElectric = findHeaderIdx(headers, ["ELECTRIC READING"]);
       const idxStatus = findHeaderIdx(headers, ["STATUS"]);
       const idxProperty = findHeaderIdx(headers, ["Property:", "Property"]);
 
@@ -123,15 +142,29 @@ async function main() {
 
         const firstName = normalize(r[idxFirst]);
         const lastName = normalize(r[idxLast]);
+        const middleName = normalize(idxMiddle !== -1 ? r[idxMiddle] : "");
+        const age = normalize(idxAge !== -1 ? r[idxAge] : "");
+        const gender = normalize(idxGender !== -1 ? r[idxGender] : "");
         const mobile = normalize(r[idxMobile]);
         const email = normalize(r[idxEmail]);
         const company = normalize(r[idxCompany]);
+        const address = normalize(idxAddress !== -1 ? r[idxAddress] : "");
         const terms = normalize(r[idxTerms]);
         const rate = parseRate(r[idxRate]);
         const total = parseRate(r[idxTotal]);
         const start = toDateStr(r[idxStart]);
         const end = toDateStr(r[idxEnd]);
         const status = normalize(r[idxStatus]) || "ACTIVE";
+        const documentLink = normalize(idxDoc !== -1 ? r[idxDoc] : "");
+        const barCode = normalize(idxBar !== -1 ? r[idxBar] : "");
+        const dateStr = toDateStr(idxDate !== -1 ? r[idxDate] : "");
+        const waterReading = normalize(idxWater !== -1 ? r[idxWater] : "");
+        const electricReading = normalize(idxElectric !== -1 ? r[idxElectric] : "");
+        const raw: Record<string, string> = {};
+        headers.forEach((h, hi) => {
+          const v = normalize(r[hi]);
+          if (h && v) raw[h] = v;
+        });
         let property = propFromFile;
         if (idxProperty !== -1) {
           const pv = normalize(r[idxProperty]);
@@ -154,20 +187,30 @@ async function main() {
         allLeases.push({
           sourceFile: fname,
           controlNumber: control || `ROW-${i}`,
+          barCode,
+          documentLink,
+          date: dateStr,
           property,
           unit: unit || "UNKNOWN",
           fullName: fullName || `${firstName} ${lastName}`.trim(),
           firstName: firstName || fullName.split(" ")[0] || "Unknown",
           lastName: lastName || fullName.split(" ").slice(1).join(" ") || "",
+          middleName,
+          age,
+          gender,
           mobile,
           email,
           company,
+          address,
           rate,
           terms,
           rentalStart: start,
           rentalEnd: end,
           totalAmount: total ?? rate,
           status,
+          waterReading,
+          electricReading,
+          raw,
         });
         count++;
       }
@@ -217,10 +260,10 @@ async function main() {
 
   // Also write full CSV for inspection
   const csvPath = path.join(process.cwd(), "prisma/eves-import.csv");
-  const header = ["controlNumber","property","unit","fullName","firstName","lastName","mobile","email","rate","terms","rentalStart","rentalEnd","sourceFile"];
+  const header = ["controlNumber","documentLink","barCode","property","unit","fullName","firstName","lastName","mobile","email","rate","terms","rentalStart","rentalEnd","waterReading","electricReading","sourceFile"];
   const lines = [header.join(",")];
   for (const l of allLeases) {
-    lines.push([l.controlNumber, l.property, l.unit, `"${l.fullName.replace(/"/g,'""')}"`, l.firstName, l.lastName, l.mobile, l.email, l.rate, `"${l.terms}"`, l.rentalStart, l.rentalEnd, l.sourceFile].join(","));
+    lines.push([l.controlNumber, `"${(l.documentLink||'').replace(/"/g,'""')}"`, l.barCode, l.property, l.unit, `"${l.fullName.replace(/"/g,'""')}"`, l.firstName, l.lastName, l.mobile, l.email, l.rate, `"${l.terms}"`, l.rentalStart, l.rentalEnd, l.waterReading, l.electricReading, l.sourceFile].join(","));
   }
   fs.writeFileSync(csvPath, lines.join("\n"));
   console.log(`💾 CSV ${csvPath} (${allLeases.length} rows)`);
