@@ -91,11 +91,79 @@ async function getProperties(): Promise<{ props: PropertyWithUnits[]; warning?: 
 export default async function PropertiesPage() {
   const { props, warning } = await getProperties();
 
+  // Combined portfolio stats
+  const totalUnits = props.reduce((s, p) => s + p.units.length, 0);
+  const occupiedUnits = props.reduce((s, p) => s + p.units.filter((u) => u.status === "OCCUPIED").length, 0);
+  const vacantUnits = totalUnits - occupiedUnits;
+  const occupancyRate = totalUnits ? Math.round((occupiedUnits / totalUnits) * 100) : 0;
+  const totalMonthly = props.reduce(
+    (s, p) =>
+      s +
+      p.units
+        .filter((u) => u.status === "OCCUPIED" && typeof u.monthlyRate === "number")
+        .reduce((a, u) => a + Number(u.monthlyRate), 0),
+    0
+  );
+  const totalContracts = props.reduce((s, p) => {
+    const m = p.address?.match(/(\d+) contracts/);
+    return s + (m ? Number(m[1]) : 0);
+  }, 0);
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Properties</h1>
-        <p className="text-sm text-muted-foreground">6 legacy portfolios — ADI, BNB, DREAM, ECO, GREEN, KALAYAAN — and their units. Track vacancy and rates.</p>
+        <p className="text-sm text-muted-foreground">Portfolio overview — all legacy properties combined (vacancy & rate from Excel RATE, occupancy by rentalEnd ≥ today).</p>
+      </div>
+
+      {/* Overview stats */}
+      <div className="grid gap-4 md:grid-cols-4">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardDescription>Total Properties</CardDescription>
+            <CardTitle className="text-2xl">{props.length}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-xs text-muted-foreground">{props.map((p) => p.name).join(" • ")}</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardDescription>Total Units</CardDescription>
+            <CardTitle className="text-2xl">{totalUnits}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-2">
+              <Badge className="bg-blue-600">{occupiedUnits} occupied</Badge>
+              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                {vacantUnits} vacant
+              </Badge>
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground">{occupancyRate}% occupancy</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardDescription>Monthly Revenue (occupied)</CardDescription>
+            <CardTitle className="text-2xl">₱{totalMonthly.toLocaleString()}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-xs text-muted-foreground">Sum of RATE for occupied units • {occupiedUnits} paying</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardDescription>Legacy Contracts</CardDescription>
+            <CardTitle className="text-2xl">{totalContracts || "—"}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-xs text-muted-foreground">Rows from EVES DOCS Responses</p>
+          </CardContent>
+        </Card>
+      </div>
+      {/* Occupancy bar */}
+      <div className="h-2 overflow-hidden rounded-full bg-muted">
+        <div className="h-full bg-primary transition-all" style={{ width: `${occupancyRate}%` }} />
       </div>
 
       {warning && (
