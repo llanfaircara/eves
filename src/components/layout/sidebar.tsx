@@ -15,6 +15,7 @@ import {
   Shield,
   UserCog,
   Home,
+  CreditCard,
 } from "lucide-react";
 
 type Role = "ADMIN" | "MANAGER" | "EMPLOYEE";
@@ -37,6 +38,7 @@ const groups: NavGroup[] = [
       { href: "/manager-dashboard/tasks", label: "Tasks", icon: ClipboardList, roles: ["MANAGER", "ADMIN"] },
       { href: "/manager-dashboard/properties", label: "Properties", icon: Building2, roles: ["MANAGER", "ADMIN"] },
       { href: "/manager-dashboard/tenants", label: "Tenants & Leases", icon: Users, roles: ["MANAGER", "ADMIN"] },
+      { href: "/manager-dashboard/payments", label: "Payment Monitoring", icon: CreditCard, roles: ["MANAGER", "ADMIN"] },
     ],
   },
   {
