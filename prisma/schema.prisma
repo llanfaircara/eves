@@ -1,0 +1,205 @@
+// EVES Property Management - Prisma Schema
+// PostgreSQL + Prisma ORM
+// Replaces legacy spreadsheets for ADI, BNB, DREAM, ECO, GREEN, KALAYAAN
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────
+
+enum UserRole {
+  MANAGER
+  EMPLOYEE
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum UnitStatus {
+  VACANT
+  OCCUPIED
+  MAINTENANCE
+  RESERVED
+}
+
+enum ContractType {
+  TRIAL
+  M2M // Month-to-Month
+  LONG_TERM
+}
+
+enum LeaseStatus {
+  ACTIVE
+  EXPIRED
+  TERMINATED
+  PENDING
+}
+
+enum InspectionType {
+  MOVE_IN
+  MOVE_OUT
+}
+
+// ─────────────────────────────────────────────
+// USER & TASK (Job/To-Do)
+// ─────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String // bcrypt hashed
+  role      UserRole @default(EMPLOYEE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  assignedTasks Task[] @relation("AssignedTo")
+  createdTasks  Task[] @relation("CreatedBy")
+
+  @@map("users")
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  title       String
+  description String     @db.Text
+  status      TaskStatus @default(PENDING)
+  dueDate     DateTime?
+  notes       String?    @db.Text
+
+  // Relations
+  assignedToId String
+  assignedTo   User   @relation("AssignedTo", fields: [assignedToId], references: [id], onDelete: Cascade)
+
+  createdById String
+  createdBy   User   @relation("CreatedBy", fields: [createdById], references: [id], onDelete: Cascade)
+
+  propertyId String?
+  property   Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+
+  unitId String?
+  unit   Unit?   @relation(fields: [unitId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([assignedToId])
+  @@index([createdById])
+  @@index([propertyId])
+  @@index([unitId])
+  @@index([status])
+  @@map("tasks")
+}
+
+// ─────────────────────────────────────────────
+// PROPERTY & UNIT
+// ─────────────────────────────────────────────
+
+model Property {
+  id        String   @id @default(cuid())
+  name      String   @unique // e.g., ADI, BNB, DREAM, ECO, GREEN, KALAYAAN
+  address   String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  units Unit[]
+  tasks Task[]
+
+  @@map("properties")
+}
+
+model Unit {
+  id          String     @id @default(cuid())
+  propertyId  String
+  property    Property   @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  unitNumber  String
+  monthlyRate Decimal    @db.Decimal(10, 2)
+  status      UnitStatus @default(VACANT)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  // Relations
+  leases Lease[]
+  tasks  Task[]
+
+  @@unique([propertyId, unitNumber])
+  @@index([propertyId])
+  @@index([status])
+  @@map("units")
+}
+
+// ─────────────────────────────────────────────
+// TENANT & LEASE
+// ─────────────────────────────────────────────
+
+model Tenant {
+  id                String   @id @default(cuid())
+  firstName         String
+  lastName          String
+  mobileNumber      String
+  email             String?  @unique
+  company           String?
+  emergencyContacts Json? // [{ name, relationship, phone }]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  leases Lease[]
+
+  @@index([email])
+  @@map("tenants")
+}
+
+model Lease {
+  id                  String       @id @default(cuid())
+  tenantId            String
+  tenant              Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  unitId              String
+  unit                Unit         @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  contractType        ContractType
+  rentalStartDate     DateTime     @db.Date
+  rentalEndDate       DateTime     @db.Date
+  totalAmountToSettle Decimal      @db.Decimal(12, 2)
+  status              LeaseStatus  @default(ACTIVE)
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+
+  inspections Inspection[]
+
+  @@index([tenantId])
+  @@index([unitId])
+  @@index([status])
+  @@index([rentalEndDate])
+  @@map("leases")
+}
+
+// ─────────────────────────────────────────────
+// INSPECTION (Move-in / Move-out Checklist)
+// ─────────────────────────────────────────────
+
+model Inspection {
+  id              String         @id @default(cuid())
+  leaseId         String
+  lease           Lease          @relation(fields: [leaseId], references: [id], onDelete: Cascade)
+  type            InspectionType @default(MOVE_IN)
+  waterReading    Decimal?       @db.Decimal(10, 2)
+  electricReading Decimal?       @db.Decimal(10, 2)
+  checklistJson   Json? // { utilities, appliances, condition, ... }
+  remarks         String?        @db.Text
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([leaseId])
+  @@map("inspections")
+}
