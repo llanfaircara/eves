@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T16:32:49.996533",
+  "generatedAt": "2026-09-22T16:55:35.262129",
   "sheets": {
     "ECO888": [
       {
@@ -158,7 +158,7 @@
           },
           {
             "month": "2026-08",
-            "rent": null,
+            "rent": 5900.0,
             "raw": "=4250+3750-750-1350",
             "unpaid": false
           },
@@ -4078,7 +4078,7 @@
         "payments": [
           {
             "month": "2026-04",
-            "rent": null,
+            "rent": 5186.0,
             "raw": "=4787+399",
             "unpaid": false
           },
@@ -7001,11 +7001,11 @@
         "contract": "12MONTHS",
         "flags": {
           "reservation": 0,
-          "renewal": 1,
+          "renewal": 0,
           "not_renew": 0
         },
         "hasReservation": false,
-        "closeToRenewal": true,
+        "closeToRenewal": false,
         "willNotRenew": false,
         "payments": [
           {
@@ -7496,7 +7496,7 @@
           },
           {
             "month": "2026-07",
-            "rent": null,
+            "rent": 5899.0,
             "raw": "5899/100",
             "unpaid": false
           },
@@ -8504,7 +8504,7 @@
           },
           {
             "month": "2026-06",
-            "rent": null,
+            "rent": 1997.0,
             "raw": "=1497+500",
             "unpaid": false
           },
@@ -8715,11 +8715,11 @@
         "contract": "",
         "flags": {
           "reservation": 0,
-          "renewal": 1,
+          "renewal": 0,
           "not_renew": 0
         },
         "hasReservation": false,
-        "closeToRenewal": true,
+        "closeToRenewal": false,
         "willNotRenew": false,
         "payments": [
           {
@@ -8754,7 +8754,7 @@
           },
           {
             "month": "2026-09",
-            "rent": null,
+            "rent": 1775.0,
             "raw": "=1275+500",
             "unpaid": false
           },
@@ -9908,7 +9908,7 @@
           },
           {
             "month": "2026-08",
-            "rent": null,
+            "rent": 3084.0,
             "raw": "=1795+500+789",
             "unpaid": false
           },
@@ -13964,7 +13964,7 @@
           },
           {
             "month": "2026-08",
-            "rent": null,
+            "rent": 5297.0,
             "raw": "=1059+4238",
             "unpaid": false
           },
@@ -14702,7 +14702,7 @@
           },
           {
             "month": "2026-09",
-            "rent": null,
+            "rent": 3850.0,
             "raw": "3850-9/30",
             "unpaid": true
           }
@@ -15114,7 +15114,7 @@
           },
           {
             "month": "2026-08",
-            "rent": null,
+            "rent": 5860.48,
             "raw": "5,860.48-/9/30",
             "unpaid": true
           },
@@ -15380,7 +15380,7 @@
           },
           {
             "month": "2026-09",
-            "rent": null,
+            "rent": 6498.0,
             "raw": "6,498/9-24",
             "unpaid": true
           }
@@ -15744,7 +15744,7 @@
           },
           {
             "month": "2026-09",
-            "rent": null,
+            "rent": 8198.0,
             "raw": "=2000+6198",
             "unpaid": false
           }
@@ -15940,7 +15940,7 @@
           },
           {
             "month": "2026-07",
-            "rent": null,
+            "rent": 7900.0,
             "raw": "=3950+3950",
             "unpaid": false
           },
