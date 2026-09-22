@@ -9,9 +9,9 @@ export const createTaskSchema = z.object({
     .optional()
     .nullable()
     .refine((v) => !v || !isNaN(Date.parse(v)), "Invalid date"),
-  assignedToId: z.string().cuid("Invalid assignee"),
-  propertyId: z.string().cuid().optional().nullable().or(z.literal("")),
-  unitId: z.string().cuid().optional().nullable().or(z.literal("")),
+  assignedToId: z.string().min(1, "Assignee required"),
+  propertyId: z.string().optional().nullable().or(z.literal("")),
+  unitId: z.string().optional().nullable().or(z.literal("")),
   notes: z.string().max(2000).optional().nullable(),
 });
 
