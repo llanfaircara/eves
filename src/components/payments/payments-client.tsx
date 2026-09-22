@@ -96,10 +96,10 @@ export default function PaymentsClient({ sheets }: { sheets: Sheets }) {
         <Card>
           <CardHeader className="pb-2">
             <CardDescription>Unpaid Amount</CardDescription>
-            <CardTitle className="text-2xl text-red-600">₱{unpaidAmount.toLocaleString()}</CardTitle>
+            <CardTitle className="text-2xl text-red-600 whitespace-nowrap">₱{unpaidAmount.toLocaleString()}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-xs text-muted-foreground">of ₱{totalDue.toLocaleString()} due</p>
+            <p className="text-xs text-muted-foreground whitespace-nowrap">of ₱{totalDue.toLocaleString()} due</p>
           </CardContent>
         </Card>
         <Card>
@@ -108,7 +108,7 @@ export default function PaymentsClient({ sheets }: { sheets: Sheets }) {
             <CardTitle className="text-2xl">{collectionRate}%</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-xs text-muted-foreground">₱{paidAmount.toLocaleString()} collected</p>
+            <p className="text-xs text-muted-foreground whitespace-nowrap">₱{paidAmount.toLocaleString()} collected</p>
           </CardContent>
         </Card>
       </div>
@@ -209,7 +209,7 @@ export default function PaymentsClient({ sheets }: { sheets: Sheets }) {
                       <div className="truncate text-xs" title={t.name}>
                         {t.name}
                       </div>
-                      <div className="text-xs">₱{t.rate ? Number(t.rate).toLocaleString() : "—"}</div>
+                      <div className="text-xs whitespace-nowrap">₱{t.rate ? Number(t.rate).toLocaleString() : "—"}</div>
                       <div className="flex gap-1">
                         {(t as Tenant).hasReservation && <Badge className="bg-green-100 text-green-700 border-green-300 h-5 px-1 text-xs">G</Badge>}
                         {(t as Tenant).closeToRenewal && <Badge className="bg-yellow-100 text-yellow-700 border-yellow-300 h-5 px-1 text-xs">Y</Badge>}
@@ -218,7 +218,7 @@ export default function PaymentsClient({ sheets }: { sheets: Sheets }) {
                       {t.payments.map((p, idx) => (
                         <div
                           key={idx}
-                          className={`rounded px-1 py-1 text-center text-xs ${p.unpaid ? "bg-red-100 text-red-700 border border-red-300 font-medium" : p.rent ? "bg-green-50 text-green-700 border border-green-200" : "bg-muted text-muted-foreground"}`}
+                          className={`rounded px-1 py-1 text-center text-xs whitespace-nowrap ${p.unpaid ? "bg-red-100 text-red-700 border border-red-300 font-medium" : p.rent ? "bg-green-50 text-green-700 border border-green-200" : "bg-muted text-muted-foreground"}`}
                         >
                           {p.rent ? `₱${Number(p.rent).toLocaleString()}` : p.unpaid ? "unpaid" : "—"}
                         </div>

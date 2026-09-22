@@ -102,12 +102,12 @@ export default function PropertiesClient({ props }: { props: Prop[] }) {
                           {isOccupied && u.tenant && <div className="truncate text-xs text-muted-foreground">{u.tenant}</div>}
                           {!isOccupied && <div className="text-xs text-muted-foreground">Click to add tenant via Intake</div>}
                         </div>
-                        <div className="text-right">
-                          <div className={isOccupied ? "font-medium" : "text-muted-foreground"}>
+                        <div className="text-right whitespace-nowrap">
+                          <div className={isOccupied ? "font-medium whitespace-nowrap" : "text-muted-foreground whitespace-nowrap"}>
                             {u.monthlyRate === "—" || u.monthlyRate === null ? "—" : `₱${Number(u.monthlyRate).toLocaleString()}`}
                             {isOccupied && <span className="text-xs text-muted-foreground"> / mo</span>}
                           </div>
-                          {isOccupied && u.end && <div className="text-xs text-muted-foreground">until {new Date(u.end).toLocaleDateString()}</div>}
+                          {isOccupied && u.end && <div className="text-xs text-muted-foreground whitespace-nowrap">until {new Date(u.end).toLocaleDateString()}</div>}
                         </div>
                         <Badge
                           variant="outline"

@@ -158,7 +158,7 @@ export default async function PropertiesPage() {
         <Card>
           <CardHeader className="pb-2">
             <CardDescription>Monthly Revenue (occupied)</CardDescription>
-            <CardTitle className="text-2xl">₱{totalMonthly.toLocaleString()}</CardTitle>
+            <CardTitle className="text-2xl whitespace-nowrap">₱{totalMonthly.toLocaleString()}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-xs text-muted-foreground">Sum of RATE for occupied units • {occupiedUnits} paying</p>

@@ -71,7 +71,7 @@ export default function PaymentTenantDialog({
               <div className="min-w-0">
                 <span className="text-muted-foreground">Contract:</span> <Badge variant="outline" className="ml-1">{tenant.contract || "—"}</Badge>
               </div>
-              <div className="min-w-0">
+              <div className="min-w-0 whitespace-nowrap">
                 <span className="text-muted-foreground">Rate:</span> {tenant.rate ? `₱${Number(tenant.rate).toLocaleString()}` : "—"}
               </div>
               <div className="min-w-0 break-words">
@@ -92,11 +92,11 @@ export default function PaymentTenantDialog({
               {tenant.payments.map((p, i) => (
                 <div
                   key={i}
-                  className={`min-w-0 break-words rounded-lg border p-2 text-center ${p.unpaid ? "bg-red-100 border-red-300 text-red-700" : p.rent ? "bg-green-50 border-green-200 text-green-700" : "bg-muted text-muted-foreground"}`}
+                  className={`min-w-0 rounded-lg border p-2 text-center ${p.unpaid ? "bg-red-100 border-red-300 text-red-700" : p.rent ? "bg-green-50 border-green-200 text-green-700" : "bg-muted text-muted-foreground"}`}
                 >
-                  <div className="text-xs font-medium break-words">{p.month}</div>
-                  <div className="text-sm font-bold break-words">{p.rent ? `₱${Number(p.rent).toLocaleString()}` : "—"}</div>
-                  <div className="text-xs break-words">{p.unpaid ? "UNPAID" : p.rent ? "Paid" : "Pending"}</div>
+                  <div className="text-xs font-medium">{p.month}</div>
+                  <div className="text-sm font-bold whitespace-nowrap">{p.rent ? `₱${Number(p.rent).toLocaleString()}` : "—"}</div>
+                  <div className="text-xs">{p.unpaid ? "UNPAID" : p.rent ? "Paid" : "Pending"}</div>
                 </div>
               ))}
             </div>
