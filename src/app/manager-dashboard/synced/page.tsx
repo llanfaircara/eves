@@ -8,6 +8,14 @@ export const dynamic = "force-dynamic";
 function norm(s: string) {
   return s.toLowerCase().replace(/[^a-z0-9]/g, "").trim();
 }
+function normProp(s: string) {
+  // ECO888 -> eco, ADI168 -> adi, KALAYAAN888 -> kalayaan, B&B -> bnb
+  const t = s.toLowerCase().replace(/&/g, "b").replace(/[^a-z]/g, "").trim();
+  // b & b becomes bb -> map to bnb
+  if (t === "bb" || t === "bnb") return "bnb";
+  // strip trailing numbers already done, but keep base
+  return t.replace(/888|168/g, "").trim() || t;
+}
 function normName(s: string) {
   return s.toLowerCase().replace(/\s+/g, " ").trim();
 }
@@ -27,14 +35,13 @@ export default function SyncedPage() {
     }
   }
 
-  // Build lookup for legacy by normalized name+property
+  // Build lookup for legacy by normalized name+property (property normalized: ECO888 -> ECO)
   const legacyByNorm = new Map<string, LegacyLease[]>();
   for (const l of leases) {
-    const key = norm(l.fullName) + "|" + norm(l.property);
+    const key = norm(l.fullName) + "|" + normProp(l.property);
     if (!legacyByNorm.has(key)) legacyByNorm.set(key, []);
     legacyByNorm.get(key)!.push(l);
-    // Also by first+last
-    const key2 = norm(l.firstName + l.lastName) + "|" + norm(l.property);
+    const key2 = norm(l.firstName + l.lastName) + "|" + normProp(l.property);
     if (!legacyByNorm.has(key2)) legacyByNorm.set(key2, []);
     legacyByNorm.get(key2)!.push(l);
   }
@@ -45,9 +52,9 @@ export default function SyncedPage() {
 
   for (const m of monList) {
     const nFull = norm(m.name);
-    const nProp = norm(m.property);
+    const nProp = normProp(m.property);
     let match: LegacyLease | undefined;
-    // Exact fullName+property
+    // Exact fullName+property (property normalized)
     const candidates = legacyByNorm.get(nFull + "|" + nProp) || legacyByNorm.get(nFull) || [];
     if (candidates.length > 0) {
       // Prefer unit match
@@ -75,9 +82,9 @@ export default function SyncedPage() {
       } else if (!m.unit || m.unit === "UNKNOWN") {
         reason = "Unit is UNKNOWN/empty in monitoring — cannot match";
       } else {
-        const propLeases = leases.filter((l) => norm(l.property) === nProp);
-        if (propLeases.length === 0) reason = `No Responses for property ${m.property} at all`;
-        else reason = `No Responses with name "${m.name}" in ${m.property} — likely never filled Intake/Responses form, only in IT MONITORING`;
+        const propLeases = leases.filter((l) => normProp(l.property) === nProp);
+        if (propLeases.length === 0) reason = `No Responses for property ${m.property} (normalized ${nProp}) at all — sheet ${m.property} maps to ${nProp.toUpperCase()}, but no Responses file for that base property`;
+        else reason = `No Responses with name "${m.name}" in ${m.property} (normalized ${nProp.toUpperCase()}) — likely never filled Intake/Responses form, only in IT MONITORING`;
         suggestion = "Create via Tenant Intake to sync";
       }
       missing.push({ ...m, reason, suggestion });
