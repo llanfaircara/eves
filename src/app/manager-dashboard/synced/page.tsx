@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import monitoring from "@/lib/monitoring-data.json";
 import legacy from "@/lib/eves-legacy-data.json";
+import SyncedTenantsClient from "@/components/synced/synced-tenants-client";
 
 export const dynamic = "force-dynamic";
 
@@ -9,33 +10,54 @@ function norm(s: string) {
   return s.toLowerCase().replace(/[^a-z0-9]/g, "").trim();
 }
 function normProp(s: string) {
-  // ECO888 -> eco, ADI168 -> adi, KALAYAAN888 -> kalayaan, B&B -> bnb
   const t = s.toLowerCase().replace(/&/g, "b").replace(/[^a-z]/g, "").trim();
-  // b & b becomes bb -> map to bnb
   if (t === "bb" || t === "bnb") return "bnb";
-  // strip trailing numbers already done, but keep base
   return t.replace(/888|168/g, "").trim() || t;
 }
 function normName(s: string) {
   return s.toLowerCase().replace(/\s+/g, " ").trim();
 }
 
-type MonTenant = { unit: string; name: string; rate: unknown; contract: string; property?: string };
-type LegacyLease = { fullName: string; firstName: string; lastName: string; property: string; unit: string; sourceFile: string; controlNumber: string };
+type MonTenant = { unit: string; name: string; rate: unknown; contract: string; payments: { month: string; rent: number | null; raw: string | null; unpaid: boolean }[]; hasReservation?: boolean; closeToRenewal?: boolean; willNotRenew?: boolean };
+type LegacyLease = {
+  fullName: string;
+  firstName: string;
+  lastName: string;
+  middleName?: string;
+  age?: string;
+  gender?: string;
+  property: string;
+  unit: string;
+  sourceFile: string;
+  controlNumber: string;
+  documentLink?: string;
+  barCode?: string;
+  mobile: string;
+  email: string;
+  company?: string;
+  address?: string;
+  rate: number | null;
+  terms: string;
+  rentalStart: string | null;
+  rentalEnd: string | null;
+  totalAmount: number | null;
+  status: string;
+  waterReading?: string;
+  electricReading?: string;
+  raw?: Record<string, string>;
+};
 
 export default function SyncedPage() {
-  const sheets = (monitoring as { sheets: Record<string, { unit: string; name: string; rate: unknown; contract: string }[]> }).sheets;
-  const leases = (legacy as { leases: LegacyLease[]; totalLeases: number }).leases;
+  // @ts-ignore - JSON import typing
+  const sheets = (monitoring as unknown as { sheets: Record<string, MonTenant[]> }).sheets;
+  // @ts-ignore - JSON import typing
+  const leases = (legacy as unknown as { leases: LegacyLease[]; totalLeases: number }).leases;
 
-  // Flatten monitoring tenants with property
   const monList: (MonTenant & { property: string })[] = [];
   for (const [prop, tenants] of Object.entries(sheets)) {
-    for (const t of tenants) {
-      monList.push({ ...t, property: prop });
-    }
+    for (const t of tenants) monList.push({ ...t, property: prop });
   }
 
-  // Build lookup for legacy by normalized name+property (property normalized: ECO888 -> ECO)
   const legacyByNorm = new Map<string, LegacyLease[]>();
   for (const l of leases) {
     const key = norm(l.fullName) + "|" + normProp(l.property);
@@ -46,21 +68,17 @@ export default function SyncedPage() {
     legacyByNorm.get(key2)!.push(l);
   }
 
-  // For each monitoring tenant, find match
-  const synced: typeof monList = [];
+  const syncedPairs: Array<{ mon: MonTenant & { property: string }; legacy: LegacyLease }> = [];
   const missing: Array<MonTenant & { property: string; reason: string; suggestion?: string }> = [];
 
   for (const m of monList) {
     const nFull = norm(m.name);
     const nProp = normProp(m.property);
     let match: LegacyLease | undefined;
-    // Exact fullName+property (property normalized)
     const candidates = legacyByNorm.get(nFull + "|" + nProp) || legacyByNorm.get(nFull) || [];
     if (candidates.length > 0) {
-      // Prefer unit match
       match = candidates.find((c) => norm(c.unit) === norm(m.unit)) || candidates[0];
     } else {
-      // Fuzzy: first name + last name tokens
       const tokens = normName(m.name).split(" ");
       const first = tokens[0] || "";
       const last = tokens[tokens.length - 1] || "";
@@ -70,9 +88,8 @@ export default function SyncedPage() {
     }
 
     if (match) {
-      synced.push(m);
+      syncedPairs.push({ mon: m, legacy: match });
     } else {
-      // Determine reason
       const sameNameInOtherProp = leases.find((l) => norm(l.fullName) === nFull || norm(l.firstName + l.lastName) === norm(m.name.split(" ")[0] + m.name.split(" ").slice(-1)[0]));
       let reason = "No matching Responses entry";
       let suggestion: string | undefined;
@@ -91,20 +108,18 @@ export default function SyncedPage() {
     }
   }
 
-  // Reverse: legacy leases not in monitoring
+  const syncedCount = syncedPairs.length;
   const monNames = new Set(monList.map((m) => norm(m.name)));
   const notInMonitoring = leases.filter((l) => !monNames.has(norm(l.fullName)) && !monNames.has(norm(l.firstName + l.lastName)));
-  // Deduplicate by name
   const notInMonUnique = Array.from(new Map(notInMonitoring.map((l) => [norm(l.fullName), l])).values()).slice(0, 20);
-
-  const syncRate = monList.length ? Math.round((synced.length / monList.length) * 100) : 0;
+  const syncRate = monList.length ? Math.round((syncedCount / monList.length) * 100) : 0;
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Synced Tenant Monitoring</h1>
         <p className="text-sm text-muted-foreground">
-          Live cross-check — <code>IT MONITORING 2026.xlsx</code> (290 tenants) ↔ <code>Responses</code> (483 leases from EVES DOCS). Shows what syncs, what is missing, and why.
+          Live cross-check — <code>IT MONITORING 2026.xlsx</code> (290 tenants) ↔ <code>Responses</code> (483 leases from EVES DOCS). Shows what syncs, what is missing, and why. Click synced rows for all info from both files.
         </p>
       </div>
 
@@ -121,7 +136,7 @@ export default function SyncedPage() {
         <Card className="border-green-200 bg-green-50">
           <CardHeader className="pb-2">
             <CardDescription className="text-green-700">Synced</CardDescription>
-            <CardTitle className="text-2xl text-green-700">{synced.length}</CardTitle>
+            <CardTitle className="text-2xl text-green-700">{syncedCount}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-xs text-green-700">{syncRate}% of monitoring found in Responses</p>
@@ -153,7 +168,18 @@ export default function SyncedPage() {
 
       <Card className="border-yellow-200 bg-yellow-50">
         <CardContent className="pt-6 text-sm text-yellow-800">
-          <strong>How sync works:</strong> Normalized <code>fullName + property</code> exact, then fallback <code>first+last</code> fuzzy. <code>SHERYL BALLESTEROS NOBLEZA — GREEN B1</code> is missing because she exists only in <code>GREEN</code> monitoring (6 red) with no matching <code>GREEN (Responses).xlsx</code> row — likely never filled the Intake form, only added to payment ledger. Create her via <code>Tenant Intake</code> to sync.
+          <strong>How sync works:</strong> Normalized <code>fullName + property</code> exact, then fallback <code>first+last</code> fuzzy (ECO888 → ECO). <code>SHERYL BALLESTEROS NOBLEZA — GREEN B1</code> is missing because she exists only in <code>GREEN</code> monitoring (6 red) with no matching <code>GREEN (Responses).xlsx</code> row — likely never filled the Intake form. Create her via <code>Tenant Intake</code> to sync.
+        </CardContent>
+      </Card>
+
+      {/* Synced tenants — all info from both files, clickable */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Synced Tenants — all info from both files ({syncedPairs.length})</CardTitle>
+          <CardDescription>Click any row to see monitoring payments + Responses lease agreement, property/unit, tenant profile, utilities, and raw Excel fields combined.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <SyncedTenantsClient pairs={syncedPairs as never} />
         </CardContent>
       </Card>
 
@@ -179,7 +205,7 @@ export default function SyncedPage() {
                 <div className="truncate font-medium" title={m.name}>
                   {m.name}
                 </div>
-                <div className="text-xs">₱{m.rate ? Number(m.rate).toLocaleString() : "—"}</div>
+                <div className="text-xs whitespace-nowrap">₱{m.rate ? Number(m.rate).toLocaleString() : "—"}</div>
                 <div className="text-xs text-red-600 break-words">{m.reason}</div>
                 <div className="text-xs text-muted-foreground break-words">{m.suggestion || "—"}</div>
               </div>
