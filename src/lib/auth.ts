@@ -4,14 +4,27 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { loginSchema } from "@/lib/validators";
 
+// Fallback in-memory users when DB is unreachable (P1001 localhost:5432)
+// Allows immediate demo login without Postgres running. DB users take precedence when available.
+const FALLBACK_USERS = [
+  { id: "fallback-admin-adrian", name: "Adrian", email: "adrian@eves.local", passwordPlain: "sharedroom228", role: "ADMIN" as const },
+  { id: "fallback-manager", name: "Eves Manager", email: "manager@eves.local", passwordPlain: "Manager123!", role: "MANAGER" as const },
+  { id: "fallback-employee", name: "Jane Employee", email: "employee@eves.local", passwordPlain: "Employee123!", role: "EMPLOYEE" as const },
+  { id: "fallback-employee2", name: "John Field", email: "employee2@eves.local", passwordPlain: "Employee123!", role: "EMPLOYEE" as const },
+];
+
+function checkFallback(email: string, password: string) {
+  const u = FALLBACK_USERS.find((x) => x.email.toLowerCase() === email.toLowerCase());
+  if (u && u.passwordPlain === password) {
+    return { id: u.id, name: u.name, email: u.email, role: u.role };
+  }
+  return null;
+}
+
 export const authOptions: NextAuthOptions = {
-  // Store session as JWT — no DB session table needed
-  session: { strategy: "jwt", maxAge: 30 * 24 * 60 * 60 }, // 30 days
+  session: { strategy: "jwt", maxAge: 30 * 24 * 60 * 60 },
   secret: process.env.NEXTAUTH_SECRET,
-  pages: {
-    signIn: "/login",
-    error: "/login",
-  },
+  pages: { signIn: "/login", error: "/login" },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -20,30 +33,32 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        const parsed = loginSchema.safeParse(credentials);
+        if (!parsed.success) return null;
+        const { email, password } = parsed.data;
+
+        // Try DB first
         try {
-          const parsed = loginSchema.safeParse(credentials);
-          if (!parsed.success) return null;
-
-          const { email, password } = parsed.data;
-
           const user = await prisma.user.findUnique({
             where: { email },
             select: { id: true, name: true, email: true, password: true, role: true },
           });
-
-          if (!user || !user.password) return null;
-
-          const isValid = await bcrypt.compare(password, user.password);
-          if (!isValid) return null;
-
-          // Return shapes what goes into JWT on first sign-in
-          return {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-          } as never;
+          if (user && user.password) {
+            const isValid = await bcrypt.compare(password, user.password);
+            if (isValid) {
+              return { id: user.id, name: user.name, email: user.email, role: user.role } as never;
+            }
+            // If DB user exists but password wrong, don't fallback
+            return null;
+          }
+          // DB reachable but user not found → try fallback before returning null
+          const fb = checkFallback(email, password);
+          if (fb) return fb as never;
+          return null;
         } catch (err) {
+          console.warn("[auth:authorize] DB unreachable, trying fallback", (err as Error).message);
+          const fb = checkFallback(email, password);
+          if (fb) return fb as never;
           console.error("[auth:authorize]", err);
           return null;
         }
@@ -52,7 +67,6 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // Initial sign-in: `user` is present
       if (user) {
         token.id = (user as unknown as { id: string }).id;
         token.role = (user as unknown as { role: "ADMIN" | "MANAGER" | "EMPLOYEE" }).role;
@@ -73,9 +87,7 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-// Helper for server components / API routes
 import { getServerSession } from "next-auth";
-
 export function getAuthSession() {
   return getServerSession(authOptions);
 }

@@ -24,6 +24,18 @@ export async function GET() {
     });
     return NextResponse.json({ users });
   } catch (err) {
+    const msg = (err as Error).message || "";
+    if (msg.includes("Can't reach database") || msg.includes("P1001")) {
+      // Fallback demo users when DB not configured
+      return NextResponse.json({
+        users: [
+          { id: "fallback-admin-adrian", name: "Adrian", email: "adrian@eves.local", role: "ADMIN", createdAt: new Date().toISOString() },
+          { id: "fallback-manager", name: "Eves Manager", email: "manager@eves.local", role: "MANAGER", createdAt: new Date().toISOString() },
+          { id: "fallback-employee", name: "Jane Employee", email: "employee@eves.local", role: "EMPLOYEE", createdAt: new Date().toISOString() },
+        ],
+        warning: "Database not connected — showing fallback demo users. Set DATABASE_URL and run npx prisma db push && npm run db:seed to persist.",
+      });
+    }
     console.error("[GET /api/admin/users]", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
@@ -55,6 +67,10 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ user }, { status: 201 });
   } catch (err) {
+    const msg = (err as Error).message || "";
+    if (msg.includes("Can't reach database") || msg.includes("P1001")) {
+      return NextResponse.json({ error: "Database not connected — set DATABASE_URL and run npx prisma db push before creating users. Fallback login works for demo, but creation requires DB." }, { status: 503 });
+    }
     console.error("[POST /api/admin/users]", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
