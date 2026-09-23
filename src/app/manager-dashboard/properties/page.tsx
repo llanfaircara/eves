@@ -41,6 +41,23 @@ async function getProperties(): Promise<{ props: PropertyWithUnits[]; warning?: 
       try {
         const { getLegacyData } = await import("@/lib/legacy");
         const legacy = getLegacyData();
+        const monitoring = await import("@/lib/monitoring-data.json").then((m) => (m.default || m) as { sheets: Record<string, { unit: string; name: string; rate: unknown }[]> });
+        // Build monitoring lookup: normalized property -> set of units (occupied)
+        const monByProp = new Map<string, Set<string>>();
+        for (const [sheet, tenants] of Object.entries(monitoring.sheets)) {
+          const normProp = sheet.toLowerCase().replace(/&/g, "b").replace(/[^a-z]/g, "").replace(/888|168/g, "");
+          const base = normProp === "bb" ? "bnb" : normProp;
+          if (!monByProp.has(base)) monByProp.set(base, new Set());
+          for (const t of tenants) {
+            const u = (t.unit || "").toLowerCase().trim();
+            if (u && u !== "unknown") monByProp.get(base)!.add(u);
+          }
+        }
+        const normProp = (s: string) => {
+          const t = s.toLowerCase().replace(/&/g, "b").replace(/[^a-z]/g, "").replace(/888|168/g, "");
+          if (t === "bb") return "bnb";
+          return t;
+        };
         const byPropUnit = new Map<string, Map<string, typeof legacy.leases[number]>>();
         for (const l of legacy.leases) {
           if (!l.unit || l.unit === "UNKNOWN") continue;
@@ -51,15 +68,51 @@ async function getProperties(): Promise<{ props: PropertyWithUnits[]; warning?: 
           const exEnd = existing?.rentalEnd || existing?.rentalStart || "";
           if (!existing || curEnd > exEnd) unitMap.set(l.unit, l);
         }
+        // Merge monitoring-only units (synced vacancy)
+        for (const [sheet, tenants] of Object.entries(monitoring.sheets)) {
+          const base = normProp(sheet);
+          // Find matching legacy property key (case-insensitive)
+          let legacyKey = [...byPropUnit.keys()].find((k) => normProp(k) === base);
+          if (!legacyKey) {
+            // Create new property entry for monitoring-only like maybe not in legacy? e.g., HOMEY etc already there
+            legacyKey = sheet.replace(/888|168/g, "").trim();
+            if (!byPropUnit.has(legacyKey)) byPropUnit.set(legacyKey, new Map());
+          }
+          const unitMap = byPropUnit.get(legacyKey)!;
+          for (const t of tenants) {
+            const u = (t.unit || "").trim();
+            if (!u || u.toLowerCase() === "unknown") continue;
+            if (!unitMap.has(u)) {
+              // Create placeholder lease for monitoring-only unit (occupied per monitoring)
+              const placeholder = {
+                property: legacyKey,
+                unit: u,
+                fullName: t.name,
+                firstName: t.name.split(" ")[0] || t.name,
+                lastName: t.name.split(" ").slice(1).join(" ") || "",
+                rate: typeof t.rate === "number" ? t.rate : null,
+                rentalEnd: new Date(Date.now() + 30 * 86400000).toISOString().slice(0, 10), // assume occupied for now
+                rentalStart: new Date().toISOString().slice(0, 10),
+                controlNumber: `MON-${u}`,
+                sourceFile: "IT MONITORING 2026.xlsx",
+              } as unknown as typeof legacy.leases[number];
+              unitMap.set(u, placeholder);
+            }
+          }
+        }
+
         const props: PropertyWithUnits[] = [...byPropUnit.entries()]
           .sort((a, b) => b[1].size - a[1].size)
           .slice(0, 20)
           .map(([name, unitMap]) => {
             const units: Unit[] = [...unitMap.entries()].map(([unitNumber, lease]) => {
+              // Occupied if in monitoring (live ledger) OR rentalEnd >= today
+              const monUnits = monByProp.get(normProp(name));
+              const inMonitoring = monUnits ? monUnits.has(unitNumber.toLowerCase().trim()) : false;
               const end = lease.rentalEnd ? new Date(lease.rentalEnd) : null;
               const today = new Date();
               today.setHours(0, 0, 0, 0);
-              const isOccupied = end ? end >= today : true;
+              const isOccupied = inMonitoring || (end ? end >= today : true);
               return {
                 id: `${name.toLowerCase()}-${unitNumber}`,
                 unitNumber,
@@ -74,16 +127,17 @@ async function getProperties(): Promise<{ props: PropertyWithUnits[]; warning?: 
             const totalMonthly = units
               .filter((u) => u.status === "OCCUPIED" && typeof u.monthlyRate === "number")
               .reduce((s, u) => s + Number(u.monthlyRate), 0);
+            const displayName = name === "BNB" ? "BNB (B&B)" : name;
             return {
               id: name.toLowerCase(),
-              name,
-              address: `${name} — ${unitMap.size} units, ${occupiedCount} occupied • ₱${totalMonthly.toLocaleString()} / mo • ${legacy.leases.filter((x) => x.property === name).length} contracts`,
+              name: displayName,
+              address: `${displayName} — ${unitMap.size} units, ${occupiedCount} occupied • ₱${totalMonthly.toLocaleString()} / mo • ${legacy.leases.filter((x) => normProp(x.property) === normProp(name)).length} contracts (synced with IT MONITORING)`,
               units,
             };
           });
         return {
           props,
-          warning: `Database not connected — showing ${legacy.totalLeases} legacy contracts from EVES DOCS (latest per unit, occupancy by rentalEnd ≥ today). Accurate rates from Excel RATE column; click an occupied unit to see tenant, lease agreement, and property details. Set DATABASE_URL and run import to persist.`,
+          warning: `Database not connected — showing ${legacy.totalLeases} legacy + IT MONITORING merged (BNB/B&B synced, occupancy = in monitoring OR rentalEnd ≥ today). Accurate rates from Excel RATE; click occupied unit to see tenant. Set DATABASE_URL to persist.`,
         };
       } catch {
         const demo: PropertyWithUnits[] = ["ADI", "BNB", "DREAM", "ECO", "GREEN", "KALAYAAN"].map((name) => ({
