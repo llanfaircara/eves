@@ -60,6 +60,9 @@ export default function PaymentsClient({ sheets }: { sheets: Sheets }) {
     tenants.map((t) => ({ ...t, property: prop, unpaid: t.payments.filter((p) => p.unpaid).length }))
   );
   const worst = [...allTenants].sort((a, b) => b.unpaid - a.unpaid).slice(0, 5).filter((t) => t.unpaid > 0);
+  const renewalList = Object.entries(sheets)
+    .flatMap(([prop, tenants]) => tenants.filter((t) => (t as Tenant).closeToRenewal).map((t) => ({ ...t, property: prop })))
+    .slice(0, 5);
 
   return (
     <div className="space-y-6">
@@ -161,6 +164,28 @@ export default function PaymentsClient({ sheets }: { sheets: Sheets }) {
                   {t.name} — {t.property} {t.unit} — {t.unpaid} unpaid
                 </span>
                 <span className="text-muted-foreground">{t.contract}</span>
+              </button>
+            ))}
+          </CardContent>
+        </Card>
+      )}
+
+      {renewalList.length > 0 && (
+        <Card className="border-yellow-200 bg-yellow-50">
+          <CardHeader>
+            <CardTitle className="text-sm text-yellow-800">Close to renewal (yellow) — click to view</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-1">
+            {renewalList.map((t) => (
+              <button
+                key={t.property + t.unit + t.name}
+                onClick={() => onTenantClick(t, t.property)}
+                className="flex w-full justify-between rounded px-2 py-1 text-left text-sm hover:bg-yellow-100"
+              >
+                <span className="font-medium">
+                  {t.name} — {t.property} {t.unit}
+                </span>
+                <span className="text-muted-foreground">{t.contract} • {t.rate ? `₱${Number(t.rate).toLocaleString()}` : "—"}</span>
               </button>
             ))}
           </CardContent>
