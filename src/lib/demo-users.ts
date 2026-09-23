@@ -13,20 +13,38 @@ type DemoUser = {
   createdAt: string;
 };
 
+let memUsers: DemoUser[] | null = null;
+
 function ensureFile() {
-  if (!fs.existsSync(FILE)) {
-    fs.writeFileSync(FILE, JSON.stringify([], null, 2));
+  try {
+    if (!fs.existsSync(FILE)) fs.writeFileSync(FILE, JSON.stringify([], null, 2));
+  } catch {
+    if (!memUsers) memUsers = [];
   }
 }
 
 export function getDemoUsers(): DemoUser[] {
+  if (memUsers) return memUsers;
   ensureFile();
   try {
     const raw = fs.readFileSync(FILE, "utf-8");
     const arr = JSON.parse(raw);
     return Array.isArray(arr) ? arr : [];
   } catch {
-    return [];
+    if (!memUsers) memUsers = [];
+    return memUsers;
+  }
+}
+
+function persist(users: DemoUser[]) {
+  if (memUsers !== null) {
+    memUsers = users;
+    return;
+  }
+  try {
+    fs.writeFileSync(FILE, JSON.stringify(users, null, 2));
+  } catch {
+    memUsers = users;
   }
 }
 
@@ -36,7 +54,6 @@ export function findDemoUser(email: string): DemoUser | undefined {
 }
 
 export async function addDemoUser(name: string, email: string, password: string, role: DemoUser["role"]): Promise<DemoUser> {
-  ensureFile();
   const users = getDemoUsers();
   if (users.find((u) => u.email.toLowerCase() === email.toLowerCase())) {
     throw new Error("Email already exists");
@@ -51,17 +68,16 @@ export async function addDemoUser(name: string, email: string, password: string,
     createdAt: new Date().toISOString(),
   };
   users.push(user);
-  fs.writeFileSync(FILE, JSON.stringify(users, null, 2));
+  persist(users);
   return user;
 }
 
 export function deleteDemoUser(id: string): boolean {
-  ensureFile();
   const users = getDemoUsers();
   const idx = users.findIndex((u) => u.id === id);
   if (idx === -1) return false;
   users.splice(idx, 1);
-  fs.writeFileSync(FILE, JSON.stringify(users, null, 2));
+  persist(users);
   return true;
 }
 

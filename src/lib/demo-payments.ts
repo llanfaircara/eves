@@ -23,21 +23,39 @@ export type DemoPayment = {
   updatedAt: string;
 };
 
+let memPayments: DemoPayment[] | null = null;
+
 function ensure() {
-  if (!fs.existsSync(FILE)) fs.writeFileSync(FILE, JSON.stringify([], null, 2));
+  try {
+    if (!fs.existsSync(FILE)) fs.writeFileSync(FILE, JSON.stringify([], null, 2));
+  } catch {
+    if (!memPayments) memPayments = [];
+  }
 }
 export function getDemoPayments(): DemoPayment[] {
+  if (memPayments) return memPayments;
   ensure();
   try {
     const raw = fs.readFileSync(FILE, "utf-8");
     const arr = JSON.parse(raw);
     return Array.isArray(arr) ? arr : [];
   } catch {
-    return [];
+    if (!memPayments) memPayments = [];
+    return memPayments;
+  }
+}
+function persist(list: DemoPayment[]) {
+  if (memPayments !== null) {
+    memPayments = list;
+    return;
+  }
+  try {
+    fs.writeFileSync(FILE, JSON.stringify(list, null, 2));
+  } catch {
+    memPayments = list;
   }
 }
 export function addDemoPayment(data: Omit<DemoPayment, "id" | "createdAt" | "updatedAt" | "status"> & { status?: DemoPayment["status"] }): DemoPayment {
-  ensure();
   const list = getDemoPayments();
   const now = new Date().toISOString();
   const item: DemoPayment = {
@@ -60,16 +78,15 @@ export function addDemoPayment(data: Omit<DemoPayment, "id" | "createdAt" | "upd
     updatedAt: now,
   };
   list.unshift(item);
-  fs.writeFileSync(FILE, JSON.stringify(list, null, 2));
+  persist(list);
   return item;
 }
 export function updateDemoPayment(id: string, patch: Partial<DemoPayment>): DemoPayment | null {
-  ensure();
   const list = getDemoPayments();
   const idx = list.findIndex((p) => p.id === id);
   if (idx === -1) return null;
   const updated = { ...list[idx], ...patch, updatedAt: new Date().toISOString() };
   list[idx] = updated;
-  fs.writeFileSync(FILE, JSON.stringify(list, null, 2));
+  persist(list);
   return updated;
 }
