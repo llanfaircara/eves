@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "id": "demo-muc91cu9-mpp4",
+    "name": "father",
+    "email": "father@eves.local",
+    "passwordHash": "$2b$10$Wvh6HhkXDFg6Awa8dJ29FOjnikNoEe2MR0L0YQ.2dW.VeLLxMoWQu",
+    "role": "MANAGER",
+    "createdAt": "2026-09-22T05:44:14.145Z"
+  },
+  {
+    "id": "demo-mudf4q96-kkps",
+    "name": "grey",
+    "email": "grey@eves.local",
+    "passwordHash": "$2b$10$MD2fqap36etG1dsxZT4KbOfyWBrjoZCrTBAxp6fcteP8q5IIBo..C",
+    "role": "MANAGER",
+    "createdAt": "2026-09-23T01:22:35.370Z"
+  }
+]

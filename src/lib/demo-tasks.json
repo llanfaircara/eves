@@ -1,1 +1,160 @@
-[]
+[
+  {
+    "id": "task-mudqgbqc-3rdz",
+    "title": "Supabase Test Task",
+    "description": "Testing Supabase DB persistence after pooler connect",
+    "status": "PENDING",
+    "dueDate": null,
+    "notes": null,
+    "assignedToId": "fallback-employee",
+    "assignedTo": {
+      "id": "fallback-employee",
+      "name": "Jane Employee",
+      "email": "employee@eves.local"
+    },
+    "createdById": "fallback-admin-adrian",
+    "createdBy": {
+      "id": "fallback-admin-adrian",
+      "name": "Adrian",
+      "email": "adrian@eves.local"
+    },
+    "propertyId": "eco",
+    "property": {
+      "id": "eco",
+      "name": "ECO"
+    },
+    "unitId": "eco-001",
+    "unit": {
+      "id": "eco-001",
+      "unitNumber": "eco-001"
+    },
+    "createdAt": "2026-09-23T06:39:32.196Z",
+    "updatedAt": "2026-09-23T06:39:32.196Z"
+  },
+  {
+    "id": "task-mucdp8is-8xl1",
+    "title": "le task",
+    "description": "lmao do the task",
+    "status": "AWAITING_APPROVAL",
+    "dueDate": "2026-09-23T00:00:00.000Z",
+    "notes": "dasdas",
+    "assignedToId": "fallback-employee",
+    "assignedTo": {
+      "id": "fallback-employee",
+      "name": "Jane Employee",
+      "email": "employee@eves.local"
+    },
+    "createdById": "fallback-manager",
+    "createdBy": {
+      "id": "fallback-manager",
+      "name": "Eves Manager",
+      "email": "manager@eves.local"
+    },
+    "propertyId": "adi",
+    "property": {
+      "id": "adi",
+      "name": "ADI"
+    },
+    "unitId": "adi-#G",
+    "unit": {
+      "id": "adi-#G",
+      "unitNumber": "adi-#G"
+    },
+    "createdAt": "2026-09-22T07:54:46.756Z",
+    "updatedAt": "2026-09-22T07:55:02.726Z"
+  },
+  {
+    "id": "task-mucdkbut-wcyq",
+    "title": "lol",
+    "description": "do the task",
+    "status": "COMPLETED",
+    "dueDate": "2026-09-22T00:00:00.000Z",
+    "notes": "lol",
+    "assignedToId": "fallback-employee",
+    "assignedTo": {
+      "id": "fallback-employee",
+      "name": "Jane Employee",
+      "email": "employee@eves.local"
+    },
+    "createdById": "fallback-manager",
+    "createdBy": {
+      "id": "fallback-manager",
+      "name": "Eves Manager",
+      "email": "manager@eves.local"
+    },
+    "propertyId": "adi",
+    "property": {
+      "id": "adi",
+      "name": "ADI"
+    },
+    "unitId": "adi-#D",
+    "unit": {
+      "id": "adi-#D",
+      "unitNumber": "adi-#D"
+    },
+    "createdAt": "2026-09-22T07:50:57.797Z",
+    "updatedAt": "2026-09-22T07:51:18.514Z"
+  },
+  {
+    "id": "demo-1",
+    "title": "Inspect water leak — ECO-001",
+    "description": "Tenant reported leak under kitchen sink. Check piping and replace seal.",
+    "status": "PENDING",
+    "dueDate": "2026-09-24T07:50:57.798Z",
+    "notes": "Priority: high. Bring tools.",
+    "assignedToId": "fallback-employee",
+    "assignedTo": {
+      "id": "fallback-employee",
+      "name": "Jane Employee",
+      "email": "employee@eves.local"
+    },
+    "createdById": "fallback-admin-adrian",
+    "createdBy": {
+      "id": "fallback-admin-adrian",
+      "name": "Adrian",
+      "email": "adrian@eves.local"
+    },
+    "propertyId": "eco",
+    "property": {
+      "id": "eco",
+      "name": "ECO"
+    },
+    "unitId": "eco-001",
+    "unit": {
+      "id": "eco-001",
+      "unitNumber": "ECO-001",
+      "monthlyRate": "15000"
+    },
+    "createdAt": "2026-09-22T07:50:57.798Z",
+    "updatedAt": "2026-09-22T07:50:57.798Z"
+  },
+  {
+    "id": "demo-2",
+    "title": "Collect rent — GREEN portfolio",
+    "description": "Follow up on overdue GREEN units for May.",
+    "status": "IN_PROGRESS",
+    "dueDate": "2026-09-27T07:50:57.798Z",
+    "notes": null,
+    "assignedToId": "fallback-employee2",
+    "assignedTo": {
+      "id": "fallback-employee2",
+      "name": "John Field",
+      "email": "employee2@eves.local"
+    },
+    "createdById": "fallback-admin-adrian",
+    "createdBy": {
+      "id": "fallback-admin-adrian",
+      "name": "Adrian",
+      "email": "adrian@eves.local"
+    },
+    "propertyId": "green",
+    "property": {
+      "id": "green",
+      "name": "GREEN"
+    },
+    "unitId": null,
+    "unit": null,
+    "createdAt": "2026-09-22T07:50:57.798Z",
+    "updatedAt": "2026-09-22T07:50:57.798Z"
+  }
+]
