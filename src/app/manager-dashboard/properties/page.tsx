@@ -54,8 +54,10 @@ async function getProperties(): Promise<{ props: PropertyWithUnits[]; warning?: 
           }
         }
         const normProp = (s: string) => {
-          const t = s.toLowerCase().replace(/&/g, "b").replace(/[^a-z]/g, "").replace(/888|168/g, "");
-          if (t === "bb") return "bnb";
+          const lower = s.toLowerCase().trim();
+          if (lower === "b&b" || lower === "b & b" || lower.includes("b&b")) return "bnb";
+          const t = lower.replace(/&/g, "").replace(/[^a-z]/g, "").replace(/888|168/g, "").trim();
+          if (t === "bb" || t === "b" || t === "bnb" || t === "bbb") return "bnb";
           return t;
         };
         const byPropUnit = new Map<string, Map<string, typeof legacy.leases[number]>>();

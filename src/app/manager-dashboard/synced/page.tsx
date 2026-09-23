@@ -10,9 +10,11 @@ function norm(s: string) {
   return s.toLowerCase().replace(/[^a-z0-9]/g, "").trim();
 }
 function normProp(s: string) {
-  const t = s.toLowerCase().replace(/&/g, "b").replace(/[^a-z]/g, "").trim();
-  if (t === "bb" || t === "bnb") return "bnb";
-  return t.replace(/888|168/g, "").trim() || t;
+  const lower = s.toLowerCase().trim();
+  if (lower === "b&b" || lower === "b & b" || lower.includes("b&b")) return "bnb";
+  const t = lower.replace(/&/g, "").replace(/[^a-z]/g, "").replace(/888|168/g, "").trim();
+  if (t === "bb" || t === "b" || t === "bnb" || t === "bbb") return "bnb";
+  return t;
 }
 function normName(s: string) {
   return s.toLowerCase().replace(/\s+/g, " ").trim();
