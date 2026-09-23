@@ -49,6 +49,7 @@ export default function EmployeeTasksClient() {
       all: tasks.length,
       pending: tasks.filter((t) => t.status === "PENDING").length,
       inProgress: tasks.filter((t) => t.status === "IN_PROGRESS").length,
+      awaiting: tasks.filter((t) => (t.status as string) === "AWAITING_APPROVAL").length,
       completed: tasks.filter((t) => t.status === "COMPLETED").length,
     };
   }, [tasks]);
@@ -95,6 +96,7 @@ export default function EmployeeTasksClient() {
               <SelectItem value="ALL">All ({counts.all})</SelectItem>
               <SelectItem value="PENDING">Pending ({counts.pending})</SelectItem>
               <SelectItem value="IN_PROGRESS">In Progress ({counts.inProgress})</SelectItem>
+              <SelectItem value="AWAITING_APPROVAL">Awaiting ({counts.awaiting})</SelectItem>
               <SelectItem value="COMPLETED">Completed ({counts.completed})</SelectItem>
             </SelectContent>
           </Select>
@@ -107,7 +109,7 @@ export default function EmployeeTasksClient() {
       </div>
 
       {/* Summary strip */}
-      <div className="grid grid-cols-3 gap-3 text-center">
+      <div className="grid grid-cols-4 gap-3 text-center">
         <div className="rounded-lg border bg-card p-3">
           <p className="text-xs uppercase text-muted-foreground">Pending</p>
           <p className="text-xl font-bold text-yellow-600">{counts.pending}</p>
@@ -115,6 +117,10 @@ export default function EmployeeTasksClient() {
         <div className="rounded-lg border bg-card p-3">
           <p className="text-xs uppercase text-muted-foreground">In Progress</p>
           <p className="text-xl font-bold text-blue-600">{counts.inProgress}</p>
+        </div>
+        <div className="rounded-lg border bg-card p-3">
+          <p className="text-xs uppercase text-muted-foreground">Awaiting</p>
+          <p className="text-xl font-bold text-orange-600">{counts.awaiting}</p>
         </div>
         <div className="rounded-lg border bg-card p-3">
           <p className="text-xs uppercase text-muted-foreground">Completed</p>

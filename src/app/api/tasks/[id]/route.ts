@@ -18,10 +18,38 @@ export async function PATCH(req: Request, { params }: Params) {
     return NextResponse.json({ error: "Validation failed", details: parsed.error.flatten() }, { status: 400 });
   }
 
+  // Try DB first, fallback to demo file if not found or DB down
+  let existing: { id: string; assignedToId: string; status: string; notes?: string | null } | null = null;
+  let isDemo = false;
   try {
-    const existing = await prisma.task.findUnique({ where: { id } });
-    if (!existing) return NextResponse.json({ error: "Task not found" }, { status: 404 });
+    const dbTask = await prisma.task.findUnique({ where: { id } });
+    if (dbTask) {
+      existing = dbTask as unknown as { id: string; assignedToId: string; status: string };
+    } else {
+      // Not in DB — try demo file
+      const { getDemoTasks } = await import("@/lib/demo-tasks");
+      const demo = getDemoTasks().find((t) => t.id === id);
+      if (demo) {
+        existing = { id: demo.id, assignedToId: demo.assignedToId, status: demo.status, notes: demo.notes } as unknown as { id: string; assignedToId: string; status: string };
+        isDemo = true;
+      } else {
+        return NextResponse.json({ error: "Task not found" }, { status: 404 });
+      }
+    }
+  } catch (err) {
+    const msg = (err as Error).message || "";
+    if (msg.includes("Can't reach database") || msg.includes("P1001")) {
+      const { getDemoTasks } = await import("@/lib/demo-tasks");
+      const demo = getDemoTasks().find((t) => t.id === id);
+      if (!demo) return NextResponse.json({ error: "Task not found" }, { status: 404 });
+      existing = { id: demo.id, assignedToId: demo.assignedToId, status: demo.status, notes: demo.notes } as unknown as { id: string; assignedToId: string; status: string };
+      isDemo = true;
+    } else {
+      throw err;
+    }
+  }
 
+  try {
     const isManager = session.user.role === "MANAGER" || session.user.role === "ADMIN";
     const isOwnTask = existing.assignedToId === session.user.id;
     if (!isManager && !isOwnTask) {
@@ -29,17 +57,21 @@ export async function PATCH(req: Request, { params }: Params) {
     }
 
     let { status, notes } = parsed.data;
-
-    // Workflow: employee completing requires manager approval
     if (!isManager && status === "COMPLETED") {
       status = "AWAITING_APPROVAL" as never;
     }
-    // Only manager/admin can set final COMPLETED or approve from AWAITING_APPROVAL
     if (status === "COMPLETED" && !isManager) {
       return NextResponse.json({ error: "Only manager can mark as completed — sent for approval" }, { status: 403 });
     }
     if (existing.status === "AWAITING_APPROVAL" && status === "AWAITING_APPROVAL" && !isManager) {
       return NextResponse.json({ error: "Already awaiting approval" }, { status: 400 });
+    }
+
+    if (isDemo) {
+      const { updateDemoTask } = await import("@/lib/demo-tasks");
+      const updated = updateDemoTask(id, { status: status as never, notes: notes ?? (existing as unknown as { notes: string | null }).notes } as never);
+      if (!updated) return NextResponse.json({ error: "Task not found" }, { status: 404 });
+      return NextResponse.json({ task: updated, ...(status === "AWAITING_APPROVAL" ? { message: "Sent for manager approval" } : {}) });
     }
 
     const updated = await prisma.task.update({
@@ -58,8 +90,7 @@ export async function PATCH(req: Request, { params }: Params) {
     return NextResponse.json({ task: updated, ...(status === "AWAITING_APPROVAL" ? { message: "Sent for manager approval" } : {}) });
   } catch (err) {
     const msg = (err as Error).message || "";
-    if (msg.includes("Can't reach database") || msg.includes("P1001") || msg.includes("Task not found")) {
-      // Fallback to demo file
+    if (msg.includes("Can't reach database") || msg.includes("P1001") || msg.includes("Task not found") || msg.includes("Record to update")) {
       const { getDemoTasks, updateDemoTask } = await import("@/lib/demo-tasks");
       const existing = getDemoTasks().find((t) => t.id === id);
       if (!existing) return NextResponse.json({ error: "Task not found" }, { status: 404 });

@@ -25,19 +25,29 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
 
+    // Also merge demo file tasks that are not in DB (for demo mode lingering tasks like "le task")
+    try {
+      const { getDemoTasks } = await import("@/lib/demo-tasks");
+      const demoTasks = getDemoTasks();
+      const dbIds = new Set(tasks.map((t) => t.id));
+      const extraDemo = demoTasks.filter((t) => !dbIds.has(t.id));
+      // Filter extraDemo for employee view
+      const filteredExtra =
+        session.user.role === "MANAGER" || session.user.role === "ADMIN" ? extraDemo : extraDemo.filter((t) => t.assignedToId === session.user.id);
+      if (filteredExtra.length > 0) {
+        return NextResponse.json({ tasks: [...tasks, ...filteredExtra] });
+      }
+    } catch {}
     return NextResponse.json({ tasks });
   } catch (err) {
     const msg = (err as Error).message || "";
     if (msg.includes("Can't reach database") || msg.includes("P1001")) {
       const { getDemoTasks } = await import("@/lib/demo-tasks");
-      const { getDemoUsers } = await import("@/lib/demo-users");
       let tasks = getDemoTasks();
-      // Merge fallback hardcoded if file empty
       if (tasks.length === 0) {
         const { getDemoTasks: _ } = await import("@/lib/demo-tasks");
         tasks = getDemoTasks();
       }
-      // Filter for employee
       const session = await getServerSession(authOptions);
       if (session?.user && session.user.role !== "MANAGER" && session.user.role !== "ADMIN") {
         tasks = tasks.filter((t) => t.assignedToId === session.user.id);
