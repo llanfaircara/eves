@@ -26,14 +26,16 @@ export async function GET() {
     });
 
     // Also merge demo file tasks that are not in DB (for demo mode lingering tasks like "le task")
+    // For employee, also match by email (demo uses fallback-employee vs DB cuid)
     try {
       const { getDemoTasks } = await import("@/lib/demo-tasks");
       const demoTasks = getDemoTasks();
       const dbIds = new Set(tasks.map((t) => t.id));
       const extraDemo = demoTasks.filter((t) => !dbIds.has(t.id));
-      // Filter extraDemo for employee view
       const filteredExtra =
-        session.user.role === "MANAGER" || session.user.role === "ADMIN" ? extraDemo : extraDemo.filter((t) => t.assignedToId === session.user.id);
+        session.user.role === "MANAGER" || session.user.role === "ADMIN"
+          ? extraDemo
+          : extraDemo.filter((t) => t.assignedToId === session.user.id || t.assignedTo.email.toLowerCase() === session.user.email?.toLowerCase());
       if (filteredExtra.length > 0) {
         return NextResponse.json({ tasks: [...tasks, ...filteredExtra] });
       }
