@@ -165,10 +165,32 @@ model Tenant {
   id                String   @id @default(cuid())
   firstName         String
   lastName          String
+  middleName        String?
+  age               Int?
+  gender            String? // Male/Female
+  nationality       String?
+  religion          String?
+  civilStatus       String? // Single/Married etc
   mobileNumber      String
   email             String?  @unique
+  fbMessenger       String?
+  permanentAddress  String?  @db.Text
+  recentAddress     String?  @db.Text
+  // Employment
   company           String?
-  emergencyContacts Json? // [{ name, relationship, phone }]
+  companyPosition   String?
+  workStatus        String? // REGULAR etc
+  companyAddress    String?  @db.Text
+  companyTel        String?
+  companyEmail      String?
+  companyMessenger  String?
+  marketingSource   String? // How did you find out
+  // IDs
+  idType            String? // philhealth etc
+  idNumber          String?
+  idLink            String?  @db.Text // drive link
+  dateIssued        DateTime? @db.Date
+  emergencyContacts Json? // [{ name, phone, email, messenger }]
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
@@ -194,14 +216,44 @@ model Lease {
   securityDeposit     Decimal?        @db.Decimal(10, 2)
   advanceDeposit      Decimal?        @db.Decimal(10, 2)
   addons              Json? // ReservationAddon[]
+  addonsAmount        Decimal?        @db.Decimal(10, 2)
   noticePeriodDays    Int?
   leaseIntent         String? // New Lease | Renewal | Transfer | Hold
   leaseTerm           String? // Trial | M2M | 6 Months | 1 Year
   moveInDate          DateTime?       @db.Date
-  rentDueDate         DateTime?       @db.Date
+  rentDueDate         DateTime?       @db.Date // legacy DUE DATE string e.g. Every 6th
+  dueDateText         String? // raw due date text
   documentLink        String?         @db.Text
   documentStatus      DocumentStatus?
   documentError       String?         @db.Text
+  // ── Full contract fields (from spreadsheet 94 cols) ──
+  controlNumber       String?         @unique
+  barCode             String?
+  propertyLoc         String? // e.g. ECO 888 at No.69 ...
+  timeIn              String?
+  currentDate         DateTime?       @db.Date // DATE: field
+  terms               String? // TERMS: 1 year etc
+  rate                Decimal?        @db.Decimal(10, 2) // RATE: duplicate of monthlyRent for legacy
+  numPersons          Int?
+  waterReading        Decimal?        @db.Decimal(10, 2)
+  electricReading     Decimal?        @db.Decimal(10, 2)
+  availFrom           DateTime?       @db.Date
+  availTo             DateTime?       @db.Date
+  items               String? // ITEM/S:
+  dateSigned          DateTime?       @db.Date
+  occupancySupportFee Decimal?        @db.Decimal(10, 2)
+  propertyRep         String? // PROPERTY REPRESENTATIVE
+  advance1Month       Decimal?        @db.Decimal(10, 2)
+  deposit2Months      Decimal?        @db.Decimal(10, 2)
+  day20               DateTime?       @db.Date
+  penaltyDay          DateTime?       @db.Date
+  contractStatus      String? // STATUS column
+  emailStatus         String?
+  signatureStatus     String?
+  remarks             String?         @db.Text
+  contactNumberAlt    String? // CONTACT NUMBER: separate from tenant mobile
+  fbMessenger         String?
+  permanentAddressAlt String?         @db.Text
   createdAt           DateTime        @default(now())
   updatedAt           DateTime        @updatedAt
 
@@ -212,6 +264,7 @@ model Lease {
   @@index([status])
   @@index([rentalEndDate])
   @@index([documentStatus])
+  @@index([controlNumber])
   @@map("leases")
 }
 
@@ -226,7 +279,34 @@ model Inspection {
   type            InspectionType @default(MOVE_IN)
   waterReading    Decimal?       @db.Decimal(10, 2)
   electricReading Decimal?       @db.Decimal(10, 2)
-  checklistJson   Json? // { utilities, appliances, condition, ... }
+  // Granular handover checklist (YES/No + comments) — matches spreadsheet cols 46-71
+  switches        String? // YES/No
+  switchesCom     String? @db.Text
+  sockets         String?
+  socketsCom      String? @db.Text
+  cabinet         String?
+  cabinetCom      String? @db.Text
+  lavatory        String?
+  lavatoryCom     String? @db.Text
+  lightBulb       String?
+  lightBulbCom    String? @db.Text
+  faucets         String?
+  faucetsCom      String? @db.Text
+  showerHead      String?
+  showerHeadCom   String? @db.Text
+  toiletFlush     String?
+  toiletFlushCom  String? @db.Text
+  toiletBowl      String?
+  toiletBowlCom   String? @db.Text
+  kitchenSink     String?
+  kitchenSinkCom  String? @db.Text
+  wallPaint       String?
+  wallPaintCom    String? @db.Text
+  optional        String?
+  optionalCom     String? @db.Text
+  windows         String?
+  windowsCom      String? @db.Text
+  checklistJson   Json? // fallback for any extra utilities/appliances
   remarks         String?        @db.Text
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
