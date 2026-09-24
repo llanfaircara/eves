@@ -20,7 +20,13 @@ export default function ExecutivePage() {
         </p>
       </div>
 
-      <KpiCards overdueCount={overdue.count} overdueAmount={overdue.amount} expiringCount={expiring.length} />
+      <KpiCards
+        overdueCount={overdue.count}
+        overdueAmount={overdue.amount}
+        overdueNullRentCount={overdue.nullRentCount}
+        overdueRateFallbackSum={overdue.rateFallbackSum}
+        expiringCount={expiring.length}
+      />
 
       <div className="grid gap-4 lg:grid-cols-2">
         <RevenueChart data={revenue} />

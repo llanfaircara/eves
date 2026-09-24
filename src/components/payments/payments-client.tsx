@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { summarizePayments } from "@/lib/executive";
 import PaymentTenantDialog from "./payment-tenant-dialog";
 
 type Payment = { month: string; rent: number | null; raw: string | null; unpaid: boolean };
@@ -29,9 +30,6 @@ export default function PaymentsClient({ sheets }: { sheets: Sheets }) {
 
   const allProps = Object.keys(sheets);
   let totalTenants = 0;
-  let totalPayments = 0;
-  let unpaidCount = 0;
-  let unpaidAmount = 0;
   let totalDue = 0;
   let reservationCount = 0;
   let renewalCount = 0;
@@ -44,15 +42,16 @@ export default function PaymentsClient({ sheets }: { sheets: Sheets }) {
       if ((t as Tenant).closeToRenewal) renewalCount++;
       if ((t as Tenant).willNotRenew) notRenewCount++;
       for (const p of t.payments) {
-        totalPayments++;
         if (p.rent) totalDue += p.rent;
-        if (p.unpaid) {
-          unpaidCount++;
-          if (p.rent) unpaidAmount += p.rent;
-        }
       }
     }
   }
+  // Shared definition with Executive Dashboard: red cells count, with rate
+  // fallback where no amount was typed (see summarizePayments).
+  const overdue = useMemo(() => summarizePayments(sheets), [sheets]);
+  const unpaidCount = overdue.count;
+  const unpaidAmount = overdue.amount;
+  const totalPayments = overdue.totalPayments;
   const paidAmount = totalDue - unpaidAmount;
   const collectionRate = totalDue ? Math.round((paidAmount / totalDue) * 100) : 0;
 
@@ -94,6 +93,11 @@ export default function PaymentsClient({ sheets }: { sheets: Sheets }) {
           </CardHeader>
           <CardContent>
             <p className="text-xs text-muted-foreground">{totalPayments} payments • {(unpaidCount / totalPayments * 100).toFixed(1)}% red</p>
+            {overdue.nullRentCount > 0 && (
+              <p className="mt-1 text-xs text-muted-foreground">
+                Incl. {overdue.nullRentCount} red cells with no amount typed, estimated at ₱{overdue.rateFallbackSum.toLocaleString()} from tenant rates — same as Executive Dashboard.
+              </p>
+            )}
           </CardContent>
         </Card>
         <Card>

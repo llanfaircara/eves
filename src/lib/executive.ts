@@ -146,22 +146,59 @@ export function getRevenueSeries(): RevenueMetric[] {
     }));
 }
 
-export function getOverdueInvoices(): { count: number; amount: number } {
-  const sheets = (monitoring as { sheets: Record<string, MonTenant[]> }).sheets;
+export interface PaymentSheetTenant {
+  rate: unknown;
+  payments: { month: string; rent: number | null; unpaid: boolean }[];
+}
+
+export interface PaymentSummary {
+  count: number;
+  amount: number;
+  totalPayments: number;
+  nullRentCount: number;
+  rateFallbackSum: number;
+}
+
+// Single source of truth for "unpaid" across Payments + Executive.
+// Definition: every red (unpaid) cell counts; where the cell has no typed
+// amount, fall back to the tenant's monthly rate as the estimated invoice.
+export function summarizePayments(sheets: Record<string, PaymentSheetTenant[]>): PaymentSummary {
   let count = 0;
   let amount = 0;
+  let totalPayments = 0;
+  let nullRentCount = 0;
+  let rateFallbackSum = 0;
   for (const tenants of Object.values(sheets)) {
     for (const t of tenants) {
       const rate = toNumber(t.rate) ?? 0;
       for (const p of t.payments) {
+        totalPayments += 1;
         if (p.unpaid) {
           count += 1;
-          amount += p.rent ?? rate;
+          if (p.rent !== null) {
+            amount += p.rent;
+          } else {
+            nullRentCount += 1;
+            rateFallbackSum += rate;
+            amount += rate;
+          }
         }
       }
     }
   }
-  return { count, amount: Math.round(amount) };
+  return {
+    count,
+    amount: Math.round(amount),
+    totalPayments,
+    nullRentCount,
+    rateFallbackSum: Math.round(rateFallbackSum),
+  };
+}
+
+export function getOverdueInvoices(): { count: number; amount: number; nullRentCount: number; rateFallbackSum: number } {
+  const sheets = (monitoring as { sheets: Record<string, MonTenant[]> }).sheets;
+  const s = summarizePayments(sheets);
+  return { count: s.count, amount: s.amount, nullRentCount: s.nullRentCount, rateFallbackSum: s.rateFallbackSum };
 }
 
 export function getExpiringLeases(withinDays = 60): (LegacyLease & { daysLeft: number })[] {

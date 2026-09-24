@@ -5,10 +5,14 @@ import { Badge } from "@/components/ui/badge";
 export default function KpiCards({
   overdueCount,
   overdueAmount,
+  overdueNullRentCount,
+  overdueRateFallbackSum,
   expiringCount,
 }: {
   overdueCount: number;
   overdueAmount: number;
+  overdueNullRentCount?: number;
+  overdueRateFallbackSum?: number;
   expiringCount: number;
 }) {
   return (
@@ -25,6 +29,11 @@ export default function KpiCards({
             </Badge>
           </div>
           <p className="text-xs text-muted-foreground">₱{overdueAmount.toLocaleString()} outstanding across monitoring</p>
+          {!!overdueNullRentCount && (
+            <p className="text-xs text-muted-foreground">
+              Incl. {overdueNullRentCount} red cells with no amount typed, estimated at ₱{(overdueRateFallbackSum ?? 0).toLocaleString()} from tenant rates — same as Payment Monitoring.
+            </p>
+          )}
           <Link
             href="/manager-dashboard/payments"
             className="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground"
