@@ -61,6 +61,7 @@ export default function IntakeForm({ onSuccess }: { onSuccess?: () => void }) {
   } = useForm<IntakeInput>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(intakeSchema as any),
+    mode: "onSubmit",
     defaultValues: {
       timeIn: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
       date: new Date().toISOString().slice(0, 10),
@@ -187,7 +188,24 @@ export default function IntakeForm({ onSuccess }: { onSuccess?: () => void }) {
     if (ok) setStep((s) => Math.min(6, s + 1));
   }
 
+  function onInvalid(errs: typeof errors) {
+    const flat = Object.entries(errs).map(([k, v]) => `${k}: ${(v as { message?: string })?.message || "invalid"}`).join("; ");
+    setError(flat ? `Please fix: ${flat.slice(0, 600)}` : "Validation failed — check required fields on earlier steps.");
+    // Jump to first step with error
+    const keys = Object.keys(errs);
+    const stepMap: Record<string, number> = {
+      propertyId: 1, unitId: 1, rentalStartDate: 1, rentalEndDate: 1, rate: 1, terms: 1,
+      firstName: 2, lastName: 2, mobileNumber: 2, age: 2, gender: 2, civilStatus: 2,
+      numberOfPerson: 5, waterReading: 5, electricReading: 5,
+    };
+    for (const k of keys) {
+      if (stepMap[k]) { setStep(stepMap[k]); break; }
+    }
+    console.warn("[Intake] validation failed", errs);
+  }
+
   async function onSubmit(values: IntakeInput) {
+    console.log("[Intake] submit", values);
     setSubmitting(true);
     setError(null);
     setSuccess(null);
@@ -267,9 +285,14 @@ export default function IntakeForm({ onSuccess }: { onSuccess?: () => void }) {
         </div>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {error && <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>}
-          {success && <p className="rounded-md bg-green-50 border border-green-200 px-3 py-2 text-sm text-green-700">{success}</p>}
+        <form onSubmit={handleSubmit(onSubmit, onInvalid)} noValidate className="space-y-6">
+          {error && <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive whitespace-pre-wrap">{error}</p>}
+          {success && <p className="rounded-md bg-green-50 border border-green-200 px-3 py-2 text-sm text-green-700 whitespace-pre-wrap">{success}</p>}
+          {Object.keys(errors).length > 0 && !error && (
+            <p className="rounded-md bg-yellow-50 border border-yellow-200 px-3 py-2 text-xs text-yellow-800">
+              Validation: {Object.entries(errors).slice(0, 8).map(([k, v]) => `${k}: ${(v as { message?: string })?.message || "invalid"}`).join(" • ")}
+            </p>
+          )}
 
           {/* Step 1: Booking & Contract */}
           {step === 1 && (
