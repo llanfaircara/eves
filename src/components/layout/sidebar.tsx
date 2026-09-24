@@ -17,6 +17,7 @@ import {
   Home,
   CreditCard,
   X,
+  Sparkles,
 } from "lucide-react";
 
 type Role = "ADMIN" | "MANAGER" | "EMPLOYEE";
@@ -42,6 +43,7 @@ const groups: NavGroup[] = [
       { href: "/manager-dashboard/payments", label: "Payment Monitoring", icon: CreditCard, roles: ["MANAGER", "ADMIN"] },
       { href: "/manager-dashboard/synced", label: "Synced Monitoring", icon: Users, roles: ["MANAGER", "ADMIN"] },
       { href: "/receipts", label: "Payment Receipts", icon: CreditCard, roles: ["MANAGER", "ADMIN", "EMPLOYEE"] },
+      { href: "/ai-demo", label: "Jev AI Demo", icon: Sparkles, roles: ["MANAGER", "ADMIN"] },
     ],
   },
   {
