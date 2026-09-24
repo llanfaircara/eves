@@ -90,10 +90,23 @@ export async function POST(req: Request) {
       : null;
     const emergencyContacts = [ec1, ec2].filter(Boolean).length ? [ec1, ec2].filter(Boolean) : undefined;
 
-    // Financials: compute total if not provided
-    const rate = (d.rate as number | null | undefined) ?? null;
-    const oneMonth = (d.oneMonthAdvance as number | null | undefined) ?? null;
-    const twoMonths = (d.twoMonthsDeposit as number | null | undefined) ?? null;
+    // Financials: enforce unit's set rate (each property/unit has a specific rate)
+    // If the unit has a monthlyRate in DB, it is the source of truth — ignore client-supplied rate to prevent drift.
+    const unitRateRaw = (unit as unknown as { monthlyRate?: unknown }).monthlyRate;
+    const unitRate = unitRateRaw !== null && unitRateRaw !== undefined && String(unitRateRaw) !== "—" && String(unitRateRaw).trim() !== "" ? Number(unitRateRaw) : null;
+    const hasSetRate = unitRate !== null && !Number.isNaN(unitRate) && unitRate > 0;
+
+    const clientRate = (d.rate as number | null | undefined) ?? null;
+    const clientOneMonth = (d.oneMonthAdvance as number | null | undefined) ?? null;
+    const clientTwoMonths = (d.twoMonthsDeposit as number | null | undefined) ?? null;
+    // Use unit's set rate when available; otherwise fall back to client values
+    const rate = hasSetRate ? unitRate : clientRate;
+    const oneMonth = hasSetRate ? unitRate : clientOneMonth;
+    const twoMonths = hasSetRate ? (unitRate as number) * 2 : clientTwoMonths;
+    if (hasSetRate && clientRate !== null && clientRate !== unitRate) {
+      console.warn(`[POST /api/intake] rate mismatch: client ${clientRate} overridden by unit ${unit.unitNumber} set rate ${unitRate}`);
+    }
+
     const addonsAmt = (d.addonsAmount as number | null | undefined) ?? null;
     let totalAmountToSettle = d.totalAmountToSettle as number | null | undefined;
     if ((totalAmountToSettle === null || totalAmountToSettle === undefined) && (rate !== null || oneMonth !== null || twoMonths !== null)) {

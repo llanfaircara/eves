@@ -90,11 +90,14 @@ export default function ReserveUnitDialog({
 
   const { fields, append, remove } = useFieldArray({ control, name: "addons" });
 
-  // Pre-populate from unit context whenever a new unit is selected
+  const isReserveRateLocked = !!(unit && unit.monthlyRate !== null && Number(unit.monthlyRate) > 0);
+
+  // Pre-populate from unit context whenever a new unit is selected — rate is locked to unit's set rate
   useEffect(() => {
     if (unit && open) {
       const start = unit.earliestAvailable;
       const end = new Date(new Date(start).getTime() + 365 * 86400000).toISOString().slice(0, 10);
+      const lockedRate = unit.monthlyRate ?? 0;
       setServerError(null);
       setServerSuccess(null);
       reset({
@@ -108,10 +111,10 @@ export default function ReserveUnitDialog({
         leaseEnd: end,
         moveInDate: start,
         rentDueDate: start,
-        monthlyRent: unit.monthlyRate ?? 0,
-        firstDeposit: unit.monthlyRate ?? 0,
+        monthlyRent: lockedRate,
+        firstDeposit: lockedRate,
         firstDepositDue: start,
-        secondDeposit: unit.monthlyRate ?? 0,
+        secondDeposit: lockedRate,
         secondDepositDue: start,
         addons: [],
         noticePeriodDays: 30,
@@ -275,8 +278,9 @@ export default function ReserveUnitDialog({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="monthlyRent">Monthly rent (₱) *</Label>
-              <Input id="monthlyRent" type="number" step="0.01" min={0} {...register("monthlyRent")} />
+              <Label htmlFor="monthlyRent">Monthly rent (₱) * {isReserveRateLocked && <span className="text-xs font-normal text-muted-foreground">— locked to {unit?.unitId} @ ₱{Number(unit?.monthlyRate).toLocaleString()}</span>}</Label>
+              <Input id="monthlyRent" type="number" step="0.01" min={0} {...register("monthlyRent")} readOnly={isReserveRateLocked} className={isReserveRateLocked ? "bg-muted" : ""} />
+              {isReserveRateLocked && <p className="text-xs text-muted-foreground">Set rate for this unit — not editable.</p>}
               {errors.monthlyRent && <p className="text-xs text-destructive">{errors.monthlyRent.message}</p>}
             </div>
             <div className="space-y-2">
@@ -286,8 +290,8 @@ export default function ReserveUnitDialog({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="firstDeposit">1st deposit (₱) *</Label>
-              <Input id="firstDeposit" type="number" step="0.01" min={0} {...register("firstDeposit")} />
+              <Label htmlFor="firstDeposit">1st deposit (₱) * {isReserveRateLocked && <span className="text-xs font-normal text-muted-foreground">— = rent</span>}</Label>
+              <Input id="firstDeposit" type="number" step="0.01" min={0} {...register("firstDeposit")} readOnly={isReserveRateLocked} className={isReserveRateLocked ? "bg-muted" : ""} />
               {errors.firstDeposit && <p className="text-xs text-destructive">{errors.firstDeposit.message}</p>}
             </div>
             <div className="space-y-2">
@@ -296,8 +300,8 @@ export default function ReserveUnitDialog({
               {errors.firstDepositDue && <p className="text-xs text-destructive">{errors.firstDepositDue.message}</p>}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="secondDeposit">2nd deposit (₱) *</Label>
-              <Input id="secondDeposit" type="number" step="0.01" min={0} {...register("secondDeposit")} />
+              <Label htmlFor="secondDeposit">2nd deposit (₱) * {isReserveRateLocked && <span className="text-xs font-normal text-muted-foreground">— = rent</span>}</Label>
+              <Input id="secondDeposit" type="number" step="0.01" min={0} {...register("secondDeposit")} readOnly={isReserveRateLocked} className={isReserveRateLocked ? "bg-muted" : ""} />
               {errors.secondDeposit && <p className="text-xs text-destructive">{errors.secondDeposit.message}</p>}
             </div>
             <div className="space-y-2">

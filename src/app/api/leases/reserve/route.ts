@@ -88,10 +88,19 @@ export async function POST(req: Request) {
   const emailRaw = (d.tenantEmail ?? "").trim() || null;
   const email = emailRaw && emailRaw.length > 0 ? emailRaw : null;
 
-  // Financials — keep distinct variables (type safety: no swap)
-  const monthlyRent = Number(d.monthlyRent);
-  const securityDeposit = Number(d.firstDeposit);
-  const advanceDeposit = Number(d.secondDeposit);
+  // Financials — enforce unit's set rate (each property/unit has a specific rate)
+  const unitRateRaw = (unit as { monthlyRate?: unknown }).monthlyRate;
+  const unitRate = unitRateRaw !== null && unitRateRaw !== undefined && String(unitRateRaw) !== "—" && String(unitRateRaw).trim() !== "" ? Number(unitRateRaw) : null;
+  const hasSetRate = unitRate !== null && !Number.isNaN(unitRate) && unitRate > 0;
+  const clientMonthlyRent = Number(d.monthlyRent);
+  const clientFirstDeposit = Number(d.firstDeposit);
+  const clientSecondDeposit = Number(d.secondDeposit);
+  if (hasSetRate && (clientMonthlyRent !== unitRate || clientFirstDeposit !== unitRate || clientSecondDeposit !== unitRate)) {
+    console.warn(`[POST /api/leases/reserve] rate mismatch for ${unit.unitNumber}: client ${clientMonthlyRent}/${clientFirstDeposit}/${clientSecondDeposit} overridden by set rate ${unitRate}`);
+  }
+  const monthlyRent = hasSetRate ? (unitRate as number) : clientMonthlyRent;
+  const securityDeposit = hasSetRate ? (unitRate as number) : clientFirstDeposit;
+  const advanceDeposit = hasSetRate ? (unitRate as number) : clientSecondDeposit;
   const addons = d.addons ?? [];
   const addonsTotal = addons.reduce((s, a) => s + Number(a.amount || 0), 0);
   const totalAmountToSettle = monthlyRent + securityDeposit + advanceDeposit + addonsTotal;

@@ -174,6 +174,30 @@ export default function IntakeForm({ onSuccess }: { onSuccess?: () => void }) {
 
   const units = propertyId ? properties.find((p) => p.id === propertyId)?.units || [] : [];
   const vacantUnits = units.filter((u) => u.status === "VACANT");
+  const selectedUnit = units.find((u) => u.id === watch("unitId"));
+  const selectedRate = selectedUnit && selectedUnit.monthlyRate !== "—" && selectedUnit.monthlyRate !== null ? Number(selectedUnit.monthlyRate) : null;
+  const isRateLocked = selectedRate !== null && !Number.isNaN(selectedRate) && selectedRate > 0;
+
+  // Auto-lock rate fields to the unit's set rate (each property/unit has a specific rate)
+  useEffect(() => {
+    if (isRateLocked && selectedUnit) {
+      const r = selectedRate as number;
+      const add = Number(watch("addonsAmount") || 0);
+      setValue("rate", r as never, { shouldValidate: true });
+      setValue("oneMonthAdvance", r as never, { shouldValidate: true });
+      setValue("twoMonthsDeposit", (r * 2) as never, { shouldValidate: true });
+      setValue("totalAmountToSettle", (r + r * 2 + add) as never, { shouldValidate: true });
+    }
+  }, [selectedUnit?.id, selectedRate]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Recompute total when addons change while rate is locked
+  useEffect(() => {
+    if (isRateLocked && selectedRate !== null) {
+      const r = selectedRate;
+      const add = Number(watch("addonsAmount") || 0);
+      setValue("totalAmountToSettle", (r + r * 2 + add) as never, { shouldValidate: false });
+    }
+  }, [watch("addonsAmount")]); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function nextStep() {
     const fields: Record<number, (keyof IntakeInput)[]> = {
@@ -372,16 +396,17 @@ export default function IntakeForm({ onSuccess }: { onSuccess?: () => void }) {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label>RATE: * (₱)</Label>
-                  <Input type="number" step="0.01" {...register("rate")} />
+                  <Label>RATE: * (₱) {isRateLocked && <span className="text-xs font-normal text-muted-foreground">— locked to {selectedUnit?.unitNumber} @ ₱{selectedRate?.toLocaleString()}</span>}</Label>
+                  <Input type="number" step="0.01" {...register("rate")} readOnly={isRateLocked} className={isRateLocked ? "bg-muted" : ""} />
+                  {isRateLocked && <p className="text-xs text-muted-foreground">Set rate for this unit — not editable. Change unit to use a different rate.</p>}
                 </div>
                 <div className="space-y-2">
                   <Label>1 MONTH ADVANCE: *</Label>
-                  <Input type="number" step="0.01" {...register("oneMonthAdvance")} />
+                  <Input type="number" step="0.01" {...register("oneMonthAdvance")} readOnly={isRateLocked} className={isRateLocked ? "bg-muted" : ""} />
                 </div>
                 <div className="space-y-2">
                   <Label>2 MONTHS DEPOSIT: *</Label>
-                  <Input type="number" step="0.01" {...register("twoMonthsDeposit")} />
+                  <Input type="number" step="0.01" {...register("twoMonthsDeposit")} readOnly={isRateLocked} className={isRateLocked ? "bg-muted" : ""} />
                 </div>
                 <div className="space-y-2">
                   <Label>ADD-ONS:</Label>
@@ -419,8 +444,8 @@ export default function IntakeForm({ onSuccess }: { onSuccess?: () => void }) {
                   <Input type="date" {...register("day20")} />
                 </div>
                 <div className="space-y-2">
-                  <Label>Total Amount To Settle (₱)</Label>
-                  <Input type="number" step="0.01" {...register("totalAmountToSettle")} placeholder="auto = 1mo+2mo+addons" />
+                  <Label>Total Amount To Settle (₱) {isRateLocked && <span className="text-xs font-normal text-muted-foreground">— auto</span>}</Label>
+                  <Input type="number" step="0.01" {...register("totalAmountToSettle")} placeholder="auto = 1mo+2mo+addons" readOnly={isRateLocked} className={isRateLocked ? "bg-muted" : ""} />
                 </div>
               </div>
             </div>
