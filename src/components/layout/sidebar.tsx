@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   ClipboardList,
   Building2,
+  CalendarDays,
   LogOut,
   Users,
   FileText,
@@ -36,6 +37,9 @@ const groups: NavGroup[] = [
     title: "Management",
     items: [
       { href: "/manager-dashboard", label: "Manager Overview", icon: LayoutDashboard, roles: ["MANAGER", "ADMIN"] },
+      { href: "/executive", label: "Executive Dashboard", icon: LayoutDashboard, roles: ["MANAGER", "ADMIN"] },
+      { href: "/marketing/calendar", label: "Marketing Calendar", icon: CalendarDays, roles: ["MANAGER", "ADMIN"] },
+      { href: "/marketing/forecast", label: "Unit Forecast", icon: Building2, roles: ["MANAGER", "ADMIN"] },
       { href: "/intake", label: "Tenant Intake", icon: FileText, roles: ["MANAGER", "ADMIN"] },
       { href: "/manager-dashboard/tasks", label: "Tasks", icon: ClipboardList, roles: ["MANAGER", "ADMIN"] },
       { href: "/manager-dashboard/properties", label: "Properties", icon: Building2, roles: ["MANAGER", "ADMIN"] },

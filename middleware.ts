@@ -7,9 +7,9 @@ import { getToken } from "next-auth/jwt";
 // ──────────────────────────────────────────────────
 const PUBLIC_PATHS = ["/", "/login", "/api/auth"];
 const ADMIN_PREFIXES = ["/admin", "/admin-dashboard", "/api/admin"];
-const MANAGER_PREFIXES = ["/manager", "/manager-dashboard", "/api/manager"];
+const MANAGER_PREFIXES = ["/manager", "/manager-dashboard", "/executive", "/marketing", "/api/manager"];
 const EMPLOYEE_PREFIXES = ["/employee", "/employee-dashboard", "/api/employee"];
-const AUTHED_DASHBOARDS = ["/manager-dashboard", "/employee-dashboard", "/admin-dashboard"];
+const AUTHED_DASHBOARDS = ["/manager-dashboard", "/employee-dashboard", "/admin-dashboard", "/executive"];
 const AUTHED_ANY = ["/intake", "/api/intake", "/api/tasks", "/api/properties"];
 
 function isPublic(pathname: string): boolean {
@@ -95,6 +95,8 @@ export const config = {
     "/admin/:path*",
     "/manager-dashboard/:path*",
     "/employee-dashboard/:path*",
+    "/executive",
+    "/marketing/:path*",
     "/manager/:path*",
     "/employee/:path*",
     "/intake/:path*",
