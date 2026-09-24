@@ -256,7 +256,19 @@ export async function POST(req: Request) {
     return NextResponse.json({ ...result, documentLink, documentStatus }, { status: 201 });
   } catch (err) {
     console.error("[POST /api/intake]", err);
-    return NextResponse.json({ error: "Internal server error", details: err instanceof Error ? err.message : String(err) }, { status: 500 });
+    const msg = err instanceof Error ? err.message : String(err);
+    // Prisma numeric overflow (22003) → return 400 with helpful guidance instead of 500
+    if (msg.includes("22003") || msg.includes("numeric field overflow") || msg.includes("must round to an absolute value")) {
+      return NextResponse.json(
+        {
+          error: "One of the amounts is too large for the database (max ~₱10,000,000,000). Check Rate / Deposits / Add-ons / Readings — did a phone number or ID sneak into an amount field?",
+          details: msg.slice(0, 800),
+          hint: "Rate, 1 Month Advance, and 2 Months Deposit should each be < ₱1M (e.g., 5399, not 09172492723). Water/Electric readings should be < 100k.",
+        },
+        { status: 400 }
+      );
+    }
+    return NextResponse.json({ error: "Internal server error", details: msg }, { status: 500 });
   }
 }
 

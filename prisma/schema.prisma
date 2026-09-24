@@ -142,7 +142,7 @@ model Unit {
   propertyId  String
   property    Property   @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   unitNumber  String
-  monthlyRate Decimal    @db.Decimal(10, 2)
+  monthlyRate Decimal    @db.Decimal(12, 2)
   status      UnitStatus @default(VACANT)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
@@ -212,11 +212,11 @@ model Lease {
   totalAmountToSettle Decimal         @db.Decimal(12, 2)
   status              LeaseStatus     @default(ACTIVE)
   // ── Reserve workflow / Document generation ──
-  monthlyRent         Decimal?        @db.Decimal(10, 2)
-  securityDeposit     Decimal?        @db.Decimal(10, 2)
-  advanceDeposit      Decimal?        @db.Decimal(10, 2)
+  monthlyRent         Decimal?        @db.Decimal(12, 2)
+  securityDeposit     Decimal?        @db.Decimal(12, 2)
+  advanceDeposit      Decimal?        @db.Decimal(12, 2)
   addons              Json? // ReservationAddon[]
-  addonsAmount        Decimal?        @db.Decimal(10, 2)
+  addonsAmount        Decimal?        @db.Decimal(12, 2)
   noticePeriodDays    Int?
   leaseIntent         String? // New Lease | Renewal | Transfer | Hold
   leaseTerm           String? // Trial | M2M | 6 Months | 1 Year
@@ -233,18 +233,18 @@ model Lease {
   timeIn              String?
   currentDate         DateTime?       @db.Date // DATE: field
   terms               String? // TERMS: 1 year etc
-  rate                Decimal?        @db.Decimal(10, 2) // RATE: duplicate of monthlyRent for legacy
+  rate                Decimal?        @db.Decimal(12, 2) // RATE: duplicate of monthlyRent for legacy
   numPersons          Int?
-  waterReading        Decimal?        @db.Decimal(10, 2)
-  electricReading     Decimal?        @db.Decimal(10, 2)
+  waterReading        Decimal?        @db.Decimal(12, 2)
+  electricReading     Decimal?        @db.Decimal(12, 2)
   availFrom           DateTime?       @db.Date
   availTo             DateTime?       @db.Date
   items               String? // ITEM/S:
   dateSigned          DateTime?       @db.Date
-  occupancySupportFee Decimal?        @db.Decimal(10, 2)
+  occupancySupportFee Decimal?        @db.Decimal(12, 2)
   propertyRep         String? // PROPERTY REPRESENTATIVE
-  advance1Month       Decimal?        @db.Decimal(10, 2)
-  deposit2Months      Decimal?        @db.Decimal(10, 2)
+  advance1Month       Decimal?        @db.Decimal(12, 2)
+  deposit2Months      Decimal?        @db.Decimal(12, 2)
   day20               DateTime?       @db.Date
   penaltyDay          DateTime?       @db.Date
   contractStatus      String? // STATUS column
@@ -277,8 +277,8 @@ model Inspection {
   leaseId         String
   lease           Lease          @relation(fields: [leaseId], references: [id], onDelete: Cascade)
   type            InspectionType @default(MOVE_IN)
-  waterReading    Decimal?       @db.Decimal(10, 2)
-  electricReading Decimal?       @db.Decimal(10, 2)
+  waterReading    Decimal?       @db.Decimal(12, 2)
+  electricReading Decimal?       @db.Decimal(12, 2)
   // Granular handover checklist (YES/No + comments) — matches spreadsheet cols 46-71
   switches        String? // YES/No
   switchesCom     String? @db.Text
@@ -321,7 +321,7 @@ model PaymentReceipt {
   property     String
   unit         String
   month        String // e.g., 2026-04
-  amount       Decimal       @db.Decimal(10, 2)
+  amount       Decimal       @db.Decimal(12, 2)
   receiptUrl   String?       @db.Text // file path or data URL
   receiptName  String?
   status       PaymentStatus @default(PENDING)

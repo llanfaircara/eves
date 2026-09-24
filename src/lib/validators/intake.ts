@@ -12,6 +12,20 @@ const yesNo = z.enum(["YES", "No", "N/A"]).or(z.enum(["yes", "no"])).or(z.string
   return String(v).trim() || "N/A";
 });
 
+const money = (max = 9999999.99, msg = `Must be < ${max.toLocaleString()}`) =>
+  z.preprocess(
+    (v) => {
+      if (v === "" || v === null || v === undefined) return null;
+      if (typeof v === "string") {
+        const t = v.trim().toUpperCase();
+        if (t === "NA" || t === "N/A" || t === "-") return null;
+        return t.replace(/,/g, "").replace(/₱/g, "").trim();
+      }
+      return v;
+    },
+    z.coerce.number().min(0, "Must be >= 0").max(max, msg).optional().nullable()
+  );
+
 export const intakeSchema = z.object({
   // ── Step 1: Booking / Contract Basics (Google Form 1-18) ──
   timeIn: z.string().max(50).optional().nullable(), // TIME IN: e.g. 8:30 AM
@@ -26,16 +40,16 @@ export const intakeSchema = z.object({
   propertyId: z.string().cuid("Select a property"),
   unitId: z.string().cuid("Select a unit"),
 
-  // Contract financials (from Google Form 8-15)
+  // Contract financials (from Google Form 8-15) — capped to DB precision (12,2) and sensible rent range
   terms: z.string().min(1, "Terms required").max(50).optional().nullable(), // TERMS: e.g. 1 year
   contractType: z.enum(["TRIAL", "M2M", "LONG_TERM"]).optional(), // mapped from terms
-  rate: z.coerce.number().min(0, "Rate must be >=0").optional().nullable(), // RATE:
-  oneMonthAdvance: z.coerce.number().min(0).optional().nullable(), // 1 MONTH ADVANCE:
-  twoMonthsDeposit: z.coerce.number().min(0).optional().nullable(), // 2 MONTHS DEPOSIT:
+  rate: money(1000000, "Rate must be < ₱1,000,000 — check if you entered a phone/ID number"), // RATE:
+  oneMonthAdvance: money(1000000, "1 Month Advance must be < ₱1,000,000"), // 1 MONTH ADVANCE:
+  twoMonthsDeposit: money(2000000, "2 Months Deposit must be < ₱2,000,000"), // 2 MONTHS DEPOSIT:
   addons: z.string().max(500).optional().nullable(), // ADD-ONS: free text e.g. "Parking"
-  addonsAmount: z.coerce.number().min(0).optional().nullable(), // ADD-ONS AMOUNT:
+  addonsAmount: money(500000, "Add-ons amount must be < ₱500,000"), // ADD-ONS AMOUNT:
   subjectToOccupancySupport: z.enum(["YES", "NO", "Yes", "No"]).optional().nullable(), // SUBJECT TO OCCUPANCY SUPPORT?:
-  occupancySupportFee: z.coerce.number().min(0).optional().nullable(), // OCCUPANCY SUPPORT FEE:
+  occupancySupportFee: money(100000, "Occupancy fee must be < ₱100,000"), // OCCUPANCY SUPPORT FEE:
 
   // Rental period (16-18)
   rentalStartDate: z.string().min(1, "Start date required").refine((v) => !isNaN(Date.parse(v)), "Invalid date"),
@@ -44,7 +58,7 @@ export const intakeSchema = z.object({
   dueDate: z.string().max(50).optional().nullable(), // DUE DATE: e.g. Every 6th
 
   // Legacy totalAmountToSettle kept for compat — computed from rate+deposits if missing
-  totalAmountToSettle: z.coerce.number().min(0, "Must be >=0").optional().nullable(),
+  totalAmountToSettle: money(9999999999.99, "Total must be < ₱10B"),
   leaseStatus: z.enum(["ACTIVE", "PENDING", "EXPIRED", "TERMINATED"]).default("ACTIVE"),
 
   // ── Step 2: Personal Information (19-37) ──
@@ -109,8 +123,8 @@ export const intakeSchema = z.object({
 
   // ── Step 5: Utility Readings (72-77) ──
   numberOfPerson: z.coerce.number().int().min(1).max(10).optional().nullable(), // NUMBER OF PERSON *
-  waterReading: z.coerce.number().min(0).optional().nullable(), // WATER READING *
-  electricReading: z.coerce.number().min(0).optional().nullable(), // ELECTRIC READING *
+  waterReading: money(100000, "Water reading must be < 100,000"), // WATER READING *
+  electricReading: money(1000000, "Electric reading must be < 1,000,000"), // ELECTRIC READING *
   availmentFrom: z.string().optional().nullable(), // AVAILMENT FROM: date
   availmentTo: z.string().optional().nullable(), // AVAILMENT TO: date
   items: z.string().max(100).optional().nullable(), // ITEM/S: e.g. 1
