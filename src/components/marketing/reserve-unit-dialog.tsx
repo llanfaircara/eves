@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -14,6 +14,10 @@ import { Plus, Trash2 } from "lucide-react";
 
 const schema = z
   .object({
+    tenantName: z.string().min(1, "Tenant name required").max(200).trim(),
+    tenantEmail: z.string().email("Invalid email").optional().or(z.literal("")).nullable(),
+    tenantMobile: z.string().min(7, "Mobile required").max(20).trim(),
+    tenantCompany: z.string().max(150).optional().nullable(),
     intent: z.enum(["New Lease", "Renewal", "Transfer", "Hold"]),
     term: z.enum(["Trial", "Month-to-Month", "6 Months", "1 Year"]),
     leaseStart: z.string().min(1, "Lease start is required"),
@@ -47,8 +51,10 @@ export default function ReserveUnitDialog({
   open: boolean;
   onOpenChange: (v: boolean) => void;
   unit: ForecastUnit | null;
-  onReserved: (payload: ReservationPayload) => void;
+  onReserved: (payload: ReservationPayload & { leaseId?: string; documentLink?: string }) => void;
 }) {
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [serverSuccess, setServerSuccess] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -61,6 +67,10 @@ export default function ReserveUnitDialog({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(schema as any),
     defaultValues: {
+      tenantName: "",
+      tenantEmail: "",
+      tenantMobile: "",
+      tenantCompany: "",
       intent: "New Lease",
       term: "1 Year",
       leaseStart: "",
@@ -85,7 +95,13 @@ export default function ReserveUnitDialog({
     if (unit && open) {
       const start = unit.earliestAvailable;
       const end = new Date(new Date(start).getTime() + 365 * 86400000).toISOString().slice(0, 10);
+      setServerError(null);
+      setServerSuccess(null);
       reset({
+        tenantName: "",
+        tenantEmail: "",
+        tenantMobile: "",
+        tenantCompany: "",
         intent: "New Lease",
         term: "1 Year",
         leaseStart: start,
@@ -106,12 +122,66 @@ export default function ReserveUnitDialog({
 
   async function onSubmit(values: FormValues) {
     if (!unit) return;
-    onReserved({
-      unitId: unit.unitId,
-      property: unit.property,
-      ...values,
-    });
-    onOpenChange(false);
+    setServerError(null);
+    setServerSuccess(null);
+    try {
+      const res = await fetch("/api/leases/reserve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          unitId: unit.unitId,
+          property: unit.property,
+          tenantName: values.tenantName,
+          tenantEmail: values.tenantEmail || null,
+          tenantMobile: values.tenantMobile,
+          tenantCompany: values.tenantCompany || null,
+          intent: values.intent,
+          term: values.term,
+          leaseStart: values.leaseStart,
+          leaseEnd: values.leaseEnd,
+          moveInDate: values.moveInDate,
+          rentDueDate: values.rentDueDate,
+          monthlyRent: values.monthlyRent,
+          firstDeposit: values.firstDeposit,
+          firstDepositDue: values.firstDepositDue,
+          secondDeposit: values.secondDeposit,
+          secondDepositDue: values.secondDepositDue,
+          addons: values.addons,
+          noticePeriodDays: values.noticePeriodDays,
+          leaseStatus: values.leaseStatus,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        // 202 with generation failed is still a reservation; treat as success with warning
+        if (res.status === 202 && data.leaseId) {
+          setServerSuccess(`Reserved — document pending retry. Lease ${String(data.leaseId).slice(0, 8)}`);
+          onReserved({
+            unitId: unit.unitId,
+            property: unit.property,
+            ...values,
+            leaseId: data.leaseId as string,
+            documentLink: undefined,
+          });
+          onOpenChange(false);
+          return;
+        }
+        const msg = data.error || data.details ? `${data.error ?? "Failed"}${data.details ? `: ${JSON.stringify(data.details).slice(0, 300)}` : ""}` : `Request failed (${res.status})`;
+        setServerError(msg);
+        return;
+      }
+      setServerSuccess(data.message || "Lease Generated Successfully!");
+      onReserved({
+        unitId: unit.unitId,
+        property: unit.property,
+        ...values,
+        leaseId: data.lease?.id as string | undefined,
+        documentLink: data.documentLink as string | undefined,
+      });
+      onOpenChange(false);
+    } catch (e) {
+      setServerError(e instanceof Error ? e.message : "Network error");
+    }
   }
 
   return (
@@ -127,6 +197,30 @@ export default function ReserveUnitDialog({
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+          {serverError && <p className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">{serverError}</p>}
+          {serverSuccess && <p className="rounded-md border border-green-200 bg-green-50 px-3 py-2 text-xs text-green-800">{serverSuccess}</p>}
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="tenantName">Tenant full name *</Label>
+              <Input id="tenantName" placeholder="Juan Dela Cruz" {...register("tenantName")} />
+              {errors.tenantName && <p className="text-xs text-destructive">{errors.tenantName.message as string}</p>}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="tenantMobile">Mobile *</Label>
+              <Input id="tenantMobile" placeholder="09XXXXXXXXX" {...register("tenantMobile")} />
+              {errors.tenantMobile && <p className="text-xs text-destructive">{errors.tenantMobile.message as string}</p>}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="tenantEmail">Email</Label>
+              <Input id="tenantEmail" type="email" placeholder="tenant@example.com" {...register("tenantEmail")} />
+              {errors.tenantEmail && <p className="text-xs text-destructive">{errors.tenantEmail.message as string}</p>}
+            </div>
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="tenantCompany">Company</Label>
+              <Input id="tenantCompany" placeholder="Company (optional)" {...register("tenantCompany")} />
+              {errors.tenantCompany && <p className="text-xs text-destructive">{errors.tenantCompany.message as string}</p>}
+            </div>
+          </div>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label>Intent *</Label>

@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { ForecastUnit, ReservationPayload } from "@/lib/executive";
 import ReserveUnitDialog from "./reserve-unit-dialog";
-import { ArrowDown, ArrowUp, ArrowUpDown, Search } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpDown, ExternalLink, FileText, Search } from "lucide-react";
 
 type SortKey = "unitId" | "property" | "earliestAvailable" | "monthlyRate";
 type SortDir = "asc" | "desc";
@@ -25,7 +25,8 @@ export default function ForecastTable({ units }: { units: ForecastUnit[] }) {
   const [overrides, setOverrides] = useState<Record<string, ForecastUnit["confidence"]>>({});
   const [selected, setSelected] = useState<ForecastUnit | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [lastReservation, setLastReservation] = useState<ReservationPayload | null>(null);
+  const [lastReservation, setLastReservation] = useState<(ReservationPayload & { leaseId?: string; documentLink?: string }) | null>(null);
+  const [docLinks, setDocLinks] = useState<Record<string, { leaseId: string; documentLink: string }>>({});
 
   const properties = useMemo(() => [...new Set(units.map((u) => u.property))].sort(), [units]);
 
@@ -135,8 +136,28 @@ export default function ForecastTable({ units }: { units: ForecastUnit[] }) {
       {lastReservation && (
         <Card className="border-green-200 bg-green-50">
           <CardContent className="pt-6 text-sm text-green-800">
-            Reserved {lastReservation.property} {lastReservation.unitId} — {lastReservation.intent} / {lastReservation.term},{" "}
-            {lastReservation.leaseStart} → {lastReservation.leaseEnd} ({lastReservation.leaseStatus}).
+            <span className="font-medium">Lease Generated Successfully!</span> Reserved {lastReservation.property} {lastReservation.unitId} —{" "}
+            {lastReservation.intent} / {lastReservation.term}, {lastReservation.leaseStart} → {lastReservation.leaseEnd} ({lastReservation.leaseStatus}).
+            {lastReservation.documentLink && (
+              <>
+                {" "}
+                <a href={lastReservation.documentLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-medium underline underline-offset-2">
+                  View Lease <ExternalLink className="h-3 w-3" />
+                </a>
+                {" • "}
+                <a href={`/api/leases/${lastReservation.leaseId}/document?download=1`} className="inline-flex items-center gap-1 font-medium underline underline-offset-2">
+                  Download Contract
+                </a>
+              </>
+            )}
+            {lastReservation.leaseId && !lastReservation.documentLink && (
+              <>
+                {" "}
+                <a href={`/api/leases/${lastReservation.leaseId}/document?retry=1`} target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-2">
+                  Retry document
+                </a>
+              </>
+            )}
           </CardContent>
         </Card>
       )}
@@ -209,12 +230,35 @@ export default function ForecastTable({ units }: { units: ForecastUnit[] }) {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
-                        <Button size="sm" onClick={() => handleReserve(u)}>
-                          Reserve
-                        </Button>
-                        <Button size="sm" variant="outline" onClick={() => handleOverride(u)}>
-                          Override
-                        </Button>
+                        {(() => {
+                          const link = docLinks[u.id] ?? (lastReservation?.unitId === u.unitId && lastReservation?.property === u.property && lastReservation.documentLink ? { leaseId: lastReservation.leaseId!, documentLink: lastReservation.documentLink! } : null);
+                          const isOccupied = u.occupancy === "Occupied" || u.confidence === "Confirmed";
+                          return (
+                            <>
+                              <Button size="sm" onClick={() => handleReserve(u)}>
+                                Reserve
+                              </Button>
+                              {(link || isOccupied) && (
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => {
+                                    if (link) window.open(link.documentLink, "_blank");
+                                    else if (lastReservation?.documentLink) window.open(lastReservation.documentLink, "_blank");
+                                  }}
+                                  disabled={!link}
+                                  title={link ? "View generated lease PDF" : "Reserve a unit to generate a lease"}
+                                >
+                                  <FileText className="h-3.5 w-3.5" />
+                                  View Lease
+                                </Button>
+                              )}
+                              <Button size="sm" variant="outline" onClick={() => handleOverride(u)}>
+                                Override
+                              </Button>
+                            </>
+                          );
+                        })()}
                       </div>
                     </TableCell>
                   </TableRow>
@@ -243,7 +287,14 @@ export default function ForecastTable({ units }: { units: ForecastUnit[] }) {
         open={dialogOpen}
         onOpenChange={setDialogOpen}
         unit={selected}
-        onReserved={(payload) => setLastReservation(payload)}
+        onReserved={(payload) => {
+          setLastReservation(payload);
+          if (payload.leaseId && payload.documentLink && payload.unitId) {
+            // optimistic map so View Lease is available even after pagination
+            const key = `${payload.property}-${payload.unitId.toLowerCase().replace(/[^a-z0-9]/g, "-")}`;
+            setDocLinks((prev) => ({ ...prev, [key]: { leaseId: payload.leaseId!, documentLink: payload.documentLink! } }));
+          }
+        }}
       />
     </div>
   );

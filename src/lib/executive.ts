@@ -284,6 +284,35 @@ export function getActivityFeed(limit = 12): ActivityItem[] {
   return items.sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1));
 }
 
+/** DB-backed activity feed: leases with generated documents + legacy fallback. */
+export async function getActivityFeedDb(limit = 12): Promise<ActivityItem[]> {
+  try {
+    const { prisma } = await import("./prisma");
+    const leases = await prisma.lease.findMany({
+      where: { documentLink: { not: null } },
+      include: { tenant: true, unit: { include: { property: true } } },
+      orderBy: { updatedAt: "desc" },
+      take: limit,
+    });
+    const docs: ActivityItem[] = leases.map((l) => ({
+      id: `act-doc-${l.id}`,
+      type: "lease" as const,
+      title: `Draft Lease Generated for ${l.unit.property.name} ${l.unit.unitNumber} - ${l.tenant.firstName} ${l.tenant.lastName}`,
+      detail: `₱${Number(l.monthlyRent ?? l.totalAmountToSettle).toLocaleString()} • ${l.leaseTerm ?? l.contractType} • ${l.documentStatus ?? "Draft Generated"}`,
+      actor: "System",
+      timestamp: l.updatedAt.toISOString(),
+    }));
+    if (docs.length >= limit) return docs.slice(0, limit);
+    const legacyFeed = getActivityFeed(limit - docs.length);
+    // Interleave: docs first (most recent), then legacy
+    return [...docs, ...legacyFeed]
+      .sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1))
+      .slice(0, limit);
+  } catch {
+    return getActivityFeed(limit);
+  }
+}
+
 // ── Forecast: one row per distinct unit ─────────────────────────────
 export function getForecastUnits(): ForecastUnit[] {
   const leases = ((legacy as unknown as { leases: LegacyLease[] }).leases ?? []) as LegacyLease[];

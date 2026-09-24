@@ -1,13 +1,13 @@
 import ActivityFeed from "@/components/executive/activity-feed";
 import KpiCards from "@/components/executive/kpi-cards";
 import RevenueChart from "@/components/executive/revenue-chart";
-import { getActivityFeed, getExpiringLeases, getOverdueInvoices, getRevenueSeries } from "@/lib/executive";
+import { getActivityFeedDb, getExpiringLeases, getOverdueInvoices, getRevenueSeries } from "@/lib/executive";
 
 export const dynamic = "force-dynamic";
 
-export default function ExecutivePage() {
+export default async function ExecutivePage() {
   const revenue = getRevenueSeries();
-  const activity = getActivityFeed(12);
+  const activity = await getActivityFeedDb(12);
   const overdue = getOverdueInvoices();
   const expiring = getExpiringLeases(60);
 
